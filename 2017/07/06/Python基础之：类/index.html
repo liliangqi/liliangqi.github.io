@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>python基础之：类 | 程序员の养成记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="语言学习" />
+  
+  
+  
+  
+  <meta name="description" content="在面向对象编程中， 我们编写表示现实世界中的事物和情景的类，并基于这些类来创建对象。 编写类时，我们定义一大类对象都有的通用行为。基于类创建对象时， 每个对象都自动具备这种通用行为，然后可根据需要赋予每个对象独特的个性。 　　根据类来创建对象被称为实例化，这让我们能够使用类的实例。我们可以指定在实例中存储什 么信息，定义可对这些实例执行哪些操作。我们还能编写一些类来扩展既有类的功能，让">
+<meta name="keywords" content="语言学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python基础之：类">
+<meta property="og:url" content="http://www.liliangqi.com/2017/07/06/Python基础之：类/index.html">
+<meta property="og:site_name" content="程序员の养成记">
+<meta property="og:description" content="在面向对象编程中， 我们编写表示现实世界中的事物和情景的类，并基于这些类来创建对象。 编写类时，我们定义一大类对象都有的通用行为。基于类创建对象时， 每个对象都自动具备这种通用行为，然后可根据需要赋予每个对象独特的个性。 　　根据类来创建对象被称为实例化，这让我们能够使用类的实例。我们可以指定在实例中存储什 么信息，定义可对这些实例执行哪些操作。我们还能编写一些类来扩展既有类的功能，让">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://i2.kiimg.com/598176/2e4b7313c92d53d4.png">
+<meta property="og:updated_time" content="2017-07-06T13:29:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python基础之：类">
+<meta name="twitter:description" content="在面向对象编程中， 我们编写表示现实世界中的事物和情景的类，并基于这些类来创建对象。 编写类时，我们定义一大类对象都有的通用行为。基于类创建对象时， 每个对象都自动具备这种通用行为，然后可根据需要赋予每个对象独特的个性。 　　根据类来创建对象被称为实例化，这让我们能够使用类的实例。我们可以指定在实例中存储什 么信息，定义可对这些实例执行哪些操作。我们还能编写一些类来扩展既有类的功能，让">
+<meta name="twitter:image" content="http://i2.kiimg.com/598176/2e4b7313c92d53d4.png">
+  
+    <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/qishao.jpg">
+  <link rel="apple-touch-icon" href="/css/images/qishao.jpg">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/qishao.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">关于</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Python基础之：类" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Python基础之：类
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/07/06/Python基础之：类/" class="article-date">
+	  <time datetime="2017-07-06T13:17:04.000Z" itemprop="datePublished">2017-07-06</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Python基础/">Python基础</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <excerpt in="" index="" |="" 首页摘要=""> 
+
+<p><img src="http://i2.kiimg.com/598176/2e4b7313c92d53d4.png" width="600px"></p>
+<p>　　在面向对象编程中， 我们编写表示现实世界中的事物和情景的类，并基于这些类来创建对象。 编写类时，我们定义一大类对象都有的通用行为。基于类创建对象时， 每个对象都自动具备这种通用行为，然后可根据需要赋予每个对象独特的个性。</p>
+<p>　　根据类来创建对象被称为实例化，这让我们能够使用类的实例。我们可以指定在实例中存储什 么信息，定义可对这些实例执行哪些操作。我们还能编写一些类来扩展既有类的功能，让相似的类能够高效地共享代码。此外，我们将把自己编写的类存储在模块中，并在自己的程序文件中导入其他程序员编写的类。</p>
+<p><a id="more"></a><the rest="" of="" contents="" |="" 余下全文=""></the></p>
+<hr>
+<h1 id="创建和使用类"><a href="#创建和使用类" class="headerlink" title="创建和使用类"></a>创建和使用类</h1><h2 id="创建类"><a href="#创建类" class="headerlink" title="创建类"></a>创建类</h2><ul>
+<li>在Python中，首字母大写的名称指的是类</li>
+<li>类中的函数称为<strong>方法</strong></li>
+<li><code>__init()__</code>是一个特殊的方法，每当创建该类对应的新实例时，该方法都会自动运行</li>
+<li>可通过实例访问的变量称为<strong>属性</strong></li>
+</ul>
+<h2 id="根据类创建实例"><a href="#根据类创建实例" class="headerlink" title="根据类创建实例"></a>根据类创建实例</h2><ul>
+<li>访问属性可用句点表示法</li>
+<li>调用方法可指定实例的名称和要调用的方法，并用句点分隔</li>
+</ul>
+<hr>
+<h1 id="使用类和实例"><a href="#使用类和实例" class="headerlink" title="使用类和实例"></a>使用类和实例</h1><ul>
+<li>类中的每个属性都必须有初始值，哪怕这个值是0或空字符串</li>
+<li>若在方法<code>__init()__</code>内指定了某个属性的默认初始值，则无需包含为它提供初始值的形参</li>
+</ul>
+<h2 id="修改无形参的属性的值"><a href="#修改无形参的属性的值" class="headerlink" title="修改无形参的属性的值"></a>修改无形参的属性的值</h2><ul>
+<li>直接修改：在实例中用句点表示法访问并修改该属性</li>
+<li>通过方法修改属性的值：无需直接访问属性，而是将值传递给一个方法，由它在内部进行更新</li>
+<li>通过方法对属性的值进行递增：有时候需要将属性值递增特定的量，而不是将其设置为全新的值</li>
+</ul>
+<hr>
+<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><ul>
+<li>一个类继承另一个类时，会自动获得另一个类的所有属性和方法</li>
+</ul>
+<h2 id="子类的方法-init"><a href="#子类的方法-init" class="headerlink" title="子类的方法__init()__"></a>子类的方法<code>__init()__</code></h2><ul>
+<li>创建子类的实例时，Python首先会给父类的所有属性赋值</li>
+</ul>
+<h2 id="Python-2-7中的继承"><a href="#Python-2-7中的继承" class="headerlink" title="Python 2.7中的继承"></a>Python 2.7中的继承</h2><ul>
+<li>Python 2.7中函数<code>super()</code>需要两个实参：子类名和对象self</li>
+</ul>
+<h2 id="给子类定义属性和方法"><a href="#给子类定义属性和方法" class="headerlink" title="给子类定义属性和方法"></a>给子类定义属性和方法</h2><ul>
+<li>在子类的<code>__init()__</code>方法中可添加区分子类和父类所需的新属性</li>
+</ul>
+<h2 id="重写父类的方法"><a href="#重写父类的方法" class="headerlink" title="重写父类的方法"></a>重写父类的方法</h2><ul>
+<li>对不符合子类模拟的实物的行为，可以对其进行重写</li>
+<li>重写时在子类中定义一个与要重写的父类方法同名的方法</li>
+<li>使用继承时，可让子类保留从父类那里继承而来的精华，并剔除不需要的糟粕</li>
+</ul>
+<h2 id="将实例用作属性"><a href="#将实例用作属性" class="headerlink" title="将实例用作属性"></a>将实例用作属性</h2><ul>
+<li>可以将类的一部分作为一个独立的类提取出来</li>
+<li>也可将大型类拆分成多个协同工作的小类</li>
+</ul>
+<hr>
+<h1 id="导入类"><a href="#导入类" class="headerlink" title="导入类"></a>导入类</h1><h2 id="导入单个类"><a href="#导入单个类" class="headerlink" title="导入单个类"></a>导入单个类</h2><ul>
+<li>从car.py中导入Car类：<code>from car import Car</code></li>
+</ul>
+<h2 id="导入多个类"><a href="#导入多个类" class="headerlink" title="导入多个类"></a>导入多个类</h2><ul>
+<li>从electric_car.py中导入Car类和ElectricCar类：<code>from electric_car import Car, ElectricCar</code></li>
+</ul>
+<h2 id="导入整个模块"><a href="#导入整个模块" class="headerlink" title="导入整个模块"></a>导入整个模块</h2><ul>
+<li>使用句点表示法访问需要的类</li>
+</ul>
+<h2 id="导入模块中的所有类"><a href="#导入模块中的所有类" class="headerlink" title="导入模块中的所有类"></a>导入模块中的所有类</h2><ul>
+<li>不推荐该方法<code>from module_name import *</code></li>
+</ul>
+<h2 id="自定义工作流程"><a href="#自定义工作流程" class="headerlink" title="自定义工作流程"></a>自定义工作流程</h2><ul>
+<li>先找出能够编写出可行代码的方式，再尝试让代码更为组织有序</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>《Python编程：从入门到实践》</li>
+</ul>
+</excerpt>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: '打赏支持', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: './css/images/wechatpay.jpg',
+  alipayImage: './css/images/alipay.png'
+});
+</script>
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'qishao';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语言学习/">语言学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Joint Detection and Identification Feature Learning for Person Search数据集
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/05/Python基础之：函数/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Python基础之：函数</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#创建和使用类"><span class="nav-number">1.</span> <span class="nav-text">创建和使用类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建类"><span class="nav-number">1.1.</span> <span class="nav-text">创建类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据类创建实例"><span class="nav-number">1.2.</span> <span class="nav-text">根据类创建实例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用类和实例"><span class="nav-number">2.</span> <span class="nav-text">使用类和实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改无形参的属性的值"><span class="nav-number">2.1.</span> <span class="nav-text">修改无形参的属性的值</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#继承"><span class="nav-number">3.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#子类的方法-init"><span class="nav-number">3.1.</span> <span class="nav-text">子类的方法__init()__</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-2-7中的继承"><span class="nav-number">3.2.</span> <span class="nav-text">Python 2.7中的继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给子类定义属性和方法"><span class="nav-number">3.3.</span> <span class="nav-text">给子类定义属性和方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重写父类的方法"><span class="nav-number">3.4.</span> <span class="nav-text">重写父类的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将实例用作属性"><span class="nav-number">3.5.</span> <span class="nav-text">将实例用作属性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#导入类"><span class="nav-number">4.</span> <span class="nav-text">导入类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导入单个类"><span class="nav-number">4.1.</span> <span class="nav-text">导入单个类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入多个类"><span class="nav-number">4.2.</span> <span class="nav-text">导入多个类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入整个模块"><span class="nav-number">4.3.</span> <span class="nav-text">导入整个模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入模块中的所有类"><span class="nav-number">4.4.</span> <span class="nav-text">导入模块中的所有类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义工作流程"><span class="nav-number">4.5.</span> <span class="nav-text">自定义工作流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2017 程序员の养成记 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+<script src="/js/bootstrap.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            程序员の养成记
+          </div>
+          <div class="panel-body">
+            Copyright © 2017 七少 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+</body>
+</html>

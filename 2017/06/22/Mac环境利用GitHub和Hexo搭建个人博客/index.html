@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mac环境利用github和hexo搭建个人博客 | 程序员の养成记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="个人博客" />
+  
+  
+  
+  
+  <meta name="description" content="转载 这篇文章转自Zang Bo的个人博客，我本人在建站过程中参考这篇文章颇多，获益匪浅，在此也表达对Zang Bo君的感谢！">
+<meta name="keywords" content="个人博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac环境利用GitHub和Hexo搭建个人博客">
+<meta property="og:url" content="http://www.liliangqi.com/2017/06/22/Mac环境利用GitHub和Hexo搭建个人博客/index.html">
+<meta property="og:site_name" content="程序员の养成记">
+<meta property="og:description" content="转载 这篇文章转自Zang Bo的个人博客，我本人在建站过程中参考这篇文章颇多，获益匪浅，在此也表达对Zang Bo君的感谢！">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://i2.muimg.com/598176/3d95815173a6b946.jpg">
+<meta property="og:image" content="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_XCXY5G_1.jpeg">
+<meta property="og:image" content="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_HZdID1_2.jpeg">
+<meta property="og:image" content="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_ujfyFj_3.jpeg">
+<meta property="og:image" content="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_0OonVo_4.jpeg?imageView2/2/w/800">
+<meta property="og:image" content="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_1ieo4u_5.jpeg?imageView2/2/w/800">
+<meta property="og:image" content="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_Mm7oau_6.jpeg?imageView2/2/w/800">
+<meta property="og:image" content="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204125_k0kChT_7.jpeg?imageView2/2/w/800">
+<meta property="og:image" content="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204125_CCOYpH_8.jpeg">
+<meta property="og:image" content="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204125_6oNP5k_9.jpeg">
+<meta property="og:image" content="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204125_nNgXBn_10.jpeg">
+<meta property="og:updated_time" content="2017-06-25T11:31:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mac环境利用GitHub和Hexo搭建个人博客">
+<meta name="twitter:description" content="转载 这篇文章转自Zang Bo的个人博客，我本人在建站过程中参考这篇文章颇多，获益匪浅，在此也表达对Zang Bo君的感谢！">
+<meta name="twitter:image" content="http://i2.muimg.com/598176/3d95815173a6b946.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/qishao.jpg">
+  <link rel="apple-touch-icon" href="/css/images/qishao.jpg">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/qishao.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">关于</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Mac环境利用GitHub和Hexo搭建个人博客" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Mac环境利用GitHub和Hexo搭建个人博客
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/06/22/Mac环境利用GitHub和Hexo搭建个人博客/" class="article-date">
+	  <time datetime="2017-06-22T14:36:43.000Z" itemprop="datePublished">2017-06-22</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/网站搭建/">网站搭建</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <excerpt in="" index="" |="" 首页摘要=""> 
+
+<p><img src="http://i2.muimg.com/598176/3d95815173a6b946.jpg" alt=""></p>
+<font size="4"><font color="orange"><strong>转载</strong> </font>这篇文章转自<a href="http://zangbo.me/2017/06/01/Mac%E7%8E%AF%E5%A2%83%E5%88%A9%E7%94%A8GitHub%E5%92%8CHexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" target="_blank" rel="external">Zang Bo的个人博客</a>，我本人在建站过程中参考这篇文章颇多，获益匪浅，在此也表达对Zang Bo君的感谢！</font>
+
+<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+<p>本文介绍了在Mac环境下如何利用GitHub和Hexo搭建个人博客，网上有不少教程已经过时，自己也走了不少弯路。最近折腾了下，决定总结一下具体的流程。</p>
+<h1 id="Hexo介绍"><a href="#Hexo介绍" class="headerlink" title="Hexo介绍"></a>Hexo介绍</h1><p>互联网时代很多人选择用个人博客来展示自己，试想一下拥有一个属于自己的域名，同时搭建一个属于自己的博客是多么炫酷的一件事。然而做独立博客在技术上要面对一堆需要解决的问题，于是就催生出一些自动化的搭建和维护博客的工具。目前比较流行的工具有ghost、Jekyll和Hexo，ghost可以生成动态网站，依赖于数据库，对环境的依赖相对较高，操作起来也更复杂一些。只是构建个人独立博客的话，更建议选择后两者。Jekyll和hexo都是用来生成静态网站的工具，对环境依赖少，可移植性更高，两者都可以托管在GitHub上。Jekyll需要安装python、ruby和一些库，而Hexo仅仅依赖于node，于是思虑再三我决定选择Hexo。</p>
+<center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_XCXY5G_1.jpeg" alt=""></center>
+
+<p><br></p>
+<h1 id="搭建流程"><a href="#搭建流程" class="headerlink" title="搭建流程"></a>搭建流程</h1><ol>
+<li>获得域名</li>
+<li>利用GitHub创建仓库</li>
+<li>安装Git</li>
+<li>安装Node.js</li>
+<li>安装Hexo</li>
+<li>推送网站</li>
+<li>绑定域名</li>
+<li>配置主题</li>
+<li>更新文章</li>
+<li>寻找图床</li>
+<li>功能扩展</li>
+</ol>
+<p><br></p>
+<h1 id="获得域名"><a href="#获得域名" class="headerlink" title="获得域名"></a>获得域名</h1><p>域名是网站的一个入口，也是别人对网站的第一印象，常见的域名有.com、.cn、.net等后缀，也有io、me、vip等后缀，一个巧妙的域名能给人留下深刻的印象，比如饿了么的域名：<a href="https://www.ele.me/" target="_blank" rel="external">https://www.ele.me/</a> 。要想搭建一个个人博客，给别人留下深刻印象，拥有一个属于自己的域名是必不可少的，而购买域名也是我们整个搭建过程中唯一需要花钱的地方，但花费并不多。</p>
+<p>申请域名的地方有很多，以下列举了几个常用的注册商：</p>
+<ul>
+<li><a href="https://www.aliyun.com" target="_blank" rel="external">阿里云-为了无法计算的价值</a></li>
+<li><a href="https://cloud.baidu.com" target="_blank" rel="external">百度云–智能，计算无限可能</a></li>
+<li><a href="https://www.qcloud.com" target="_blank" rel="external">腾讯云 - 值得信赖</a></li>
+<li><a href="https://www.godaddy.com" target="_blank" rel="external">GoDaddy 全球知名互联网域名注册商</a></li>
+</ul>
+<p>这里推荐阿里云，域名种类多而且提供隐私保护，购买后需要实名认证，如果不喜欢实名认证的同学可以选择最后一个GoDaddy，但是GoDaddy不提供隐私保护，会把你的邮箱和手机信息暴露出来，导致可能收到很多垃圾邮件和短信，而且GoDaddy提供的域名后缀种类有限，比如我喜欢的.me就没有。因此我选择了阿里云，申请入口<a href="https://wanwang.aliyun.com/domain/" target="_blank" rel="external">域名注册</a>。</p>
+<p>阿里云购买.me域名首年只需要13元，支持支付宝付款，实名认证比较简单，只需要提交一张身份证照片即可，经过实名认证审核后，我们就拥有了属于自己的域名。</p>
+<p><br></p>
+<h1 id="利用GitHub创建仓库"><a href="#利用GitHub创建仓库" class="headerlink" title="利用GitHub创建仓库"></a>利用GitHub创建仓库</h1><p>创建网站不仅需要域名，而且需要网站空间。网站空间也叫虚拟主机，是用来存放网站内容的地方。但是租借虚拟主机需要很大的开销，幸运的是，我们可以把静态网站托管到GitHub上，GitHub是一个面向开源及私有软件项目的托管平台。</p>
+<p>首先需要登陆到GitHub：<a href="https://github.com" target="_blank" rel="external">Build software better, together</a>，如果没有GitHub账号，可以使用邮箱注册，然后点击GitHub中的New repository创建新仓库，仓库名为：<strong>用户名</strong>.github.io，这里命名格式为固定的，<strong>用户名</strong>是你的GitHub账号，比如我的仓库名为：</p>
+<center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_HZdID1_2.jpeg" alt=""></center>
+
+
+
+<p>建好之后，我们就拥有了用于搭建个人博客的网站空间。</p>
+<p><br></p>
+<h1 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h1><p>Git是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。具体的细节可以看廖雪峰老师的教程：<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">Git教程 - 廖雪峰的官方网站</a>，打开Git的官方网站下载Git安装包：<a href="https://git-scm.com/downloads" target="_blank" rel="external">Git - Downloads</a>，由于我们是Mac OS系统，这里选择相关的下载包，下载后根据提示安装。</p>
+<p>安装结束后，打开终端输入git测试是否安装成功，安装成功后，需要把Git和GitHub账号绑定，首先设置user.name和user.email信息，在终端中输入：</p>
+<pre><code class="Bash">git config --global user.name &quot;你的GitHub用户名&quot;
+git config --global user.email &quot;你的GitHub注册邮箱&quot;
+</code></pre>
+<p>生成ssh密钥文件：</p>
+<pre><code class="Bash">ssh-keygen -t rsa -C &quot;你的GitHub注册邮箱&quot;
+</code></pre>
+<p>然后连续按三个回车即可，这里默认不需要设置密码。我们根据终端中提示的地址找到生成的 .ssh 文件夹，该文件夹为隐藏文件夹，可以在终端中用 cd 指令进入，我们需要的Key就存放在该文件夹下面的 id_rsa.pub 文件中，我们可以用指令<code>cat id_rsa.pub</code>打印出该文件中的内容，然后复制全部内容（以ssh-rsa开头）。</p>
+<p>打开<a href="https://github.com/settings/keys" target="_blank" rel="external">GitHub_Settings_keys</a>页面，点击 new SSH Key 按钮：</p>
+<center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_ujfyFj_3.jpeg" alt=""></center>
+
+<p>其中Title可以随意填，因为我们可能会用不同的电脑连接GitHub，比如家里的电脑，公司的电脑等等，所以后面可能会添加多个Key，可以把Title取为Home或者School等方便区分。把刚复制的内容粘贴进去，点击Add SSH key。</p>
+<p>在终端中检测GitHub公钥是否设置成功，输入：</p>
+<pre><code class="Bash">ssh git@github.com
+</code></pre>
+<p>显示以下内容说明成功：</p>
+<center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_0OonVo_4.jpeg?imageView2/2/w/800" alt=""></center>
+
+<blockquote>
+<p>这里之所以设置GitHub密钥原因是，通过非对称加密的公钥与私钥来完成加密，公钥放置在GitHub上，私钥放置在自己的电脑里。GitHub要求每次推送代码都是合法用户，所以每次推送都需要输入账号密码验证推送用户是否是合法用户，为了省去每次输入密码的步骤，采用了ssh，当你推送的时候，git就会匹配你的私钥跟GitHub上面的公钥是否是配对的，若是匹配就认为你是合法用户，则允许推送。这样可以保证每次的推送都是正确合法的。</p>
+</blockquote>
+<p><br></p>
+<h1 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h1><p>hexo基于Node.js，我们需要首先安装Node.js，下载地址<a href="https://nodejs.org/en/download/" target="_blank" rel="external">Download | Node.js</a>，注意安装Node.js会包含环境变量及npm的安装。</p>
+<p>检测Node.js是否安装成功，在命令行中输入：</p>
+<pre><code class="Bash">node -v
+</code></pre>
+<p>检查npm是否安装成功，在命令行输入：</p>
+<pre><code class="Bash">npm -v
+</code></pre>
+<p>若显示版本号， 则表明安装成功。</p>
+<p>对于Mac用户，要想安装hexo需要首先安装Xcode，我们可以从AppStore安装Xcode，安装结束后，我们需要安装Command Line Tools，Command LineTools是在Xcode中的一款工具，可以在命令行中运行C程序。打开终端输入：</p>
+<pre><code class="Bash">xcode-select --install
+</code></pre>
+<p>安装结束后，再次在终端输入：                                                                                              </p>
+<pre><code class="Bash">xcode-select --install
+</code></pre>
+<p>若显示command line tools are already installed，则表明安装成功。</p>
+<p>到此，Hexo所需要的环境已经全部搭建完成。</p>
+<p> <br></p>
+<h1 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h1><p>我们可以用npm命令安装Hexo，打开终端输入：</p>
+<pre><code class="Bash">npm install -g hexo-cli
+</code></pre>
+<p>安装结束后，输入以下命令来初始化一个Hexo博客：</p>
+<pre><code class="Bash">hexo init &quot;folder&quot;
+cd &quot;folder&quot;
+npm install
+</code></pre>
+<p>该命令会在当前文件夹下新建一个名叫folder的文件夹来初始化一个博客，如果命令中没有folder，则在当前文件夹初始化博客。比如我要初始化一个名字叫blog的博客，则需要输入<code>hexo init blog</code>，这样我们就在该目录下新建了一个名为blog的文件夹，接着我们利用命令<code>cd blog</code>进入该文件夹，输入<code>npm install</code>来安装必备的库。</p>
+<p>到这里我们的网站就初始化完毕了，下面我们尝试添加一篇新的文章并且在本地服务器上查看。不出意外当前终端定位是在我们刚建立的文件夹下，即刚刚的blog文件夹下，此时在终端输入以下命令：</p>
+<pre><code class="Bash">hexo new [layout] &quot;title&quot;  #等价于 hexo n [layout] &quot;title&quot;
+hexo generate  #等价于 hexo g
+hexo server  #等价于 hexo s
+</code></pre>
+<p>我新建了一篇名为“<em>The first article</em>”的文章。</p>
+<center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_1ieo4u_5.jpeg?imageView2/2/w/800" alt=""></center>
+
+<center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_Mm7oau_6.jpeg?imageView2/2/w/800" alt=""></center>
+
+<p>完成后打开浏览器输入地址：</p>
+<p>Localhost:4000</p>
+<p>刚刚的三个命令依次是新建一篇博客文章、生成网页、在本地预览的操作。</p>
+<p>可以进入我们刚刚建立的博客，看到我们刚刚建立的文章，以及Hexo默认自带的一篇文章。</p>
+<center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204125_k0kChT_7.jpeg?imageView2/2/w/800" alt=""></center>
+
+<p>接下来我们来介绍常用的Hexo命令（详细用法可查看Hexo官方文档<a href="https://hexo.io/docs/commands.html" target="_blank" rel="external">Commands | Hexo</a>）：</p>
+<pre><code class="Bash">hexo init #初始化博客
+</code></pre>
+<p>命令简写：</p>
+<pre><code class="Bash">hexo n &quot;我的博客&quot; #  == hexo new &quot;我的博客&quot; ：新建文章
+hexo g # == hexo generate ：生成
+hexo s # == hexo server ：启动服务预览
+hexo d # == hexo deploy ：部署
+</code></pre>
+<pre><code class="Bash">hexo server #Hexo会监视文件变动并自动更新，无须重启服务器
+hexo server -s #静态模式
+hexo server -p 5000 #更改端口
+hexo server -i 192.168.1.1 #自定义 IP
+hexo clean #清除缓存，若是网页正常情况下可以忽略这条命令
+</code></pre>
+<p><br></p>
+<h1 id="推送网站"><a href="#推送网站" class="headerlink" title="推送网站"></a>推送网站</h1><p>推送网站需要关联Github和Hexo，官方文档下的关联步骤，输入第一行代码后，需要打开blog根目录下的 <em>_config.yml</em> 文件，按照下面所示要求进行配置。在 Hexo中有两份主要的配置文件，其名称都是 <em>_config.yml</em>。其中，一份位于站点根目录下，主要包含Hexo本身的配置；另一份位于主题目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。为了描述方便，在以下说明中，将前者称为站点配置文件，后者称为主题配置文件。我们在这一步只需要修改站点配置文件。</p>
+<center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204125_CCOYpH_8.jpeg" alt=""></center>
+
+<p>其实就是给<code>hexo d</code>这个命令做相应的配置，让hexo知道你要把blog部署在哪个位置，很显然，我们部署在我们GitHub的仓库里。</p>
+<p>接下来，我们输入三条命令：</p>
+<pre><code class="Bash">hexo clean
+hexo g
+hexo d
+</code></pre>
+<p>完成后打开浏览器，在地址栏输入 <strong>用户名</strong>.github.io ，这里的<strong>用户名</strong>为你的GitHub用户名，比如我的就是 <a href="zangbo.github.io">zangbo.github.io</a>，然后你就会发现你的博客已经可以在网络上被访问了。</p>
+<p><br></p>
+<h1 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h1><p>虽然在Internet上可以访问我们的网站，但是网址是GitHub提供的：<strong>xxx.github.io</strong> 而我们想使用我们自己刚买的个性化域名，这就需要绑定，这里以阿里云为例。登陆到阿里云：<a href="https://www.aliyun.com" target="_blank" rel="external">阿里云-为了无法计算的价值</a>，点击 <strong>控制台</strong> 进入管理控制台的域名列表，找到你的个性化域名，进入解析：</p>
+<p>点击 <strong>添加解析</strong> 按钮，添加三条记录：</p>
+<center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204125_6oNP5k_9.jpeg" alt=""></center>
+
+<p>这里两条A记录是固定的，从GitHub官方文档可以找到，这两条是指向GitHub的地址；一条CNAME地址，记录指向是 <strong>用户名</strong>.github.io ，这里的<strong>用户名</strong>是你自己的用户名。</p>
+<p>接着登陆GitHub，进入之前创建的仓库，点击 <strong>Settings</strong>，拉到最后，找到 <strong>Custom domain</strong>，填入自己申请的个性域名，点击 <strong>Save</strong>：</p>
+<center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204125_nNgXBn_10.jpeg" alt=""></center>
+
+<p>完成后打开浏览器，在地址栏输入你的个性化域名，就可以直接进入你自己搭建的网站。这一步操作相当于在GitHub仓库目录添加一个CNAME文件，文件中的内容为你刚输入的domain，当GithubPage服务器接收到访问请求时，就知道对应的是这个工程了。</p>
+<p><br></p>
+<h1 id="配置主题"><a href="#配置主题" class="headerlink" title="配置主题"></a>配置主题</h1><p>我们刚得到的为Hexo的默认主题 <strong>landscape</strong>，Hexo官网提供了很多可供选择的主题：<a href="https://hexo.io/themes/" target="_blank" rel="external">Themes | Hexo</a>，目前比较流行的是 <strong>Next</strong>，<strong>Casper</strong>，<strong>Uno</strong>，<strong>Modernist</strong>，<strong>yilia</strong> 等等，每个人喜欢的风格不同，最终我选择了一款叫做 <strong>yelee</strong> 的主题，是作者在 <strong>yilia</strong> 的基础上改动来的。以下是几个主题的展示demo：</p>
+<p><a href="http://notes.iissnan.com" target="_blank" rel="external">Next</a></p>
+<p><a href="https://demo.ghost.io" target="_blank" rel="external">Casper</a></p>
+<p><a href="http://daleanthony.com" target="_blank" rel="external">Uno</a></p>
+<p><a href="https://orderedlist.com/modernist/" target="_blank" rel="external">Modernist</a></p>
+<p><a href="http://litten.me" target="_blank" rel="external">yilia</a></p>
+<p><a href="http://moxfive.xyz" target="_blank" rel="external">yelee</a></p>
+<p>更换主题之需要打开根目录下的站点配置文件 _config.yml，修改其中的theme的值，例如改为next主题：</p>
+<pre><code>theme: next
+</code></pre><p>具体的主题配置需要修改各自主题下的主题配置文件 _config.yml，大家可以去各主题的GitHub上查看教程，还是比较详细的。</p>
+<p><br></p>
+<h1 id="更新文章"><a href="#更新文章" class="headerlink" title="更新文章"></a>更新文章</h1><p>更新文章可以打开终端进入博客根目录，输入指令<code>hexo n &quot;文章名&quot;</code>来实现，然后打开根目录下的source/_posts文件夹，可以发现我们新建的 <strong>文章名.md</strong> 文件，然后就可以打开它用Markdown语法来写文章了，具体的Markdown语法教程可以参看这篇：<a href="http://www.appinn.com/markdown/#code" target="_blank" rel="external">Markdown语法说明(简体中文版) </a>。另外补充几点上面没有的：</p>
+<ol>
+<li>图像居中实现方法：<code>&lt;center&gt;图像&lt;/center&gt;</code></li>
+<li>字体加粗可以前后各加两个星号<em>来实现： **</em>需要加粗的文字<em>**</em></li>
+<li>换行标签<code>&lt;br /&gt;</code></li>
+</ol>
+<p>大部分常用用法在上面教程都可以找到。这里注意，在本地修改网站或者更新文章时，可以用指令<code>hexo s</code>在本地服务器看修改效果，打开浏览器输入<code>localhost:4000</code>，每次修改后网站会实时的发生变动。但是修改后要用指令<code>hexo g</code>和<code>hexo d</code>部署到GitHub上，此时的CNAME文件和README.md文件往往会消失，需要重新创建。为了方便起见可以打开网站根目录的source文件夹，把CNAME文件和README.md文件存放在里面。注意CNAME文件没有扩展名。</p>
+<p>此时还有个问题，如果把README.md文件放在source文件夹中，执行<code>hexo g</code>指令时会被渲染，解决办法是只要在博客根目录下的配置文件_config.yml中配置一下”skip_render”选项，将不需要渲染的文件名称加入的其选项下就行了。</p>
+<pre><code>skip_render: README.md
+</code></pre><p><br></p>
+<h1 id="寻找图床"><a href="#寻找图床" class="headerlink" title="寻找图床"></a>寻找图床</h1><p>当文章中有图片时，若是少量图片，可以直接把图片存放在source文件夹中，但图片会占据大量的存储的空间，加载的时候相对缓慢 ，这时考虑把博文里的图片上传到某一网站，然后获得外部链接，使用Markdown语法： <strong>![图片信息](外部链接)</strong> 完成图片的插入，这种网站就被成为图床。这里推荐<a href="https://www.qiniu.com" target="_blank" rel="external">七牛云</a>，新人有10G的免费流量，对于个人博客来说是足够了，超出后的的费用也不贵，也是学生党可以负担得起的。</p>
+<p><br></p>
+<h1 id="功能扩展"><a href="#功能扩展" class="headerlink" title="功能扩展"></a>功能扩展</h1><h2 id="文章置顶"><a href="#文章置顶" class="headerlink" title="文章置顶"></a>文章置顶</h2><p>打开文件：</p>
+<p><code>根目录/node_modules/hexo-generator-index/lib/generator.js</code></p>
+<p>替换为以下代码并保存：</p>
+<pre><code class="javascript">&#39;use strict&#39;;
+
+var pagination = require(&#39;hexo-pagination&#39;);
+
+module.exports = function(locals){
+  var config = this.config;
+  var posts = locals.posts;
+
+    posts.data = posts.data.sort(function(a, b) {
+        if(a.top &amp;&amp; b.top) { // 两篇文章top都有定义
+            if(a.top == b.top) return b.date - a.date; // 若top值一样则按照文章日期降序排
+            else return b.top - a.top; // 否则按照top值降序排
+        }
+        else if(a.top &amp;&amp; !b.top) { // 以下是只有一篇文章top有定义，那么将有top的排在前面（这里用异或操作居然不行233）
+            return -1;
+        }
+        else if(!a.top &amp;&amp; b.top) {
+            return 1;
+        }
+        else return b.date - a.date; // 都没定义按照文章日期降序排
+
+    });
+
+  var paginationDir = config.pagination_dir || &#39;page&#39;;
+
+  return pagination(&#39;&#39;, posts, {
+    perPage: config.index_generator.per_page,
+    layout: [&#39;index&#39;, &#39;archive&#39;],
+    format: paginationDir + &#39;/%d/&#39;,
+    data: {
+      __index: true
+    }
+  });
+};
+</code></pre>
+<p>在写文章时，只需要设置top参数为true即可。</p>
+<p><br></p>
+<h2 id="数学公式"><a href="#数学公式" class="headerlink" title="数学公式"></a>数学公式</h2><p>Hexo允许使用MathJax来渲染LaTeX数学公式，首先安装自动部署MathJax的插件：</p>
+<pre><code class="bash">npm install hexo-math --save
+hexo math install
+</code></pre>
+<p>接着把主题配置文件下的mathjax选项设置为true：</p>
+<pre><code>mathjax: true
+</code></pre><p>如果直接在新建的博文中使用LaTeX格式的公式会出现一些问题，原因是hexo先用marked.<a href="http://lib.csdn.net/base/javascript" target="_blank" rel="external">js</a>渲染，然后再交给MathJax渲染。在marked.js渲染的时候下划线<code>_</code>是被escape掉并且换成了<code>&lt;em&gt;</code>标签，即斜体字，另外LaTeX中的<code>\\</code>也会被转义成一个<code>\</code>，这样会导致MathJax渲染时不认为它是一个换行符了。</p>
+<p>我们只要不让marked.js去转义<code>\\</code>,<code>\{</code>,<code>\}</code>在MathJax中有特殊用途的字符就行了。<br>具体修改方式，用编辑器打开marked.js（在<code>./node_modules/marked/lib/</code>中）</p>
+<p><strong>Step 1:</strong></p>
+<pre><code class="javascript">escape: /^\\([\\`*{}\[\]()# +\-.!_&gt;])/,
+</code></pre>
+<p>替换成</p>
+<pre><code class="javascript">escape: /^\\([`*\[\]()# +\-.!_&gt;])/,
+</code></pre>
+<p>这一步是在原基础上取消了对<code>\\</code>,<code>\{</code>,<code>\}</code>的转义(escape)</p>
+<p><strong>Step 2:</strong></p>
+<pre><code class="javascript">em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
+</code></pre>
+<p>替换成</p>
+<pre><code class="javascript">em:/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
+</code></pre>
+<p>这样一来MathJax就能与marked.js共存了。</p>
+<p>在Markdown中输入数学公式：</p>
+<ul>
+<li>行内：<code>$数学公式$</code></li>
+<li>行间：<code>$$数学公式$$</code></li>
+</ul>
+<p><br></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>当初也是看到很多人有自己的网站，所以才萌生了这个想法，希望这篇文章能给大家一点启发，如果后面有更多的心得，也会另发文总结下来。另外推荐一个我比较喜欢的个人博客：<a href="http://www.dandyweng.com" target="_blank" rel="external">翁天信 · Dandy Weng</a></p>
+<p>有任何问题欢迎留言或者发邮件。</p>
+<p><br></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>知乎<a href="https://www.zhihu.com/people/wurun/answers" target="_blank" rel="external">吴润</a>的专栏文章在Windows的环境的配置教程：<a href="https://zhuanlan.zhihu.com/p/26625249" target="_blank" rel="external">GitHub+Hexo 搭建个人网站详细教程 - 知乎专栏</a></li>
+<li>GitHub Pages 官方使用说明：<a href="https://pages.github.com" target="_blank" rel="external">GitHub Pages</a></li>
+<li>GitHub 官方文档，如何绑定个人域名：<a href="https://help.github.com/articles/using-a-custom-domain-with-github-pages/" target="_blank" rel="external">Using a custom domain with GitHub Pages</a></li>
+<li>Hexo 官方文档：<a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="external">文档 | Hexo</a></li>
+<li><a href="http://www.netcan666.com/2015/11/22/%E8%A7%A3%E5%86%B3Hexo%E7%BD%AE%E9%A1%B6%E9%97%AE%E9%A2%98/" target="_blank" rel="external">解决Hexo置顶问题 | Netcan_Space</a></li>
+<li><a href="http://blog.csdn.net/emptyset110/article/details/50123231" target="_blank" rel="external">搭建一个支持LaTEX的hexo博客 - Platonic Time - 博客频道 - CSDN.NET</a></li>
+</ul>
+<p><br></p>
+</the></excerpt>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: '打赏支持', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: './css/images/wechatpay.jpg',
+  alipayImage: './css/images/alipay.png'
+});
+</script>
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'qishao';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人博客/">个人博客</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          faster R-CNN在Caltech行人数据集上的实现
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/03/安装caffe/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Ubuntu 16.04安装caffe及torch</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo介绍"><span class="nav-number">1.</span> <span class="nav-text">Hexo介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建流程"><span class="nav-number">2.</span> <span class="nav-text">搭建流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获得域名"><span class="nav-number">3.</span> <span class="nav-text">获得域名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用GitHub创建仓库"><span class="nav-number">4.</span> <span class="nav-text">利用GitHub创建仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Git"><span class="nav-number">5.</span> <span class="nav-text">安装Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Node-js"><span class="nav-number">6.</span> <span class="nav-text">安装Node.js</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Hexo"><span class="nav-number">7.</span> <span class="nav-text">安装Hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推送网站"><span class="nav-number">8.</span> <span class="nav-text">推送网站</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#绑定域名"><span class="nav-number">9.</span> <span class="nav-text">绑定域名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置主题"><span class="nav-number">10.</span> <span class="nav-text">配置主题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更新文章"><span class="nav-number">11.</span> <span class="nav-text">更新文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#寻找图床"><span class="nav-number">12.</span> <span class="nav-text">寻找图床</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#功能扩展"><span class="nav-number">13.</span> <span class="nav-text">功能扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文章置顶"><span class="nav-number">13.1.</span> <span class="nav-text">文章置顶</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数学公式"><span class="nav-number">13.2.</span> <span class="nav-text">数学公式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">14.</span> <span class="nav-text">后记</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">15.</span> <span class="nav-text">参考</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2017 程序员の养成记 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+<script src="/js/bootstrap.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            程序员の养成记
+          </div>
+          <div class="panel-body">
+            Copyright © 2017 七少 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+</body>
+</html>

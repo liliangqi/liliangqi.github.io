@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>faster r-cnn在caltech行人数据集上的实现 | 程序员の养成记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="数据处理环境搭建代码复现" />
+  
+  
+  
+  
+  <meta name="description" content="这篇文章致力于在faster R-CNN框架下，利用Caffe在Caltech行人数据集上实现行人检测任务。本文分为两部分，首先是对数据集的处理，其次是搭建环境对py-faster-rcnn代码进行复现。">
+<meta name="keywords" content="数据处理,环境搭建,代码复现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="faster R-CNN在Caltech行人数据集上的实现">
+<meta property="og:url" content="http://www.liliangqi.com/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/index.html">
+<meta property="og:site_name" content="程序员の养成记">
+<meta property="og:description" content="这篇文章致力于在faster R-CNN框架下，利用Caffe在Caltech行人数据集上实现行人检测任务。本文分为两部分，首先是对数据集的处理，其次是搭建环境对py-faster-rcnn代码进行复现。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://i1.buimg.com/598176/6deaf9e1f45db47b.jpg">
+<meta property="og:image" content="http://i1.buimg.com/598176/481d457e41f2394b.png">
+<meta property="og:image" content="http://i2.kiimg.com/598176/0c51dd5611a0cc0b.png">
+<meta property="og:image" content="http://i2.kiimg.com/598176/ff3d1d44838af796.png">
+<meta property="og:image" content="http://i1.buimg.com/598176/28b7254b4a47b976.png">
+<meta property="og:image" content="http://i2.kiimg.com/598176/0458e7f23c6b2872.png">
+<meta property="og:updated_time" content="2017-07-12T13:25:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="faster R-CNN在Caltech行人数据集上的实现">
+<meta name="twitter:description" content="这篇文章致力于在faster R-CNN框架下，利用Caffe在Caltech行人数据集上实现行人检测任务。本文分为两部分，首先是对数据集的处理，其次是搭建环境对py-faster-rcnn代码进行复现。">
+<meta name="twitter:image" content="http://i1.buimg.com/598176/6deaf9e1f45db47b.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/qishao.jpg">
+  <link rel="apple-touch-icon" href="/css/images/qishao.jpg">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/qishao.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">关于</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-faster-R-CNN在Caltech行人检测数据集上的实现" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      faster R-CNN在Caltech行人数据集上的实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/" class="article-date">
+	  <time datetime="2017-06-23T13:27:39.000Z" itemprop="datePublished">2017-06-23</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><excerpt in="" index="" |="" 首页摘要=""><img src="http://i1.buimg.com/598176/6deaf9e1f45db47b.jpg" alt=""></excerpt></p>
+<p>　　这篇文章致力于在faster R-CNN框架下，利用Caffe在Caltech行人数据集上实现行人检测任务。本文分为两部分，首先是对数据集的处理，其次是搭建环境对py-faster-rcnn代码进行复现。</p>
+<a id="more"></a>
+<the rest="" of="" contents="" |="" 余下全文="">
+
+<hr>
+<font color="orange" size="4"><strong>版权声明：本文为博主原创文章，未经博主允许不得转载。</strong></font>
+
+<hr>
+<h1 id="数据集的处理"><a href="#数据集的处理" class="headerlink" title="数据集的处理"></a>数据集的处理</h1><p>　　Caltech数据集来自<a href="http://www.vision.caltech.edu/Image_Datasets/CaltechPedestrians/" target="_blank" rel="external">加州理工大学</a>，数据来源于车载摄像头拍摄的街道实景视频。视频总时长约10个小时，分辨率为640×480，30帧/秒，标注了约250,000帧（137分钟），350,000个bounding box和大约2,300个互不相同的行人。该数据集分为11个子集<code>set00</code>~<code>set10</code>，其中<code>set00</code>~<code>set05</code>作为训练集，每个子集大概为1G，均包含6~13个时长为一分钟的seq视频文件；而<code>set06</code>~<code>set11</code>则作为测试集，与训练集属性类似。数据集的注释标签都以vbb文件给出，包括训练集和测试集。</p>
+<p>　　要将数据集用于faster R-CNN框架，就要将数据做成类似于PASCAL VOC 2007的格式，也就是图片样本集的名称要是<strong>六位数字</strong>+<code>.jpg</code>，标签信息以xml文件格式给出，下面我们介绍处理方法。</p>
+<h2 id="Seq文件的处理"><a href="#Seq文件的处理" class="headerlink" title="Seq文件的处理"></a>Seq文件的处理</h2><p>　　我的工作是基于图片做行人检测，需要将seq文件处理转换成jpg文件。Caltech官网上有 <a href="https://pdollar.github.io/toolbox/index.html" target="_blank" rel="external">Piotr’s Matlab Toolbox</a>工具用于完成这种转换，其中的功能非常多样，但也非常复杂。如果有同学和我一样，只需要完成简单的转换工作，不妨参考我的代码。</p>
+<p>　　首先下载上面提到的官方工具包，解压后得到的目录下有一个叫做<code>videos</code>的文件夹，我们在该路径下添加一个名为<code>processSeq.m</code>的脚本，代码如下：</p>
+<pre><code class="matlab">% 导入seq文件并全部转换
+clc; close all; 
+path = &#39;/home/liliangqi/pedestrianDetection/INRIA/&#39;;
+files = dir(path); 
+
+for i =3:size(files, 1) 
+
+    videoName = files(i).name; 
+    videoPath = [path, videoName, &#39;/&#39;];
+
+    files2 = dir([videoPath, &#39;*.seq&#39;]);  
+    for j = 1:size(files2, 1) 
+        videoname = files2(j).name;
+        seqfile = [videoPath, videoname];
+
+        videoname2 = strtok(videoname, &#39;.&#39;); 
+
+        imgSavePath = [videoPath, videoname2 ,&#39;/&#39;];
+        if ~exist(imgSavePath) 
+            mkdir(imgSavePath); 
+        end 
+
+        Is = seqIo( seqfile, &#39;toImgs&#39;, imgSavePath); 
+
+    end 
+
+end
+</code></pre>
+<p>这里注意第9行和第18行，由于我使用的是macOS系统，路径符号用”/“，有些同学用linux也可以，但对于Windows用户来说，路径符号需改为”\”。转换后文件结构如下图所示：</p>
+<p><img src="http://i1.buimg.com/598176/481d457e41f2394b.png" alt=""></p>
+<p>可以看到，<code>set06</code>就是测试集的一个子集，而<code>V000</code>~<code>V018</code>就是19个时长为一分钟的视频转换成的jpg图片，其中图片名称均为为<code>1.jpg</code>等等。由于我们要用整个数据集来训练和测试，也就是将所有的jpg图片整合到一个文件夹中，所以不能有重名的图片，所以我们第一步工作是进行图片的重命名，Python代码如下：</p>
+<pre><code class="python">#coding=UTF-8
+
+import os
+import re 
+
+re_digits = re.compile(r&#39;(\d+)&#39;)  
+
+def emb_numbers(s):  
+    pieces=re_digits.split(s)  
+    pieces[1::2]=map(int,pieces[1::2])      
+    return pieces   
+
+def sort_strings_with_emb_numbers(alist):
+    &#39;&#39;&#39;根据字符串内嵌的数字进行排序，例如f2应在f10之前&#39;&#39;&#39;
+    return sorted(alist, key=emb_numbers)
+
+
+class BatchRename():
+    &#39;&#39;&#39;批量重命名文件夹中的图片文件&#39;&#39;&#39;
+
+    def __init__(self):
+        &#39;&#39;&#39;设置目标文件夹的绝对路径&#39;&#39;&#39;
+        self.path = &#39;/Users/liliangqi/Desktop/new&#39;
+
+    def rename(self):
+        &#39;&#39;&#39;根据文件后缀修改特定的文件名，可以设定命名后的文件名长度&#39;&#39;&#39;
+        filelist = os.listdir(self.path)
+        if &#39;.DS_Store&#39; in filelist:
+            filelist.remove(&#39;.DS_Store&#39;) # macOS系统的文件夹中往往会出现这个文件
+        filelist = sort_strings_with_emb_numbers(filelist)
+
+        name_length = 0 # 文件名的长度，不含后缀，如&#39;001.jpg&#39;文件名长度为3
+        total_num = len(filelist)
+        i = 1 # 命名起始编号
+
+        for item in filelist:
+            if item.endswith(&#39;.jpg&#39;): # 此处可改为&#39;.png&#39;，那么png图片将被转化为jpg
+                if name_length:
+                    new_name = &#39;0&#39;*(name_length-len(str(i))) + str(i) + &#39;.jpg&#39;
+                else: # 可将name_length设为0，从而避免统一的文件名长度
+                    new_name = str(i) + &#39;.jpg&#39;
+
+                src = os.path.join(os.path.abspath(self.path), item)
+                dst = os.path.join(os.path.abspath(self.path), new_name)
+                try:
+                    os.rename(src, dst)
+                    print(&#39;converting %s to %s ...&#39; % (src, dst))
+                    i = i + 1
+                except:
+                    continue
+
+        print(&#39;total %d to rename &amp; converted %d jpgs&#39; % (total_num, i - 1))
+
+
+
+if __name__ == &#39;__main__&#39;:
+    demo = BatchRename()
+    demo.rename()
+</code></pre>
+<p>该代码每次处理一个子集，所以在处理下一个子集的时候，要看刚刚处理完的图片命名编号是多少，比如是<code>001128.jpg</code>，那么接下来就从001129开始命名，也就是将第33行改为<code>i = 1129</code>即可。</p>
+<p>　　处理了整个数据集后得到249,884张jpg图片，命名为<code>000001.jpg</code>到<code>249884.jpg</code>，接下来处理标签文件。</p>
+<hr>
+<h2 id="Vbb文件的处理"><a href="#Vbb文件的处理" class="headerlink" title="Vbb文件的处理"></a>Vbb文件的处理</h2><p>　　Caltech数据集的标签信息以vbb文件的形式给出，亦即video bounding box文件。首先在官网上下载<a href="http://www.vision.caltech.edu/Image_Datasets/CaltechPedestrians/code/code3.2.1.zip" target="_blank" rel="external">Matlab evaluation/labeling code (3.2.1)</a>，这个包是用于处理vbb文件的，但是官方给的包都挺坑的，给了一堆乱七八糟的函数，偏偏没有转换的功能，所以我们需要自己在这个包中再添加一个脚本文件：（代码来源于<em>dachao</em>）</p>
+<pre><code class="matlab">% this function is to convert vbb file to txt  
+%by dachao at 2015.11.27  
+a = [0 1];  
+vPath = &#39;/Users/liliangqi/Downloads/annotations/&#39;;  
+outpath = &#39;/Users/liliangqi/Downloads/annotations/converted/&#39;;   
+if ~isdir(outpath)  
+    mkdir(outpath);  
+end  
+disp(&#39;Begin to extract annotations from vbb....&#39;)  
+for ii = 1:length(a)  
+    vName = [&#39;set0&#39;,num2str(a(ii))];    
+    vbbpath = [vPath vName];  
+    str = dir(vbbpath);  
+    for k = 3:numel(str)  
+        finalpath = [vbbpath,&#39;/&#39;,str(k).name];   
+        disp(finalpath);  
+        A = vbb( &#39;vbbLoad&#39;, finalpath);    
+        Path = [outpath,&#39;/&#39;,vName];  
+        if ~isdir(Path)  
+            mkdir(Path);  
+        end  
+        st = str(k).name;  
+        p = findstr(st,&#39;.&#39;);  
+        st = st(1,1:p(1)-1);  
+        fnm = [st,&#39;.txt&#39;];       
+        c = fopen([Path,&#39;/&#39;,fnm],&#39;w&#39;);    
+        for i = 1:A.nFrame    
+            iframe = A.objLists(1,i);    
+            iframe_data = iframe{1,1};    
+            n1length = length(iframe_data);    
+            for  j = 1:n1length    
+                iframe_dataj = iframe_data(j);    
+                if iframe_dataj.pos(1) ~= 0  %pos  posv    
+                    fprintf(c,&#39;%d %f %f %f %f\n&#39;, i, iframe_dataj.pos(1),...  
+                     iframe_dataj.pos(2),iframe_dataj.pos(3),iframe_dataj.pos(4));    
+                end    
+            end    
+        end    
+    end  
+fclose(c);   
+end  
+disp(&#39;Done................&#39;)
+</code></pre>
+<p>这个脚本中需要注意的是第3行，<code>a = [0 1]</code>表示你所选择的子集，结合第11行，如果<code>a = 0</code>就表示选择要转换的子集是<code>set00</code>，如果要转换子集<code>set10</code>，则将第3行改为<code>a = 0</code>，第11行改成<code>vName = [&#39;set1&#39;,num2str(a(ii))];</code>即可。转换后得到txt文件如下图所示：</p>
+<p><img src="http://i2.kiimg.com/598176/0c51dd5611a0cc0b.png" alt=""></p>
+<p>第一列是图片编号，第二列到第五列是行人bounding box的信息，依次是x坐标、y坐标、box的宽度和高度。每个vbb文件对应一个seq文件，所以我们需要像重命名图片文件一样，对txt文件的第一列图片编号进行重命名，然后将所有的txt文件整合成一个大的txt文件。这里我的处理方式<strong>略显笨拙</strong>，如果哪位同学有更好的方法，请与我联系讨论，我会将你的好办法贴出来供更多的人学习。</p>
+<ol>
+<li>首先将txt文件导入Excel，得到csv文件或者xsl文件</li>
+<li>在MATLAB中导入xls或csv形式的表格成为矩阵，矩阵共五列，与上述txt文件相似</li>
+<li>利用MATLAB的<strong>for循环</strong>代码对矩阵第一列进行加数值操作，比如<code>set00</code>的<code>V000.txt</code>文件的最后一行图片编号是<code>1845</code>，那么在处理<code>V001.txt</code>文件转换成的矩阵时，就给其第一列的每一个数字都加1即可</li>
+<li>将处理完的矩阵利用MATLAB的内置函数<code>csvwrite()</code>保存为csv文件，方便用Excel进行处理</li>
+<li>把所有的csv文件拼接起来，形成一个大表格，并将第2列加到第4列上，将第3列加到第5列上，这时bounding box的信息就变成了<code>(x_min, y_min, x_max, y_max)</code></li>
+<li>将第2列到第5列向后平移一列，空出第二列全部输入文本<code>person</code></li>
+<li>将第一列所有内容由原本的六位数字，改成<code>六位数字</code>+<code>.jpg</code>，如<code>000001</code>改成<code>000001.jpg</code>，这个功能很容易实现，大家百度一下，我就不细说了</li>
+<li>把保存这个大表格保存成制表符间隔的txt文本文件</li>
+<li>打开txt文件，利用<code>查找</code>&amp;<code>替换</code>将所有<strong>制表符</strong>替换成<strong>空格键</strong>，得到如下txt文件：</li>
+</ol>
+<p><img src="http://i2.kiimg.com/598176/ff3d1d44838af796.png" alt=""></p>
+<p>　　至此我们得到了一个含所有标签信息的txt文件，但PASCAL VOC 2007要求的标签信息文件应该是xml格式的，所以最后，我们再将txt文件转换成xml文件。这一步通过<em>小咸鱼_</em>的MATLAB代码来完成：</p>
+<pre><code class="matlab">%%
+%该代码可以做voc2007数据集中的xml文件，
+%txt文件每行格式为：000002.jpg dog 44 28 132 121
+%即每行由图片名、目标类型、包围框坐标组成，空格隔开
+%如果一张图片有多个目标，则格式如下：（比如两个目标）
+%000002.jpg dog 44 28 132 121
+%000002.jpg car 50 27 140 110
+%包围框坐标为左上角和右下角
+%%
+clc;
+clear;
+%注意修改下面四个变量
+imgpath=&#39;/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/Image/000000/&#39;;%图像存放文件夹
+txtpath=&#39;/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/annotation.txt&#39;;%txt文件
+xmlpath_new=&#39;/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/xml/&#39;;%修改后的xml保存文件夹
+foldername=&#39;search&#39;;%xml的folder字段名
+
+
+fidin=fopen(txtpath,&#39;r&#39;);
+lastname=&#39;begin&#39;;
+
+while ~feof(fidin)
+     tline=fgetl(fidin);
+     str = regexp(tline, &#39; &#39;,&#39;split&#39;);
+     filepath=[imgpath,str{1}];
+     img=imread(filepath);
+     [h,w,d]=size(img);
+      imshow(img);
+      rectangle(&#39;Position&#39;,[str2double(str{3}),str2double(str{4}),str2double(str{5})-str2double(str{3}),str2double(str{6})-str2double(str{4})],&#39;LineWidth&#39;,4,&#39;EdgeColor&#39;,&#39;r&#39;);
+      pause(0.01);
+
+        if strcmp(str{1},lastname)%如果文件名相等，只需增加object
+           object_node=Createnode.createElement(&#39;object&#39;);
+           Root.appendChild(object_node);
+           node=Createnode.createElement(&#39;name&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,str{2})));
+           object_node.appendChild(node);
+
+           node=Createnode.createElement(&#39;pose&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;Unspecified&#39;)));
+           object_node.appendChild(node);
+
+           node=Createnode.createElement(&#39;truncated&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;0&#39;)));
+           object_node.appendChild(node);
+
+           node=Createnode.createElement(&#39;difficult&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;0&#39;)));
+           object_node.appendChild(node);
+
+           bndbox_node=Createnode.createElement(&#39;bndbox&#39;);
+           object_node.appendChild(bndbox_node);
+
+           node=Createnode.createElement(&#39;xmin&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{3}))));
+           bndbox_node.appendChild(node);
+
+           node=Createnode.createElement(&#39;ymin&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{4}))));
+           bndbox_node.appendChild(node);
+
+           node=Createnode.createElement(&#39;xmax&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{5}))));
+           bndbox_node.appendChild(node);
+
+           node=Createnode.createElement(&#39;ymax&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{6}))));
+           bndbox_node.appendChild(node);
+        else %如果文件名不等，则需要新建xml
+           copyfile(filepath, &#39;JPEGImages&#39;);
+            %先保存上一次的xml
+           if exist(&#39;Createnode&#39;,&#39;var&#39;)
+              tempname=lastname;
+              tempname=strrep(tempname,&#39;.jpg&#39;,&#39;.xml&#39;);
+              xmlwrite(tempname,Createnode);   
+           end
+
+
+            Createnode=com.mathworks.xml.XMLUtils.createDocument(&#39;annotation&#39;);
+            Root=Createnode.getDocumentElement;%根节点
+            node=Createnode.createElement(&#39;folder&#39;);
+            node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,foldername)));
+            Root.appendChild(node);
+            node=Createnode.createElement(&#39;filename&#39;);
+            node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,str{1})));
+            Root.appendChild(node);
+            source_node=Createnode.createElement(&#39;source&#39;);
+            Root.appendChild(source_node);
+            node=Createnode.createElement(&#39;database&#39;);
+            node.appendChild(Createnode.createTextNode(sprintf(&#39;My Database&#39;)));
+            source_node.appendChild(node);
+            node=Createnode.createElement(&#39;annotation&#39;);
+            node.appendChild(Createnode.createTextNode(sprintf(&#39;VOC2007&#39;)));
+            source_node.appendChild(node);
+
+           node=Createnode.createElement(&#39;image&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;flickr&#39;)));
+           source_node.appendChild(node);
+
+           node=Createnode.createElement(&#39;flickrid&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;NULL&#39;)));
+           source_node.appendChild(node);
+           owner_node=Createnode.createElement(&#39;owner&#39;);
+           Root.appendChild(owner_node);
+           node=Createnode.createElement(&#39;flickrid&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;NULL&#39;)));
+           owner_node.appendChild(node);
+
+           node=Createnode.createElement(&#39;name&#39;);
+           node.appendChild(Createnode.createTextNode(sprintf(&#39;liliangqi&#39;)));
+           owner_node.appendChild(node);
+           size_node=Createnode.createElement(&#39;size&#39;);
+           Root.appendChild(size_node);
+
+          node=Createnode.createElement(&#39;width&#39;);
+          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(w))));
+          size_node.appendChild(node);
+
+          node=Createnode.createElement(&#39;height&#39;);
+          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(h))));
+          size_node.appendChild(node);
+
+         node=Createnode.createElement(&#39;depth&#39;);
+         node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(d))));
+         size_node.appendChild(node);
+
+          node=Createnode.createElement(&#39;segmented&#39;);
+          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;0&#39;)));
+          Root.appendChild(node);
+          object_node=Createnode.createElement(&#39;object&#39;);
+          Root.appendChild(object_node);
+          node=Createnode.createElement(&#39;name&#39;);
+          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,str{2})));
+          object_node.appendChild(node);
+
+          node=Createnode.createElement(&#39;pose&#39;);
+          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;Unspecified&#39;)));
+          object_node.appendChild(node);
+
+          node=Createnode.createElement(&#39;truncated&#39;);
+          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;0&#39;)));
+          object_node.appendChild(node);
+
+          node=Createnode.createElement(&#39;difficult&#39;);
+          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;0&#39;)));
+          object_node.appendChild(node);
+
+          bndbox_node=Createnode.createElement(&#39;bndbox&#39;);
+          object_node.appendChild(bndbox_node);
+
+         node=Createnode.createElement(&#39;xmin&#39;);
+         node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{3}))));
+         bndbox_node.appendChild(node);
+
+         node=Createnode.createElement(&#39;ymin&#39;);
+         node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{4}))));
+         bndbox_node.appendChild(node);
+
+        node=Createnode.createElement(&#39;xmax&#39;);
+        node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{5}))));
+        bndbox_node.appendChild(node);
+
+        node=Createnode.createElement(&#39;ymax&#39;);
+        node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{6}))));
+        bndbox_node.appendChild(node);
+
+       lastname=str{1};
+        end
+        %处理最后一行
+        if feof(fidin)
+            tempname=lastname;
+            tempname=strrep(tempname,&#39;.jpg&#39;,&#39;.xml&#39;);
+            xmlwrite(tempname,Createnode);
+        end
+end
+fclose(fidin);
+
+file=dir(pwd);
+for i=1:length(file)
+   if length(file(i).name)&gt;=4 &amp;&amp; strcmp(file(i).name(end-3:end),&#39;.xml&#39;)
+    fold=fopen(file(i).name,&#39;r&#39;);
+    fnew=fopen([xmlpath_new file(i).name],&#39;w&#39;);
+    line=1;
+    while ~feof(fold)
+        tline=fgetl(fold);
+        if line==1
+           line=2;
+           continue;
+        end
+        expression = &#39;   &#39;;
+        replace=char(9);
+        newStr=regexprep(tline,expression,replace);
+        fprintf(fnew,&#39;%s\n&#39;,newStr);
+    end
+    fprintf(&#39;已处理%s\n&#39;,file(i).name);
+    fclose(fold);
+    fclose(fnew);
+    delete(file(i).name);
+   end
+end
+</code></pre>
+<p>代码的注释已经写得很清楚了，我就不多说了，其中的第28行到第30行是处理过程中的图片带bounding box框的显示功能，看起来比较炫酷，当热了，为了节省时间可以备注掉。</p>
+<p>　　在等待五六个小时后差不多所有的xml文件就生成了，每一张图片对应一个xml文件。当然了，不含行人的图片是没有对应的xml文件的。xml文件的内容如下所示：</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;annotation&gt;
+   &lt;folder&gt;caltech&lt;/folder&gt;
+   &lt;filename&gt;000187.jpg&lt;/filename&gt;
+   &lt;source&gt;
+      &lt;database&gt;My Database&lt;/database&gt;
+      &lt;annotation&gt;VOC2007&lt;/annotation&gt;
+      &lt;image&gt;flickr&lt;/image&gt;
+      &lt;flickrid&gt;NULL&lt;/flickrid&gt;
+   &lt;/source&gt;
+   &lt;owner&gt;
+      &lt;flickrid&gt;NULL&lt;/flickrid&gt;
+      &lt;name&gt;liliangqi&lt;/name&gt;
+   &lt;/owner&gt;
+   &lt;size&gt;
+      &lt;width&gt;640&lt;/width&gt;
+      &lt;height&gt;480&lt;/height&gt;
+      &lt;depth&gt;3&lt;/depth&gt;
+   &lt;/size&gt;
+   &lt;segmented&gt;0&lt;/segmented&gt;
+   &lt;object&gt;
+      &lt;name&gt;person&lt;/name&gt;
+      &lt;pose&gt;Unspecified&lt;/pose&gt;
+      &lt;truncated&gt;0&lt;/truncated&gt;
+      &lt;difficult&gt;0&lt;/difficult&gt;
+      &lt;bndbox&gt;
+         &lt;xmin&gt;410.782791&lt;/xmin&gt;
+         &lt;ymin&gt;158.810966&lt;/ymin&gt;
+         &lt;xmax&gt;423.919272&lt;/xmax&gt;
+         &lt;ymax&gt;185.305279&lt;/ymax&gt;
+      &lt;/bndbox&gt;
+   &lt;/object&gt;
+&lt;/annotation&gt;
+</code></pre>
+<p>其中第4行是其对应的图片名，第22行是bounding box中的物体的种类（行人可以称为物体嘛！差评），第27行到第30行是bounding box的坐标信息，说明这个xml文件对应的图片中只有一个行人。</p>
+<p>　　至此，vbb文件也就是标签信息文件处理完毕。</p>
+<hr>
+<h2 id="训练集和测试集的设置"><a href="#训练集和测试集的设置" class="headerlink" title="训练集和测试集的设置"></a>训练集和测试集的设置</h2><p>　　标准数据集已经生成了，接下来就是指定训练集和测试集了。虽然官方说<code>set00</code>~<code>set05</code>作为训练集，其余作为测试集，但它的前提是那个时候只有前六个子集有标签信息，而现在我们拥有所有子集的标签信息，就无所谓那些做训练集那些做测试集了，那么最好的设置方法，就是随机设定。</p>
+<p>　　PASCAL VOC 2007标准要求的指定训练集和测试集的方式是用txt文件列出作为训练（测试集）的图片编号，我们利用如下的代码来实现随机设定训练集和测试集：</p>
+<pre><code class="matlab">%%
+%该代码根据已生成的xml，制作VOC2007数据集中的trainval.txt;train.txt;test.txt和val.txt
+%trainval占总数据集的50%，test占总数据集的50%；train占trainval的50%，val占trainval的50%；
+%上面所占百分比可根据自己的数据集修改，如果数据集比较少，test和val可少一些
+
+
+%%
+%注意修改下面四个值
+xmlfilepath=&#39;/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/xml/&#39;;
+txtsavepath=&#39;/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/ImageSets/Main/&#39;;
+trainval_percent=0.5;%trainval占整个数据集的百分比，剩下部分就是test所占百分比
+train_percent=0.5;%train占trainval的百分比，剩下部分就是val所占百分比
+
+
+%%
+xmlfile=dir(xmlfilepath);
+numOfxml=length(xmlfile)-2;%减去.和..  总的数据集大小
+
+% 此为原生成方法
+trainval=sort(randperm(numOfxml,floor(numOfxml*trainval_percent)));
+test=sort(setdiff(1:numOfxml,trainval));
+
+% 为避免过拟合，将数据集从中间分开
+% trainval = 1: floor(numOfxml*trainval_percent);
+% test = (floor(numOfxml*trainval_percent) + 1) : numOfxml;
+
+% 为避免过拟合，对视频数据集进行采样
+% trainval = 1: floor(numOfxml*trainval_percent);
+% trainval_size = length(trainval);
+% test = 1: (numOfxml - trainval_size);
+% sampleRate = 6;
+% trainval = trainval * sampleRate;
+% trainval = trainval(1:floor(trainval_size/sampleRate));
+% test = test * sampleRate;
+% test = test(1:floor(length(test)/sampleRate));
+% test = test + trainval_size;
+
+trainvalsize=length(trainval);%trainval的大小
+train=sort(trainval(randperm(trainvalsize,floor(trainvalsize*train_percent))));
+val=sort(setdiff(trainval,train));
+
+
+ftrainval=fopen([txtsavepath &#39;trainval.txt&#39;],&#39;w&#39;);
+ftest=fopen([txtsavepath &#39;test.txt&#39;],&#39;w&#39;);
+ftrain=fopen([txtsavepath &#39;train.txt&#39;],&#39;w&#39;);
+fval=fopen([txtsavepath &#39;val.txt&#39;],&#39;w&#39;);
+
+
+for i=1:numOfxml
+    if ismember(i,trainval)
+        fprintf(ftrainval,&#39;%s\n&#39;,xmlfile(i+2).name(1:end-4));
+        if ismember(i,train)
+            fprintf(ftrain,&#39;%s\n&#39;,xmlfile(i+2).name(1:end-4));
+        else
+            fprintf(fval,&#39;%s\n&#39;,xmlfile(i+2).name(1:end-4));
+        end
+%     else
+%         fprintf(ftest,&#39;%s\n&#39;,xmlfile(i+2).name(1:end-4));
+    end
+    if ismember(i, test)
+        fprintf(ftest,&#39;%s\n&#39;,xmlfile(i+2).name(1:end-4));
+    end
+end
+fclose(ftrainval);
+fclose(ftrain);
+fclose(fval);
+fclose(ftest);
+</code></pre>
+<p>生成四个txt文件，分别是<code>train.txt</code>,<code>val.txt</code>,<code>trainval.txt</code>和<code>test.txt</code>，分别对应训练集、验证集、训练集加验证集和测试集，<code>trainval.txt</code>与<code>test.txt</code>没有交集，其中，<code>trainval.txt</code>的内容如下图所示：</p>
+<p><img src="http://i1.buimg.com/598176/28b7254b4a47b976.png" alt=""></p>
+<p>可以看到这是训练集加验证集的图片编号集合。</p>
+<p>　　至此，我们整个数据集的处理就结束了。</p>
+<hr>
+<h1 id="利用faster-R-CNN进行行人检测"><a href="#利用faster-R-CNN进行行人检测" class="headerlink" title="利用faster R-CNN进行行人检测"></a>利用faster R-CNN进行行人检测</h1><h2 id="配置实验环境"><a href="#配置实验环境" class="headerlink" title="配置实验环境"></a>配置实验环境</h2><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li><p>将faster R-CNN工程从github上克隆到本地</p>
+<pre><code class="shell">git clone --recursive https://github.com/rbgirshick/py-faster-rcnn.git
+</code></pre>
+</li>
+<li><p>安装必要的Python包： <code>cython</code>, <code>python-opencv</code>, <code>easydict</code></p>
+<pre><code class="shell">sudo apt-get install cython
+sudo apt-get install python-opencv
+sudo apt-get install python-pip python-dev build-essential    #安装pip
+sudo pip install easydict
+sudo pip install numpy
+</code></pre>
+</li>
+<li><p>我们将克隆faster R-CNN工程的根目录称为<code>FRCN_ROOT</code>，然后build Cython模型</p>
+<pre><code class="shell">cd $FRCN_ROOT/lib
+make
+</code></pre>
+</li>
+<li><p>首先对<code>caffe-fast-rcnn</code>的<code>Makefile.config</code>文件进行配置，可以参考我的<a href="http://www.liliangqi.com/2017/05/03/%E5%AE%89%E8%A3%85caffe/">Ubuntu 16.04安装caffe及torch</a>一文，然后build caffe 以及pycaffe</p>
+<pre><code class="shell">cd $FRCN_ROOT/caffe-fast-rcnn
+sudo make all -j8
+sudo make pycaffe
+</code></pre>
+</li>
+<li><p>下载预训练的检测模型</p>
+<pre><code class="shell">cd $FRCN_ROOT
+./data/scripts/fetch_faster_rcnn_models.sh
+./data/scripts/fetch_imagenet_models.sh
+</code></pre>
+<p>经此步骤我们在 <code>$FRCN_ROOT/data</code> 目录下将会得到一个叫做 <code>faster_rcnn_models</code>的文件夹和一个叫做<code>imagenet_models</code>的文件夹。</p>
+</li>
+<li><p>运行Demo</p>
+<pre><code class="shell">cd $FRCN_ROOT
+./tools/demo.py
+</code></pre>
+<p>此Demo使用的网络为VGG16网络，利用训练好的模型在五幅图片上做测试，输出带有bounding box的结果。</p>
+</li>
+</ol>
+<h3 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h3><ol>
+<li><p>在<code>sudo make all -j8</code>时报错：</p>
+<pre><code class="shell">In file included from ./include/caffe/util/cudnn.hpp:5:0,
+                 from ./include/caffe/util/device_alternate.hpp:40,
+                 from ./include/caffe/common.hpp:19,
+                 from src/caffe/data_reader.cpp:6:
+/usr/local/cuda/include/cudnn.h:803:27: note: declared here
+ cudnnStatus_t CUDNNWINAPI cudnnSetPooling2dDescriptor(
+</code></pre>
+<p>原因：我们使用的cudnn v5中修改了<code>cudnnStatus_t CUDNNWINAPI cudnnActivationBackward</code>等函数接口，而旧版的caffe中（例如faster rcnn里的caffe）仍然使用原来的调用方式。</p>
+<p>解决办法：使用最新版本的caffe里面的部分文件对faster rcnn文件进行替换</p>
+<pre><code class="shell">cp caffe-master/inlude/caffe/layers/cudnn_* caffe-fast-rcnn/include/caffe/layers/
+cp caffe-master/src/caffe/layers/cudnn_* caffe-fast-rcnn/src/caffe/layers/
+cp caffe-master/include/caffe/util/cudnn.hpp caffe-fast-rcnn/include/caffe/util/
+</code></pre>
+</li>
+</ol>
+<hr>
+<h2 id="训练PASCAL-VOC-2007数据集"><a href="#训练PASCAL-VOC-2007数据集" class="headerlink" title="训练PASCAL VOC 2007数据集"></a>训练PASCAL VOC 2007数据集</h2><h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li><p>下载数据集</p>
+<pre><code class="shell">wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
+wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar
+wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCdevkit_08-Jun-2007.tar
+</code></pre>
+</li>
+<li><p>将下载的压缩文件解压缩到一个名为<code>VOCdevkit</code>的文件夹中</p>
+<pre><code class="shell">tar xvf VOCtrainval_06-Nov-2007.tar
+tar xvf VOCtest_06-Nov-2007.tar
+tar xvf VOCdevkit_08-Jun-2007.tar
+</code></pre>
+</li>
+<li><p>建立软连接</p>
+<pre><code class="shell">cd $FRCN_ROOT/data
+ln -s $VOCdevkit VOCdevkit2007
+</code></pre>
+<p>其中<code>$VOCdevkit</code>表示我们刚刚解压出的<code>VOCdevkit</code>文件夹的路径，这一步操作其实是方便我们共享数据，比如我在两个工程里都要用到<code>VOCdevkit</code>文件夹里的数据，我就不必把<code>VOCdevkit</code>文件夹拷贝两份放到每个工程里，而是通过这种数据共享的方式来节省硬盘内存。当然了这样做的缺点就是你在每个共享软连接的目录下修改文件时，所有同时共享的文件夹和原始文件夹中的数据都会被同步修改。</p>
+</li>
+<li><p>选择训练方式以及训练模型</p>
+<p>faster R-CNN提供了两种训练方式：<em>分阶段训练</em>和<em>端到端训练</em>。分阶段训练就是先训练用于生成region preposal的rpn网络，再训练用于检测的fast R-CNN网络；而端到端的网络则是连续进行训练，无需人为地接续后面的操作。所以我们这里选择端到端的训练方式。</p>
+<p>在终端运行：</p>
+<pre><code class="shell">./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
+</code></pre>
+<p>其中<code>0</code>表示使用的GPU编号为0，<code>VGG16</code>表示使用VGG16网络，<code>pascal_voc</code>表示使用的数据格式为PASCAL VOC格式的，恰好我们这里使用的数据集就是PASCAL VOC 2007数据集。</p>
+</li>
+<li><p>训练结束后我们会在<code>$FRCN_ROOT</code>目录下得到一个<code>output</code>文件夹，里面保存着我们训练后得到的模型</p>
+</li>
+</ol>
+<h3 id="可能出现的问题-1"><a href="#可能出现的问题-1" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h3><ol>
+<li><p>训练模型时出现错误：<font color="red"><strong>TypeError: slice indices must be integers or None or have an __index__ method</strong></font></p>
+<p>原因：numpy版本过高，将其降级到1.11.0即可</p>
+<p>解决办法：</p>
+<pre><code class="shell">sudo pip install -U numpy==1.11.0
+</code></pre>
+</li>
+</ol>
+<hr>
+<h2 id="在Caltech数据集上训练"><a href="#在Caltech数据集上训练" class="headerlink" title="在Caltech数据集上训练"></a>在Caltech数据集上训练</h2><h3 id="步骤-2"><a href="#步骤-2" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li><p>放置自己的数据</p>
+<ol>
+<li><p>将我们修改好的Caltech数据集的图片复制到<code>$VOCdevkit</code>-&gt;<code>VOC2007</code>-&gt;<code>JEPGImages</code>文件夹下</p>
+</li>
+<li><p>将制作好的xml文件复制到<code>$VOCdevkit</code>-&gt;<code>VOC2007</code>-&gt;<code>Annotations</code>文件夹下</p>
+</li>
+<li><p>将制定训练集、验证集和测试集的四个txt文件复制到<code>$VOCdevkit</code>-&gt;<code>VOC2007</code>-&gt;<code>ImageSets</code>-&gt;<code>Main</code>文件夹下</p>
+<p>注：放置前将相应的文件夹清空</p>
+</li>
+</ol>
+</li>
+<li><p>修改网络参数</p>
+<ol>
+<li>修改<code>$FRCN_ROOT/ models/pascal_voc/VGG16/faster_rcnn_end2end/train.prototxt</code>，这是训练网络。由于我们检测对象的类型只有一种，也就是<strong>person</strong>，再加上<strong>background</strong>也就是背景样本共两种，所以将第11行的<code>num_classes</code>后的数值改为<code>2</code>，将第530行<code>num_classes</code>后的数值改为<code>2</code>，将第620行<code>num_output</code>后的数值改为<code>2</code>；每种类型对应的bounding box坐标信息是4个，总共八个，所以将第643行的<code>num_output</code>后的数值修改为<code>8</code></li>
+<li>修改<code>$FRCN_ROOT/ models/pascal_voc/VGG16/faster_rcnn_end2end/test.prototxt</code>，这是测试网络，同样地，我们将567行<code>num_output</code>后的数值改为<code>2</code>，将592行<code>num_output</code>后的数值修改为<code>8</code></li>
+</ol>
+</li>
+<li><p>修改相应的Python文件</p>
+<ol>
+<li><p>将<code>$FRCN_ROOT/lib/datasets/pascal_voc.py</code>第30行</p>
+<pre><code class="python">self._classes = (&#39;__background__&#39;, # always index 0
+                 &#39;aeroplane&#39;, &#39;bicycle&#39;, &#39;bird&#39;, &#39;boat&#39;,
+                 &#39;bottle&#39;, &#39;bus&#39;, &#39;car&#39;, &#39;cat&#39;, &#39;chair&#39;,
+                 &#39;cow&#39;, &#39;diningtable&#39;, &#39;dog&#39;, &#39;horse&#39;,
+                 &#39;motorbike&#39;, &#39;person&#39;, &#39;pottedplant&#39;,
+                 &#39;sheep&#39;, &#39;sofa&#39;, &#39;train&#39;, &#39;tvmonitor&#39;)
+</code></pre>
+<p>改为</p>
+<pre><code class="python">self._classes = (&#39;__background__&#39;, # always index 0
+                 &#39;person&#39;)
+</code></pre>
+<p>也就是刚才说的，将21类检测对象改为2类</p>
+</li>
+<li><p>将<code>$FRCN_ROOT/lib/datasets/imdb.py</code>第102行到117行</p>
+<pre><code class="python">def append_flipped_images(self):
+        num_images = self.num_images
+        widths = self._get_widths()
+        for i in xrange(num_images):
+            boxes = self.roidb[i][&#39;boxes&#39;].copy()
+            oldx1 = boxes[:, 0].copy()
+            oldx2 = boxes[:, 2].copy()
+            boxes[:, 0] = widths[i] - oldx2 - 1
+            boxes[:, 2] = widths[i] - oldx1 - 1
+            assert (boxes[:, 2] &gt;= boxes[:, 0]).all()
+            entry = {&#39;boxes&#39; : boxes,
+                     &#39;gt_overlaps&#39; : self.roidb[i][&#39;gt_overlaps&#39;],
+                     &#39;gt_classes&#39; : self.roidb[i][&#39;gt_classes&#39;],
+                     &#39;flipped&#39; : True}
+            self.roidb.append(entry)
+        self._image_index = self._image_index * 2
+</code></pre>
+<p>修改为</p>
+<pre><code class="python">def append_flipped_images(self):
+        num_images = self.num_images
+        widths = [PIL.Image.open(self.image_path.at(i)).size[0]
+                 for i in xrange(num_images)]
+        for i in xrange(num_images):
+            boxes = self.roidb[i][&#39;boxes&#39;].copy()
+            oldx1 = boxes[:, 0].copy()
+            oldx2 = boxes[:, 2].copy()
+            boxes[:, 0] = widths[i] - oldx2 - 1
+            print boxes[:, 0]
+            boxes[:, 2] = widths[i] - oldx1 - 1
+            print boxes[:, 0]
+            for b in range(len(boxes)):
+                if boxes[b][2] &lt; boxes[b][0]:
+                    boxes[b][0] = 0
+            assert (boxes[:, 2] &gt;= boxes[:, 0]).all()
+            entry = {&#39;boxes&#39; : boxes,
+                     &#39;gt_overlaps&#39; : self.roidb[i][&#39;gt_overlaps&#39;],
+                     &#39;gt_classes&#39; : self.roidb[i][&#39;gt_classes&#39;],
+                     &#39;flipped&#39; : True}
+            self.roidb.append(entry)
+        self._image_index = self._image_index * 2
+</code></pre>
+</li>
+</ol>
+</li>
+<li><p>修改训练参数</p>
+<ol>
+<li>修改<code>$FRCN_ROOT/ models/pascal_voc/VGG16/faster_rcnn_end2end/solver.prototxt</code>文件即可调整学习率、学习方式、降低学习率的迭代次数等等</li>
+<li>修改<code>$FRCN_ROOT/experiments/scripts/faster_rcnn_end2end.sh</code>的第30行即可调整总的迭代次数</li>
+</ol>
+</li>
+<li><p><font color="red"><strong>开始训练前一定要删除</strong></font><code>$FRCN_ROOT/output</code>文件夹、<code>$FRCN_ROOT/data/cache</code>文件夹和<code>$FRCN_ROOT/data/VOCdevkit2007/annotations_cache</code>文件夹，否则训练会出错</p>
+</li>
+<li><p>开始训练（测试紧接着进行）</p>
+<pre><code class="shell">./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
+</code></pre>
+</li>
+<li><p>训练和测试的结果如下图所示：</p>
+<p><img src="http://i2.kiimg.com/598176/0458e7f23c6b2872.png" alt=""></p>
+<p>训练完毕后得到的<code>$FRCN_ROOT/output</code>文件夹结构为</p>
+<pre><code class="shell">+ output
+    + faster_rcnn_end2end
+        + voc_2007_trainval
+            - *.caffemodel
+</code></pre>
+<p>其中的<code>.caffemodel</code>文件就是训练迭代次数对应的训练结果模型。</p>
+</li>
+</ol>
+<h3 id="可能出现的问题-2"><a href="#可能出现的问题-2" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h3><ol>
+<li><p>训练时报错：<font color="red">ArributeError: ‘module’ object has no attribute ‘text_format’</font></p>
+<p>解决办法：在文件<code>$FRCN_ROOT/lib/fast_rcnn/train.py</code>增加一行<code>import google.protobuf.text_format</code>即可</p>
+</li>
+</ol>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>　　至此我们的数据处理、环境搭建和代码复现都算是完成了，中间步骤繁杂，bug众多，耗时冗长，各位同学能走到这一步实属不易，但我们也收获了很多调试技能和经验。我写这篇文章比较仓促，系统环境可能也跟大家不太一样，如果有什么错误和意见还请及时指出，并邮件联系我。希望大家继续努力，并持续关注我！</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://blog.csdn.net/sinat_30071459/article/details/50723212" target="_blank" rel="external">将数据集做成VOC2007格式用于Faster-RCNN训练</a></li>
+<li><a href="http://blog.csdn.net/kexinmcu/article/details/53178428" target="_blank" rel="external">如何在py-faster-rcnn上使用最新的cudnn v5加速库</a></li>
+<li><a href="http://blog.csdn.net/princepaul3/article/details/52313582" target="_blank" rel="external">py-faster-rcnn用自己的数据训练模型</a></li>
+</ul>
+</the>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: '打赏支持', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: './css/images/wechatpay.jpg',
+  alipayImage: './css/images/alipay.png'
+});
+</script>
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'qishao';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代码复现/">代码复现</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据处理/">数据处理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/环境搭建/">环境搭建</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/06/30/Ubuntu下切换gcc版本/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Ubuntu下切换gcc版本
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/22/Mac环境利用GitHub和Hexo搭建个人博客/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Mac环境利用GitHub和Hexo搭建个人博客</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据集的处理"><span class="nav-number">1.</span> <span class="nav-text">数据集的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Seq文件的处理"><span class="nav-number">1.1.</span> <span class="nav-text">Seq文件的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vbb文件的处理"><span class="nav-number">1.2.</span> <span class="nav-text">Vbb文件的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练集和测试集的设置"><span class="nav-number">1.3.</span> <span class="nav-text">训练集和测试集的设置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用faster-R-CNN进行行人检测"><span class="nav-number">2.</span> <span class="nav-text">利用faster R-CNN进行行人检测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置实验环境"><span class="nav-number">2.1.</span> <span class="nav-text">配置实验环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤"><span class="nav-number">2.1.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可能出现的问题"><span class="nav-number">2.1.2.</span> <span class="nav-text">可能出现的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练PASCAL-VOC-2007数据集"><span class="nav-number">2.2.</span> <span class="nav-text">训练PASCAL VOC 2007数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可能出现的问题-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">可能出现的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Caltech数据集上训练"><span class="nav-number">2.3.</span> <span class="nav-text">在Caltech数据集上训练</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可能出现的问题-2"><span class="nav-number">2.3.2.</span> <span class="nav-text">可能出现的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2017 程序员の养成记 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+<script src="/js/bootstrap.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            程序员の养成记
+          </div>
+          <div class="panel-body">
+            Copyright © 2017 七少 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+</body>
+</html>

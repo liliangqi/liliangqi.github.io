@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ubuntu 16.04安装caffe及torch | 程序员の养成记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="环境搭建" />
+  
+  
+  
+  
+  <meta name="description" content="为了满足计算资源的分配，近期实验室新进了一批配备高端显卡TITAN X (PASCAL)的计算机，原始搭载系统为Ubuntu 14.04，在我的钻(zhe)研(teng)下不小心搞崩了系统，只能重装。在选择系统版本时考虑到刚出的17.04可能不够稳定，许多软件包的支持也不完善，而14.04又不够炫酷，索性装个16.04好了。 　　在人工智能和计算机视觉大红大紫的今天，越来越多的同学纷纷">
+<meta name="keywords" content="环境搭建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 16.04安装caffe及torch">
+<meta property="og:url" content="http://www.liliangqi.com/2017/05/03/安装caffe/index.html">
+<meta property="og:site_name" content="程序员の养成记">
+<meta property="og:description" content="为了满足计算资源的分配，近期实验室新进了一批配备高端显卡TITAN X (PASCAL)的计算机，原始搭载系统为Ubuntu 14.04，在我的钻(zhe)研(teng)下不小心搞崩了系统，只能重装。在选择系统版本时考虑到刚出的17.04可能不够稳定，许多软件包的支持也不完善，而14.04又不够炫酷，索性装个16.04好了。 　　在人工智能和计算机视觉大红大紫的今天，越来越多的同学纷纷">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://i1.buimg.com/598176/aa542d666e198f69.jpg">
+<meta property="og:image" content="http://i2.muimg.com/598176/eec195c43ab5583d.png">
+<meta property="og:image" content="http://i4.piimg.com/598176/2ba8ae40839cc588.png">
+<meta property="og:image" content="http://i4.piimg.com/598176/fe0f2f44a428a823.png">
+<meta property="og:image" content="http://i2.kiimg.com/598176/a37a376eebd1cea3.png">
+<meta property="og:image" content="http://i2.kiimg.com/598176/c233f3cefa5077b4.png">
+<meta property="og:updated_time" content="2017-06-27T05:27:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu 16.04安装caffe及torch">
+<meta name="twitter:description" content="为了满足计算资源的分配，近期实验室新进了一批配备高端显卡TITAN X (PASCAL)的计算机，原始搭载系统为Ubuntu 14.04，在我的钻(zhe)研(teng)下不小心搞崩了系统，只能重装。在选择系统版本时考虑到刚出的17.04可能不够稳定，许多软件包的支持也不完善，而14.04又不够炫酷，索性装个16.04好了。 　　在人工智能和计算机视觉大红大紫的今天，越来越多的同学纷纷">
+<meta name="twitter:image" content="http://i1.buimg.com/598176/aa542d666e198f69.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/qishao.jpg">
+  <link rel="apple-touch-icon" href="/css/images/qishao.jpg">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/qishao.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">关于</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-安装caffe" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Ubuntu 16.04安装caffe及torch
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/05/03/安装caffe/" class="article-date">
+	  <time datetime="2017-05-03T09:19:04.000Z" itemprop="datePublished">2017-05-03</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <excerpt in="" index="" |="" 首页摘要=""> 
+
+<p><img src="http://i1.buimg.com/598176/aa542d666e198f69.jpg" width="600px"></p>
+<p>　　为了满足计算资源的分配，近期实验室新进了一批配备高端显卡TITAN X (PASCAL)的计算机，原始搭载系统为Ubuntu 14.04，在我的钻(zhe)研(teng)下不小心搞崩了系统，只能重装。在选择系统版本时考虑到刚出的17.04可能不够稳定，许多软件包的支持也不完善，而14.04又不够炫酷，索性装个16.04好了。</p>
+<p>　　在人工智能和计算机视觉大红大紫的今天，越来越多的同学纷纷踏入深度学习的坑。俗话说工欲善其事，必先利其器，所以今天给大家介绍一下当下十分流行的深度学习框架caffe和torch在Ubuntu系统下的安装方法，也算是对我近期折腾新机器的一点总结。</p>
+<p><a id="more"></a><the rest="" of="" contents="" |="" 余下全文=""></the></p>
+<hr>
+<font color="orange" size="4"><strong>版权声明：本文为博主原创文章，未经博主允许不得转载。</strong></font>
+
+<hr>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>安装Ubuntu</li>
+<li>安装OpenCV</li>
+<li>安装CUDA</li>
+<li>安装cuDNN</li>
+<li>安装MATLAB</li>
+<li>安装Caffe</li>
+</ul>
+<hr>
+<h1 id="安装Ubuntu"><a href="#安装Ubuntu" class="headerlink" title="安装Ubuntu"></a>安装Ubuntu</h1><ol>
+<li>在<a href="http://cn.ubuntu.com" target="_blank" rel="external">Ubuntu官网</a>下载系统镜像文件（.ios）</li>
+<li>在windows系统下下载<a href="https://cn.ultraiso.net" target="_blank" rel="external">ultraISO</a>，用于制作U盘启动盘<ol>
+<li>打开ultraISO，<code>文件</code>-&gt;<code>打开</code>，选择刚才下载的iso文件</li>
+<li><code>启动</code>-&gt;<code>写入硬盘映像</code>，选择自己的U盘</li>
+<li><code>便捷启动</code>-&gt;<code>写入新的驱动器引导扇区</code>-&gt;<code>Syslinux</code>-&gt;<code>写入</code></li>
+</ol>
+</li>
+<li>重启计算机，设置BIOS，选择从U盘启动</li>
+<li>出现画面后选择第二项<code>Install Ubuntu</code></li>
+<li>出现安装引导程序，选择中文，点<code>继续</code></li>
+<li>选择<code>安装Ubuntu时下载更新</code></li>
+<li>键盘布局选择<code>English(US)</code>（不选日文键盘就行，结构不大一样）</li>
+<li>设置用户名和密码</li>
+</ol>
+<p>　　静待片刻，Ubuntu就装好了。</p>
+<hr>
+<h1 id="安装OpenCV"><a href="#安装OpenCV" class="headerlink" title="安装OpenCV"></a>安装OpenCV</h1><h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li><p><a href="http://opencv.org/releases.html" target="_blank" rel="external">官网</a>下载OpenCV源码，选择合适的版本（此处以2.4.13为例）</p>
+</li>
+<li><p>解压到任意目录</p>
+<pre><code class="bash">unzip opencv-2.4.13.zip
+</code></pre>
+</li>
+<li><p>进入源码路径，创建release目录</p>
+<pre><code class="shell">cd opencv-2.4.13
+mkdir release
+</code></pre>
+</li>
+<li><p>可以看到在OpenCV目录下有个<code>CMakeLists.txt</code>文件，在编译之前需要安装一些package</p>
+<pre><code class="shell">sudo apt-get install build-essential cmake libgtk2.0-dev pkg-config python-dev
+ python-numpy libavcodec-dev libavformat-dev libswscale-dev
+</code></pre>
+</li>
+<li><p>进入<code>release</code>目录，安装OpenCV时所有的文件都会被放到这个目录下</p>
+<pre><code class="shell">cd release
+</code></pre>
+</li>
+<li><p>Cmake编译OpenCV源码，所有的lib文件都会被安装到<code>/usr/local</code>目录下</p>
+<pre><code class="shell">cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
+</code></pre>
+</li>
+<li><p>安装</p>
+<pre><code class="shell">sudo make install
+</code></pre>
+</li>
+<li><p>测试，在某个目录下建立一个<code>test.cpp</code>文件</p>
+<pre><code class="cpp">#include &lt;cv.h&gt; 
+#include &lt;highgui.h&gt;
+
+using namespace cv;
+
+int main(int argc, char* argv[]) 
+{
+    Mat image;
+    image = imread(argv[1], 1);
+    if (argc != 2 || !image.data) {
+    printf(&quot;No image data\n&quot;);
+    return -1; }
+    namedWindow(&quot;Display Image&quot;, CV_WINDOW_AUTOSIZE); imshow(&quot;Display Image&quot;, image);
+    waitKey(0);
+    return 0;
+}
+</code></pre>
+</li>
+<li><p>写一个cmake的makefile，命名为CMakeLists.txt</p>
+<pre><code class="Cmake">project(test)
+find_package(OpenCV REQUIRED) 
+add_executable(test test) 
+target_link_libraries(test ${OpenCV_LIBS}) 
+cmake_minimum_required(VERSION 2.8)
+</code></pre>
+</li>
+<li><p>编译并运行，得到可执行文件</p>
+<pre><code class="shell">cmake .
+make
+</code></pre>
+</li>
+<li><p>随便找一张<code>jpg</code>格式的图片做测试，将该图片（例如为<code>gakki.jpg</code>）放在上面得到可执行文件的路径下，看到输出图片则表示OpenCV安装成功</p>
+<pre><code class="shell">test gakki.jpg
+</code></pre>
+</li>
+</ol>
+<center><img src="http://i2.muimg.com/598176/eec195c43ab5583d.png" alt=""></center>
+
+
+<h2 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h2><p>　　报错：<font color="red"><strong>/usr/include/c++/6/cstdlib:75:25:fatal error: stdlib.h: no such file or directory</strong></font></p>
+<p>　　解决办法：安装Ubuntu16.04及以上版本的系统可能遇到此问题，其原因是OpenCV对gcc6的支持不完善，可降低系统自带的gcc和g++版本来解决：</p>
+<ol>
+<li><p>安装gcc-4.9和g++-4.9</p>
+<pre><code class="shell">sudo apt-get install gcc-4.9
+sudo apt-get install g++-4.9
+</code></pre>
+</li>
+<li><p>删除自带的gcc和g++</p>
+<pre><code class="shell">sudo rm /usr/bin/gcc
+sudo rm /usr/bin/g++
+</code></pre>
+</li>
+<li><p>建立软连接</p>
+<pre><code class="shell">cd /usr/bin
+sudo ln -s gcc-4.9 gcc
+sudo ln -s g++-4.9 g++
+</code></pre>
+</li>
+</ol>
+<h1 id="安装CUDA-8-0"><a href="#安装CUDA-8-0" class="headerlink" title="安装CUDA-8.0"></a>安装CUDA-8.0</h1><ol>
+<li><p>安装对应kernel版本的<code>kernel header</code>和<code>package development</code></p>
+<pre><code class="shell">sudo apt-get install linux-header-$(uname -r)
+</code></pre>
+</li>
+<li><p>选择<code>runfile</code>安装方式，在<a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="external">CUDA官网</a>下载安装包，根据系统信息选择对应版本的<code>runfile</code>文件</p>
+<p><img src="http://i4.piimg.com/598176/2ba8ae40839cc588.png" alt=""></p>
+</li>
+<li><p>禁用<code>nouveau</code>，终端输入<code>lsmod | grep nouveau</code>，如果有输出则代表<code>nouveau</code>正在加载</p>
+<ol>
+<li><p>直接移除这个驱动（备份出来）</p>
+<pre><code class="shell">mv /lib/modules/4.4.0-31-generic/kernel/drivers/gpu/drm/nouveau/nouveau.ko /lib/modules/4.4.0-31-generic/kernel/drivers/gpu/drm/nouveau/nouveau.ko.org
+</code></pre>
+</li>
+<li><p>重新加载</p>
+<pre><code class="shell">update-initramfs -u
+</code></pre>
+</li>
+<li><p>重启</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>　　设置完成后可以再次运行<code>lsmod | grep</code>检查禁用是否成功，如果运行和没有任何输出，则代表禁用成功</p>
+<ol>
+<li><p>重启计算机，到登录界面时，按住<code>Alt</code>+<code>Ctrl</code>+<code>F1</code>，进入text mode，登录账户</p>
+</li>
+<li><p>输入<code>sudo service lightdm stop</code>关闭图形化界面</p>
+</li>
+<li><p>切换到CUDA安装文件的路径，运行</p>
+<pre><code class="shell">sudo sh cuda_8.0.61_375.26_linux.run
+</code></pre>
+</li>
+<li><p>按照提示一步一步操作，首先按<code>Enter</code>键阅读协议并输入<code>accept</code>，然后遇到选择都输入<code>yes</code>，安装成功后会显示<code>installed</code>，否则会显示<code>failed</code></p>
+</li>
+<li><p>输入<code>sudo service lightdm start</code>重新启动图形化界面</p>
+</li>
+<li><p>重启电脑，设置环境变量，在终端输入<code>sudo gedit /etc/profile</code>，在打开的文件末尾，添加以下两行</p>
+<pre><code class="shell">export PATH=/usr/local/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+</code></pre>
+</li>
+<li><p>终端输入<code>nvidia-smi</code>，输出显卡信息则说明安装成功</p>
+<p><img src="http://i4.piimg.com/598176/fe0f2f44a428a823.png" alt=""></p>
+</li>
+</ol>
+<h1 id="安装cuDNN"><a href="#安装cuDNN" class="headerlink" title="安装cuDNN"></a>安装cuDNN</h1><ol>
+<li><p><a href="https://developer.nvidia.com/cudnn" target="_blank" rel="external">NVIDIA官网</a>下载cuDNN，选择<code>cuDNN v5.1 Library fo Linux</code></p>
+</li>
+<li><p>解压下载的压缩包</p>
+</li>
+<li><p>把相应的文件拷贝到对应的CUDA目录下</p>
+<pre><code class="shell">sudo cp cuda/include/cudnn.h /usr/local/cuda/include/
+sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64/
+sudo chmod a+r /usr/local/cuda/include/cudnn.h
+sudo chmod a+r /usr/local/cuda/lib64/libcudnn*
+</code></pre>
+</li>
+</ol>
+<h1 id="安装MATLAB"><a href="#安装MATLAB" class="headerlink" title="安装MATLAB"></a>安装MATLAB</h1><ol>
+<li><p>交大的同学可以在<a href="https://pt.sjtu.edu.cn" target="_blank" rel="external">交大葡萄</a>上下载MATLAB R2016b，下载后文件夹中包含三个文件：<code>Matlab 2016b Linux64 Crack.rar</code>，<code>R2016b_glnxa64_dvd1.iso</code>，<code>R2016b_glnxa64_dvd2.iso</code></p>
+</li>
+<li><p>在根目录下创建名为<code>matlabLinux</code>的文件夹，并创建两个子文件夹<code>Linux</code>和<code>matlab</code>，其中<code>Linux</code>文件夹用于储存下载的三个文件，而<code>matlab</code>文件夹用于挂载，使用下列命令先挂载<code>R2016b_glnxa64_dvd1.iso</code></p>
+<pre><code class="shell">sudo mount -t auto -0 loop R2016b_glnxa64_dvd1.iso matlab/
+</code></pre>
+</li>
+<li><p>挂载iso之后，会发现系统多了一个盘，说明挂载成功，然后进行安装</p>
+<pre><code class="shenll">cd matlab
+sudo ./install
+</code></pre>
+</li>
+<li><p>选择<code>使用文件安装密钥</code></p>
+</li>
+<li><p>安装密钥填<code>09806-07443-53955-64350-21751-41297</code></p>
+</li>
+<li><p>安装进度进行到80%左右的时候，会弹出一个提示框，<code>请插入dvd2</code>，这时候我们需要重新开一个终端，把dvd2挂载到<code>matlab</code>文件夹中</p>
+<pre><code class="shell">sudo mount -t auto -o loop R2016b_glnxa64_dvd2.iso matlab/
+</code></pre>
+</li>
+<li><p>安装完成后取消iso挂载</p>
+<pre><code class="shell">umount matlab/
+</code></pre>
+</li>
+<li><p>激活MATLAB</p>
+<ol>
+<li><p>打开MATLAB</p>
+<pre><code class="shell">cd /usr/local/MATLAB/R2016b/bin
+./matlab
+</code></pre>
+</li>
+<li><p>载入激活文件<code>license_standalone.lic</code>（位于下载的三个文件中破解文件的解压缩文件夹里）</p>
+<p><em>可能遇到权限不足的问题，解决方法如下</em></p>
+<pre><code class="shell">cd Crack/     #进入破解文件夹目录
+sudo chmod 777 license_standalone.lic     #提高对license_standalone.lic文件的操作权限
+cd /usr/local/MATLAB     #进入安装目录
+sudo chomd -R 777 R2016b/     #提高对安装目录R2016的操作权限
+</code></pre>
+</li>
+<li><p>把Crack文件夹中<code>R2016b/Linux/R2016b/bin/glnxa64</code>等四个文件复制到<code>/usr/local/MATLAB/R2016b/bin/glnxa64</code> 目录下</p>
+<pre><code class="shell">sudo cp Crack/R2016b/bin/glnxa64/lib* /usr/local/MATLAB/R2016b/bin/glnxa64
+</code></pre>
+</li>
+</ol>
+</li>
+<li><p>打开根目录下的.bashrc文件，<code>sudo gedit ~/.bashrc</code>，在末尾添加</p>
+<pre><code class="shell">export PATH=&quot;/usr/local/MATLAB/R2016b/bin:$PATH&quot;
+</code></pre>
+<p>终端输入<code>source ~/.bashrc</code>使命令生效，即可通过在终端输入<code>matlab</code>来启动</p>
+</li>
+</ol>
+<h1 id="安装Caffe"><a href="#安装Caffe" class="headerlink" title="安装Caffe"></a>安装Caffe</h1><h2 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li><p>在 <a href="https://github.com/google/glog" target="_blank" rel="external">https://github.com/google/glog</a> 下载glog并安装</p>
+<pre><code class="shell">cd glog-master
+./autogen.sh
+sudo ./configure
+sudo make -j8
+sudo make install
+</code></pre>
+</li>
+<li><p>安装BLAS和CBLAS</p>
+<ol>
+<li><p>在<a href="http://www.netlib.org/blas" target="_blank" rel="external">官网</a>下载BLAS和CBLAS</p>
+</li>
+<li><p>编译BLAS</p>
+<pre><code class="shell">cd BLAS-3.7.0
+gfortran -c -O3 *.f    # 编译所有的.f文件，生成.o文件
+ar rv libblas.a *.o    # 链接所有的.o文件，生成.a文件
+</code></pre>
+</li>
+<li><p>进入CBLAS目录，删除原有的<code>Makefile.in</code>，将<code>Makefile.LINUX</code>重命名为<code>Makefile.in</code>，然后编译</p>
+<pre><code class="shell">cd CBLAS
+cp ../blas-3.7.0/libblas.a testing    #将上一步编译成功的 libblas.a 复制到 CBLAS目录下的testing子目录
+make    #编译所有目录
+sudo cp include/cblas.h /usr/include/
+sudo cp lib/cblas_LINUX.a /usr/local/libcblas.a
+sudo cp testing/libblas.a /usr/local/lib
+gcc -shared lib/cblas_LINUX.a testing/libblas.a -o libcblas.so    #将静态库转为动态库
+sudo cp libcblas.so /usr/local/
+sudo mv /usr/local/libcblas.* /usr/local/lib/
+</code></pre>
+</li>
+</ol>
+</li>
+<li><p>安装其他依赖项</p>
+<pre><code class="shell">sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libboost-all-dev libhdf5-serial-dev
+sudo apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev protobuf-compiler protobuf-c-compiler python-pandas
+</code></pre>
+</li>
+<li><p>在<a href="https://github.com/BVLC/caffe" target="_blank" rel="external">Caffe官网</a>下载caffe</p>
+</li>
+<li><p>解压出<code>caffe-master</code>，并进入该文件夹</p>
+</li>
+<li><p>拷贝一份<code>Makefile.config.example</code>并重命名为<code>Makefile.config</code></p>
+</li>
+<li><p>修改<code>Makefile.config</code></p>
+<ol>
+<li>取消注释<code>USE_CUDNN := 1</code></li>
+<li>取消注释<code>MATLAB_DIR := /usr/local/</code>并修改为<code>MATLAB_DIR := /usr/local/MATLAB/R2016b</code></li>
+<li>取消注释<code>WITH_PYTHON_LAYER := 1</code></li>
+</ol>
+</li>
+<li><p>编译caffe，终端输入</p>
+<pre><code class="shell">cd caffe-master/
+sudo make all -j8
+sudo make test -j8
+sudo make runtest -j8
+sudo make pycaffe    #编译Python接口
+sudo make matcaffe    #编译MATLAB接口
+</code></pre>
+</li>
+<li><p>把caffe的Python模块接入PYTHONPATH</p>
+<pre><code class="shell">sudo gedit ~/.bashrc
+</code></pre>
+<p>在文件末尾加入<code>export PYTHONPATH=/path/to/caffe/python:$PYTHONPATH</code>，并使配置生效<code>source ~/.bashrc</code>，并在用<code>python</code>命令调出的调试台中输入<code>import caffe</code>，若无报错则成功</p>
+</li>
+<li><p>使用MNIST数据集进行测试</p>
+<ol>
+<li>数据预处理</li>
+</ol>
+<pre><code class="shell">sh data/mnist/get_mnist.sh
+</code></pre>
+<ol>
+<li>重建Imdb文件，生成<code>mnist-train-Imdb</code>和<code>mnist-test-Imdb</code>文件夹，这里包含了Imdb格式的数据集</li>
+</ol>
+<pre><code class="shell">sh examples/mnist/create_mnist.sh
+</code></pre>
+<ol>
+<li>训练MNIST</li>
+</ol>
+<pre><code class="shell">sh examples/mnist/train_lenet.sh
+</code></pre>
+</li>
+</ol>
+<p>若无报错则caffe安装成功</p>
+<p><img src="http://i2.kiimg.com/598176/a37a376eebd1cea3.png" alt=""></p>
+<h2 id="可能出现的问题-1"><a href="#可能出现的问题-1" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h2><ol>
+<li><p>安装glog执行<code>./autogen.sh</code>时报错：<font color="red"><strong>./autogen.sh: 5: ./autogen.sh: autoreconf: not found</strong></font></p>
+<p>解决办法：终端输入</p>
+<pre><code class="shell">sudo apt-get install autoconf
+sudo apt-get install automake
+sudo apt-get install libtool
+</code></pre>
+</li>
+<li><p>在<code>sudo make all -j8</code>时报错：</p>
+<pre><code class="shell">LD -o .build_release/lib/libcaffe.so.1.0.0
+/usr/bin/ld: cannot find -latlas
+collect2: error ld returned 1 exit status
+make: *** [.build_release/lib/libcaffe.so.1.0.0] error 1
+</code></pre>
+<p>解决办法：终端输入<code>sudo apt-get install libatlas-base-dev</code></p>
+</li>
+<li><p>在<code>sudo make all -j8</code>时报错：<font color="red"><strong>fatal error: hdf5.h: no such file or directory</strong></font></p>
+<p>解决办法：在<code>makefile_config</code>文件的第94行添加<code>/usr/include/hdf5/serial/</code>到 <code>INCLUDE_DIRS</code>，即将</p>
+<pre><code class="shell">INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include
+</code></pre>
+<p>改为</p>
+<pre><code class="shell">INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial/
+</code></pre>
+</li>
+<li><p>在<code>sudo make all -j8</code>时报错：<font color="red"><strong>error: cannot find lhdf3_hl and lhdf5</strong></font></p>
+<p>解决办法：终端输入<code>sudo ldconfig /usr/local/cuda/lib64</code></p>
+</li>
+<li><p>在<code>make runtest</code>时报错：<font color="red"><strong>error while loading shared libraries: libcudart.so.8.0: cannot open shared object file: No such file or directory</strong></font></p>
+<p>解决办法：参考<a href="http://blog.csdn.net/md_learning/article/details/53185992" target="_blank" rel="external">这篇博客</a></p>
+</li>
+<li><p>在执行<code>import caffe</code>时出现错误：<font color="red"><strong>ImportError: No module named skimage.io</strong></font></p>
+<p>解决办法：终端输入</p>
+<pre><code class="shell">sudo apt-get install python-pip python-dev build-essential
+sudo pip install -U scikit-image
+</code></pre>
+</li>
+</ol>
+<h1 id="安装Torch"><a href="#安装Torch" class="headerlink" title="安装Torch"></a>安装Torch</h1><ol>
+<li><p>安装luarocks</p>
+<pre><code class="shell">sudo apt-get install luarocks
+</code></pre>
+</li>
+<li><p>安装Torch</p>
+<pre><code class="shell">git clone https://github.com/torch/distro.git ~/torch --recursive
+cd torch
+bash install-deps
+curl -s https://raw.githubusercontent.com/torch/ezinstall/master/install-deps | bash
+./install.sh
+</code></pre>
+<p>出现是否自动添加torch路径到<code>.bashrc</code>时，输入<code>yes</code></p>
+</li>
+<li><p>使torch的环境变量生效</p>
+<pre><code class="shell">source ~/.bashrc
+</code></pre>
+</li>
+<li><p>终端输入<code>th</code>弹出Torch则安装成功</p>
+</li>
+</ol>
+<p><img src="http://i2.kiimg.com/598176/c233f3cefa5077b4.png" alt=""></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>　　至此我们已经成功安装了深度学习的两个非常常用的框架Caffe和Torch，我本人在安装过程中走了不少弯路，因此写下这篇博客来帮助各位初入坑者。</p>
+<p>　　安装过程中可能会有各种各样的bug和error，鉴于大家使用的机器和系统以及环境可能不尽相同，此文仅供参考，遇到问题一定要勤Baidu&amp;Google，祝大家学习科研顺利！</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><p><a href="http://blog.csdn.net/codeforces_sphinx/article/details/8246546" target="_blank" rel="external">Ubuntu 12.04安装OpenCV</a></p>
+</li>
+<li><p><a href="http://blog.csdn.net/masa_fish/article/details/51882183" target="_blank" rel="external">Ubuntu 14.04 上安装 CUDA 7.5/8.0 超详细教程</a></p>
+</li>
+<li><p><a href="http://www.cnblogs.com/nowornever-L/p/5649078.html" target="_blank" rel="external">Ubuntu14.04安装Matlab2014a</a></p>
+</li>
+<li><p><a href="http://blog.csdn.net/xuezhisdc/article/details/48707101" target="_blank" rel="external">caffe安装系列——安装caffe</a></p>
+</li>
+<li><p><a href="http://www.linuxidc.com/Linux/2015-02/113169.htm" target="_blank" rel="external">CBLAS编译安装与使用举例</a></p>
+<p>​</p>
+</li>
+</ul>
+</excerpt>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: '打赏支持', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: './css/images/wechatpay.jpg',
+  alipayImage: './css/images/alipay.png'
+});
+</script>
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'qishao';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/环境搭建/">环境搭建</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/06/22/Mac环境利用GitHub和Hexo搭建个人博客/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Mac环境利用GitHub和Hexo搭建个人博客
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Ubuntu"><span class="nav-number">2.</span> <span class="nav-text">安装Ubuntu</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装OpenCV"><span class="nav-number">3.</span> <span class="nav-text">安装OpenCV</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤"><span class="nav-number">3.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可能出现的问题"><span class="nav-number">3.2.</span> <span class="nav-text">可能出现的问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装CUDA-8-0"><span class="nav-number">4.</span> <span class="nav-text">安装CUDA-8.0</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装cuDNN"><span class="nav-number">5.</span> <span class="nav-text">安装cuDNN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装MATLAB"><span class="nav-number">6.</span> <span class="nav-text">安装MATLAB</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Caffe"><span class="nav-number">7.</span> <span class="nav-text">安装Caffe</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤-1"><span class="nav-number">7.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可能出现的问题-1"><span class="nav-number">7.2.</span> <span class="nav-text">可能出现的问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Torch"><span class="nav-number">8.</span> <span class="nav-text">安装Torch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">10.</span> <span class="nav-text">参考</span></a></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2017 程序员の养成记 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+<script src="/js/bootstrap.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            程序员の养成记
+          </div>
+          <div class="panel-body">
+            Copyright © 2017 七少 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+</body>
+</html>

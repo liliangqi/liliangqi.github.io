@@ -3,22 +3,28 @@
 <head>
   <meta charset="utf-8">
   
-  <title>归档 | 程序员の养成记</title>
+  <title>joint detection and identification feature learning for person search数据集 | 程序员の养成记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="论文理解数据处理" />
   
   
   
-  <meta name="description" content="择其善者而从之 其不善者而改之">
-<meta property="og:type" content="website">
-<meta property="og:title" content="程序员の养成记">
-<meta property="og:url" content="http://www.liliangqi.com/archives/index.html">
+  
+  <meta name="description" content="这篇文章主要总结了《Joint Detection and Identification Feature Learning for Person Search》一文中所用到的数据集的结构，帮助理解训练以及测试方式。">
+<meta name="keywords" content="论文理解,数据处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Joint Detection and Identification Feature Learning for Person Search数据集">
+<meta property="og:url" content="http://www.liliangqi.com/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/index.html">
 <meta property="og:site_name" content="程序员の养成记">
-<meta property="og:description" content="择其善者而从之 其不善者而改之">
+<meta property="og:description" content="这篇文章主要总结了《Joint Detection and Identification Feature Learning for Person Search》一文中所用到的数据集的结构，帮助理解训练以及测试方式。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://i2.kiimg.com/598176/bd9288fc09140199.png">
+<meta property="og:updated_time" content="2017-07-07T08:35:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="程序员の养成记">
-<meta name="twitter:description" content="择其善者而从之 其不善者而改之">
+<meta name="twitter:title" content="Joint Detection and Identification Feature Learning for Person Search数据集">
+<meta name="twitter:description" content="这篇文章主要总结了《Joint Detection and Identification Feature Learning for Person Search》一文中所用到的数据集的结构，帮助理解训练以及测试方式。">
+<meta name="twitter:image" content="http://i2.kiimg.com/598176/bd9288fc09140199.png">
   
     <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
   
@@ -49,8 +55,6 @@
   
 
   
-    <link rel="stylesheet" href="/css/archive.css" >
-  
   
   
     <link rel="stylesheet" href="/css/vdonate.css" >
@@ -60,7 +64,7 @@
 
 
 
-  <body>
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
@@ -83,7 +87,7 @@
             
               <a class="brand" style="
                  margin-top: 0px;"  
-                 >
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="124px" height="124px" alt="Hike News" src="/css/images/qishao.jpg">
               </a>
             
@@ -152,271 +156,175 @@
             
       <div id="content" class="outer">
         
-          <section id="main">
-  <div class="archives-tags-wrap"><blockquote><span>嗯，目前共计7篇文章</span></blockquote>
+          <section id="main" style="float:none;"><article id="post-Joint Detection and Identification Feature Learning for Person Search数据集" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Joint Detection and Identification Feature Learning for Person Search数据集
+    </h1>
+  
 
-
-<!-- 分页显示 -->
-
-	
-	
-		
-		
-		  
-		  
-		  <section class="archives-wrap">
-		    <div class="archive-year-wrap">
-		      <h1><a href="/archives/2017" class="archive-year">2017</a></h1>
-		    </div>
-		    <div class="archives">
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
+      </header>
+    
+    <div class="article-meta">
       
-	<a href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/" class="archive-article-date">
+	<a href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/" class="article-date">
 	  <time datetime="2017-07-06T13:17:04.000Z" itemprop="datePublished">2017-07-06</time>
 	</a>
 
       
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/">Joint Detection and Identification Feature Learning for Person Search数据集</a>
-    </h1>
-  
+    <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
 
-    </header>
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <excerpt in="" index="" |="" 首页摘要=""> 
+
+<p><img src="http://i2.kiimg.com/598176/bd9288fc09140199.png" alt=""></p>
+<p>　　这篇文章主要总结了《Joint Detection and Identification Feature Learning for Person Search》一文中所用到的数据集的结构，帮助理解训练以及测试方式。</p>
+<p><a id="more"></a><the rest="" of="" contents="" |="" 余下全文=""></the></p>
+<hr>
+<h2 id="Image-SSM"><a href="#Image-SSM" class="headerlink" title="./Image/SSM"></a>./Image/SSM</h2><p>包含所有的18184张图片，包括<em>街道拍摄</em>和<em>电影截屏</em></p>
+<h2 id="annotation-Images-mat"><a href="#annotation-Images-mat" class="headerlink" title="./annotation/Images.mat"></a>./annotation/Images.mat</h2><p>这是一个1*18184的<strong>结构体</strong>，其中包含三个变量</p>
+<ul>
+<li>imname: 图片名</li>
+<li>nAppear: 包含的行人个数</li>
+<li>box: 1*nAppear的<strong>结构体变量</strong>，表示nAppear个行人的位置<ul>
+<li>idlocate: 每个行人位置对应的四个坐标</li>
+<li>ishard: 取值为0或1，用途未知</li>
+</ul>
+</li>
+</ul>
+<h2 id="annotation-Person-mat"><a href="#annotation-Person-mat" class="headerlink" title="./annotation/Person.mat"></a>./annotation/Person.mat</h2><p>这是一个1*11934的<strong>结构体</strong>，其中包含三个变量</p>
+<ul>
+<li>idname: identity的编号（字符串变量）</li>
+<li>nAppear: 该identity出现的次数</li>
+<li>scene: 1*nAppear的<strong>结构体变量</strong>，表示该identity出现的图片及位置<ul>
+<li>imname: 图片名</li>
+<li>idlocate: identity对应的instance的坐标</li>
+<li>ishard: 取值为0或1，用途未知</li>
+</ul>
+</li>
+</ul>
+<h2 id="annotation-pool-mat"><a href="#annotation-pool-mat" class="headerlink" title="./annotation/pool.mat"></a>./annotation/pool.mat</h2><p>这是一个1*6978的元组，包含了6978个测试图片的文件名（字符串变量）</p>
+<h2 id="annotation-test-train-test-Train-mat"><a href="#annotation-test-train-test-Train-mat" class="headerlink" title="./annotation/test/train_test/Train.mat"></a>./annotation/test/train_test/Train.mat</h2><p>这是一个1*5532的元组，每个元素是一个1*1的<strong>结构体</strong>，以下为结构体的结构</p>
+<ul>
+<li>idname: identity的编号（字符串变量）</li>
+<li>nAppear: 该identity出现的次数</li>
+<li>scene: 1*nAppear的<strong>结构体变量</strong>，表示该identity出现的图片及位置<ul>
+<li>imname: 图片名</li>
+<li>idlocate: identity对应的instance的坐标</li>
+<li>ishard: 取值为0或1，用途未知</li>
+</ul>
+</li>
+</ul>
+<h2 id="annotation-test-train-test-TestG50-mat"><a href="#annotation-test-train-test-TestG50-mat" class="headerlink" title="./annotation/test/train_test/TestG50.mat"></a>./annotation/test/train_test/TestG50.mat</h2><p>这是一个1*2900的<strong>结构体</strong>，其中包含两个变量</p>
+<ul>
+<li>Query: 1*1的<strong>结构体变量</strong>，表示用作query的instance<ul>
+<li>imname: 该instance出现的图片的文件名（字符串变量）</li>
+<li>idlocate: 该instance的坐标信息</li>
+<li>ishard: 取值为0或1，用途未知</li>
+<li>idname: 该instance所属的identity的编号（字符串变量）</li>
+</ul>
+</li>
+<li>Gallery: 1*50的<strong>结构体变量</strong>，表示用作gallery的图片信息<ul>
+<li>imname: 图片名</li>
+<li>idlocate: <ul>
+<li>若该图片中包含对应identity的instance，则为其对应的坐标信息</li>
+<li>若该图片中不包含对应identity的instance，则该变量为空矩阵</li>
+</ul>
+</li>
+<li>ishard:<ul>
+<li>若该图片中包含对应identity的instance，则为其取值为0或1，用途未知</li>
+<li>若该图片中不包含对应identity的instance，则该变量为空矩阵</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><code>TestG100~TestG400.mat</code>等文件类似。</p>
+</excerpt>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: '打赏支持', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: './css/images/wechatpay.jpg',
+  alipayImage: './css/images/alipay.png'
+});
+</script>
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'qishao';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据处理/">数据处理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/论文理解/">论文理解</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/06/Python基础之：类/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Python基础之：类</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2017/07/06/Python基础之：类/" class="archive-article-date">
-	  <time datetime="2017-07-06T13:17:04.000Z" itemprop="datePublished">2017-07-06</time>
-	</a>
 
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2017/07/06/Python基础之：类/">Python基础之：类</a>
-    </h1>
-  
+<!-- Table of Contents -->
 
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2017/07/05/Python基础之：函数/" class="archive-article-date">
-	  <time datetime="2017-07-05T13:19:04.000Z" itemprop="datePublished">2017-07-05</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2017/07/05/Python基础之：函数/">Python基础之：函数</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2017/06/30/Ubuntu下切换gcc版本/" class="archive-article-date">
-	  <time datetime="2017-06-30T05:26:14.000Z" itemprop="datePublished">2017-06-30</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2017/06/30/Ubuntu下切换gcc版本/">Ubuntu下切换gcc版本</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/" class="archive-article-date">
-	  <time datetime="2017-06-23T13:27:39.000Z" itemprop="datePublished">2017-06-23</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/">faster R-CNN在Caltech行人数据集上的实现</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2017/06/22/Mac环境利用GitHub和Hexo搭建个人博客/" class="archive-article-date">
-	  <time datetime="2017-06-22T14:36:43.000Z" itemprop="datePublished">2017-06-22</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2017/06/22/Mac环境利用GitHub和Hexo搭建个人博客/">Mac环境利用GitHub和Hexo搭建个人博客</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-		
-		
-		<article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2017/05/03/安装caffe/" class="archive-article-date">
-	  <time datetime="2017-05-03T09:19:04.000Z" itemprop="datePublished">2017-05-03</time>
-	</a>
-
-      
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2017/05/03/安装caffe/">Ubuntu 16.04安装caffe及torch</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-	
-	
-		</div></section>
-	
-
-	<!-- 页数指示器 -->
-	
-
-
-
-
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Image-SSM"><span class="nav-number">1.</span> <span class="nav-text">./Image/SSM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotation-Images-mat"><span class="nav-number">2.</span> <span class="nav-text">./annotation/Images.mat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotation-Person-mat"><span class="nav-number">3.</span> <span class="nav-text">./annotation/Person.mat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotation-pool-mat"><span class="nav-number">4.</span> <span class="nav-text">./annotation/pool.mat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotation-test-train-test-Train-mat"><span class="nav-number">5.</span> <span class="nav-text">./annotation/test/train_test/Train.mat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotation-test-train-test-TestG50-mat"><span class="nav-number">6.</span> <span class="nav-text">./annotation/test/train_test/TestG50.mat</span></a></li></ol>
+    
+    </div>
+  </aside>
 </section>
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">关注我</h3>
-    <div class="widget widget_athemes_social_icons">
-
-    	<ul class="clearfix widget-social-icons">   
-    	
-          
-     			  <li><a href="https://github.com/liliangqi" title="Github"><i class="fa fa-github" aria-hidden="true"></i></a></li> 
-          
-   		
-          
-     			  <li><a href="http://weibo.com/u/5466115956" title="Weibo"><i class="fa fa-weibo" aria-hidden="true"></i></a></li> 
-          
-   		
-          
-            <li><a href="mailto:Lewis_lee@sjtu.edu.cn?subject=请联系我&body=我能帮你什么" title="email"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li> 
-          
-   		
-   		</ul>
-
-
-   		<!--
-   		<ul class="clearfix widget-social-icons">   		
-   		<li class="widget-si-twitter"><a href="http://twitter.com" title="Twitter"><i class="ico-twitter"></i></a></li> 
-		<li class="widget-si-facebook"><a href="http://facebook.com" title="Facebook"><i class="ico-facebook"></i></a></li>
-			<li class="widget-si-gplus"><a href="http://plus.google.com" title="Google+"><i class="ico-gplus"></i></a></li>
-			<li class="widget-si-pinterest"><a href="http://pinterest.com" title="Pinterest"><i class="ico-pinterest"></i></a></li>
-			<li class="widget-si-flickr"><a href="http://flickr.com" title="Flickr"><i class="ico-flickr"></i></a></li>
-			<li class="widget-si-instagram"><a href="http://instagram.com" title="Instagram"><i class="ico-instagram"></i></a></li>
-		</ul> -->
-
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python基础/">Python基础</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/machine-learning/">machine learning</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站搭建/">网站搭建</a><span class="category-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人博客/">个人博客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码复现/">代码复现</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据处理/">数据处理</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/论文理解/">论文理解</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/语言学习/">语言学习</a><span class="tag-list-count">2</span></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/">Joint Detection and Identification Feature Learning for Person Search数据集</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/06/Python基础之：类/">Python基础之：类</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/05/Python基础之：函数/">Python基础之：函数</a>
-          </li>
-        
-          <li>
-            <a href="/2017/06/30/Ubuntu下切换gcc版本/">Ubuntu下切换gcc版本</a>
-          </li>
-        
-          <li>
-            <a href="/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/">faster R-CNN在Caltech行人数据集上的实现</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
         
       </div>
       
@@ -512,6 +420,8 @@
 
 
 
+
+  <script src="/js/dialog.js"></script>
 
 
 

@@ -3,218 +3,769 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hexo</title>
+  <title>程序员の养成记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Hexo">
+  
+  
+  
+  
+  <meta name="description" content="择其善者而从之 其不善者而改之">
+<meta property="og:type" content="website">
+<meta property="og:title" content="程序员の养成记">
+<meta property="og:url" content="http://www.liliangqi.com/index.html">
+<meta property="og:site_name" content="程序员の养成记">
+<meta property="og:description" content="择其善者而从之 其不善者而改之">
+<meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="程序员の养成记">
+<meta name="twitter:description" content="择其善者而从之 其不善者而改之">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
   
+  <link rel="icon" href="/css/images/qishao.jpg">
+  <link rel="apple-touch-icon" href="/css/images/qishao.jpg">
   
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
   <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/home.css" >
+  
+
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
   
 
 </head>
 
-<body>
+
+
+  <body>
+
+
+  
+    <header id="header">
+
+  
+    <div id="intrologo" class="intro-logo" style="background-position:center; background-repeat:no-repeat; background-image: url(); background-size: auto 100%;">
+    <script>
+        var imgUrls = "https://source.unsplash.com/collection/954550/1920x1080".split(",");
+        var random = Math.floor((Math.random() * imgUrls.length ));
+        if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
+          document.getElementById("intrologo").style.backgroundImage='url(' + imgUrls[random] + ')';
+        } else {
+          document.getElementById("intrologo").style.backgroundImage='url(/' + imgUrls[random] + ')';
+        }
+    </script>
+  
+
+    <canvas width="100%" height="100%"></canvas>
+    <script>
+      var c = document.getElementsByTagName('canvas')[0],
+          x = c.getContext('2d'),
+          w = window.innerWidth,
+          h = window.innerHeight,
+          pr = window.devicePixelRatio || 1,
+          f = 90,
+          q,
+          m = Math,
+          r = 0,
+          u = m.PI*2,
+          v = m.cos,
+          z = m.random
+      c.width = w*pr
+      c.height = h*pr
+      x.scale(pr, pr)
+      x.globalAlpha = 0.6
+
+      
+    </script>
+    
+
+    
+      <div id="homelogo" class="homelogo" style="background: rgba(255,255,255,1);"> 
+    
+
+        
+          <div class="homelogoback"  style="border: 1px solid #404040;" >
+            <h1><a href="#content" id="logo">程序员の养成记</a></h1>
+            <h3>择其善者而从之 其不善者而改之</h3>
+            <h5>七少</h5>
+            <!-- <p><a href="https://github.com/iTimeTraveler" target="_blank">Github</a></p> -->
+          </div>
+        
+    
+    </div>
+  </div>
+
+  <!-- 自适应主页背景大图 -->
+  
+    <script>
+        var img = new Image();
+        var intrologodiv = document.getElementById("intrologo");
+        img.src = intrologodiv.style.backgroundImage.replace('url(','').replace(')','').replace(/\"/gi, "");
+        img.onload=function(){
+          if (img.width / img.height <= document.body.clientWidth / document.body.clientHeight) {
+            intrologodiv.style.backgroundSize = "100% auto";
+          } else {
+            intrologodiv.style.backgroundSize = "auto 100%";
+          }
+        };
+    </script>
+ 
+
+ <!-- home_logo_image居中 -->
+ 
+    <script>
+        var homelogodiv = document.getElementById("homelogo");
+        if (document.all.homelogo.offsetWidth > document.body.clientWidth) {
+          homelogodiv.style.width = document.body.clientWidth + "px";
+          homelogodiv.style.marginLeft = document.body.clientWidth * -0.5 + "px";
+        } else {
+          homelogodiv.style.width = homelogodiv.clientWidth  + "px";
+          homelogodiv.style.marginLeft = (homelogodiv.clientWidth)  * -0.5 + "px";
+        }
+    </script>
+  
+
+  <div class="intro-navigate">
+      <p class="navigater-list">
+        
+          <a id="beautifont" class="main-nav-link" href="/">首页</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/archives">归档</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/categories">分类</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/tags">标签</a>
+        
+          <a id="beautifont" class="main-nav-link" href="/about">关于</a>
+        
+        <a href="https://github.com/liliangqi" title="Github"><i class="fa fa-github" aria-hidden="true"></i></a>
+        <a href="mailto:Lewis_lee@sjtu.edu.cn" title="Mail"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+            </div>
+      </p>
+
+  </div>
+
+</header>
+  
   <div id="container">
     <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
       
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+            
+      <div id="content" class="outer">
         
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
+          <section id="main" style="float:none;">
   
-    <article id="post-test-try" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/10/07/test-try/" class="article-date">
-  <time datetime="2017-10-07T07:49:59.000Z" itemprop="datePublished">2017-10-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
+    <article id="post-Joint Detection and Identification Feature Learning for Person Search数据集"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/07/test-try/">test try</a>
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/">Joint Detection and Identification Feature Learning for Person Search数据集</a>
     </h1>
   
 
       </header>
     
+    <div class="article-meta">
+      
+	<a href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/" class="article-date">
+	  <time datetime="2017-07-06T13:17:04.000Z" itemprop="datePublished">2017-07-06</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
+
+    </div>
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <excerpt in="" index="" |="" 首页摘要=""> 
+
+<p><img src="http://i2.kiimg.com/598176/bd9288fc09140199.png" alt=""></p>
+<p>　　这篇文章主要总结了《Joint Detection and Identification Feature Learning for Person Search》一文中所用到的数据集的结构，帮助理解训练以及测试方式。</p>
+<p>
+        <!--  
+
+
+　　这篇文章主要总结了《Joint Detection and Identification Feature Learning for Person Search》一文中所用到的数据集的结构，帮助理解训练以及测试方式。
+
+
+./Image/SSM包含所有的18184张图片，包括街道拍摄和电影截屏
+./annotation/Images.mat这是一个1*18184的结构体，其中包含三......  -->
+        <p class="article-more-link">
+          <a href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/#more">阅读全文</a>
+        </p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/10/07/test-try/" data-id="cj8h0ry7q0000honzhcx7kux8" class="article-share-link">Share</a>
       
       
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据处理/">数据处理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/论文理解/">论文理解</a></li></ul>
+
     </footer>
   </div>
   
 </article>
 
+<!-- Table of Contents -->
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/10/07/hello-world/" class="article-date">
-  <time datetime="2017-10-07T07:46:26.000Z" itemprop="datePublished">2017-10-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
+    <article id="post-Python基础之：类"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/07/hello-world/">Hello World</a>
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2017/07/06/Python基础之：类/">Python基础之：类</a>
     </h1>
   
 
       </header>
     
+    <div class="article-meta">
+      
+	<a href="/2017/07/06/Python基础之：类/" class="article-date">
+	  <time datetime="2017-07-06T13:17:04.000Z" itemprop="datePublished">2017-07-06</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Python基础/">Python基础</a>
+
+    </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <excerpt in="" index="" |="" 首页摘要=""> 
 
+<p><img src="http://i2.kiimg.com/598176/2e4b7313c92d53d4.png" width="600px"></p>
+<p>　　在面向对象编程中， 我们编写表示现实世界中的事物和情景的类，并基于这些类来创建对象。 编写类时，我们定义一大类对象都有的通用行为。基于类创建对象时， 每个对象都自动具备这种通用行为，然后可根据需要赋予每个对象独特的个性。</p>
+<p>　　根据类来创建对象被称为实例化，这让我们能够使用类的实例。我们可以指定在实例中存储什 么信息，定义可对这些实例执行哪些操作。我们还能编写一些类来扩展既有类的功能，让相似的类能够高效地共享代码。此外，我们将把自己编写的类存储在模块中，并在自己的程序文件中导入其他程序员编写的类。</p>
+<p>
+        <!--  
+
+
+　　在面向对象编程中， 我们编写表示现实世界中的事物和情景的类，并基于这些类来创建对象。 编写类时，我们定义一大类对象都有的通用行为。基于类创建对象时， 每个对象都自动具备这种通用行为，然后可根据需要赋予每个对象独特的个性。
+　　根据类来创建对象被称为实例化，这让我们能够使用类的实例。我们可以指定在实例中存储什 么信息，定义可对这些实例执行哪些操作。我们还能编写一些类来扩展既有类的功......  -->
+        <p class="article-more-link">
+          <a href="/2017/07/06/Python基础之：类/#more">阅读全文</a>
+        </p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/10/07/hello-world/" data-id="cj8h0ry9g0001honzjo521u3n" class="article-share-link">Share</a>
       
       
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语言学习/">语言学习</a></li></ul>
+
     </footer>
   </div>
   
 </article>
 
+<!-- Table of Contents -->
 
   
+    <article id="post-Python基础之：函数"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2017/07/05/Python基础之：函数/">Python基础之：函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/07/05/Python基础之：函数/" class="article-date">
+	  <time datetime="2017-07-05T13:19:04.000Z" itemprop="datePublished">2017-07-05</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Python基础/">Python基础</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <excerpt in="" index="" |="" 首页摘要=""> 
+
+<p><img src="http://i2.kiimg.com/598176/2e4b7313c92d53d4.png" width="600px"></p>
+<p>　　函数是带名字的代码块，用于完成具体的工作。</p>
+<p>　　要执行函数定义的特定任务，可调用该函数。需要在程序中多次 执行同一项任务时，无需反复编写完成该任务的代码，而只需调用执行该任务的函数，让Python运行其中的代码。通过使用函数，程序的编写、阅读、测试和修复都将更容易。</p>
+<p>
+        <!--  
+
+
+　　函数是带名字的代码块，用于完成具体的工作。
+　　要执行函数定义的特定任务，可调用该函数。需要在程序中多次 执行同一项任务时，无需反复编写完成该任务的代码，而只需调用执行该任务的函数，让Python运行其中的代码。通过使用函数，程序的编写、阅读、测试和修复都将更容易。
+
+
+传递列表在函数中修改列表
+在函数中对参数传递的列表所做的任何修改都是永久性的
+
+禁止函数修改列表
+调用函数时将......  -->
+        <p class="article-more-link">
+          <a href="/2017/07/05/Python基础之：函数/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语言学习/">语言学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-Ubuntu下切换gcc版本"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2017/06/30/Ubuntu下切换gcc版本/">Ubuntu下切换gcc版本</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/06/30/Ubuntu下切换gcc版本/" class="article-date">
+	  <time datetime="2017-06-30T05:26:14.000Z" itemprop="datePublished">2017-06-30</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <excerpt in="" index="" |="" 首页摘要=""> 
+
+<p><img src="http://i1.buimg.com/598176/cb0287319eca4b67.png" alt=""></p>
+<font size="4"><font color="orange"><strong>转载</strong> </font>这篇文章转自<a href="http://www.cnblogs.com/fogcell/p/6628520.html" target="_blank" rel="external">Ubuntu linux下gcc版本切换</a></font>
+        <!--  
+
+
+转载 这篇文章转自Ubuntu linux下gcc版本切换
+
+
+
+
+　　Ubuntu更新后，相对应的gcc版本也会更新，有些程序需要调用到本地的gcc来编译相对应的服务以及程序，在嵌入式linux开发中有时候需要本地的gcc来编译一个交叉编译器。基于这个原因有时候需要切换gcc的版本比如说高版本需要降低。之前一直使用手动安装指定的gcc版本，然后通过更改gcc的链接位置达到切换gcc......  -->
+        <p class="article-more-link">
+          <a href="/2017/06/30/Ubuntu下切换gcc版本/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/环境搭建/">环境搭建</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-faster-R-CNN在Caltech行人检测数据集上的实现"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/">faster R-CNN在Caltech行人数据集上的实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/" class="article-date">
+	  <time datetime="2017-06-23T13:27:39.000Z" itemprop="datePublished">2017-06-23</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><excerpt in="" index="" |="" 首页摘要=""><img src="http://i1.buimg.com/598176/6deaf9e1f45db47b.jpg" alt=""></excerpt></p>
+<p>　　这篇文章致力于在faster R-CNN框架下，利用Caffe在Caltech行人数据集上实现行人检测任务。本文分为两部分，首先是对数据集的处理，其次是搭建环境对py-faster-rcnn代码进行复现。</p>
+        <!-- 
+　　这篇文章致力于在faster R-CNN框架下，利用Caffe在Caltech行人数据集上实现行人检测任务。本文分为两部分，首先是对数据集的处理，其次是搭建环境对py-faster-rcnn代码进行复现。
+
+
+
+
+版权声明：本文为博主原创文章，未经博主允许不得转载。
+
+
+数据集的处理　　Caltech数据集来自加州理工大学，数据来源于车载摄像头拍摄的街道实景视频。视频总时长约10个小时......  -->
+        <p class="article-more-link">
+          <a href="/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/代码复现/">代码复现</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据处理/">数据处理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/环境搭建/">环境搭建</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-Mac环境利用GitHub和Hexo搭建个人博客"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2017/06/22/Mac环境利用GitHub和Hexo搭建个人博客/">Mac环境利用GitHub和Hexo搭建个人博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/06/22/Mac环境利用GitHub和Hexo搭建个人博客/" class="article-date">
+	  <time datetime="2017-06-22T14:36:43.000Z" itemprop="datePublished">2017-06-22</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/网站搭建/">网站搭建</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <excerpt in="" index="" |="" 首页摘要=""> 
+
+<p><img src="http://i2.muimg.com/598176/3d95815173a6b946.jpg" alt=""></p>
+<font size="4"><font color="orange"><strong>转载</strong> </font>这篇文章转自<a href="http://zangbo.me/2017/06/01/Mac%E7%8E%AF%E5%A2%83%E5%88%A9%E7%94%A8GitHub%E5%92%8CHexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" target="_blank" rel="external">Zang Bo的个人博客</a>，我本人在建站过程中参考这篇文章颇多，获益匪浅，在此也表达对Zang Bo君的感谢！</font>
+        <!--  
+
+
+转载 这篇文章转自Zang Bo的个人博客，我本人在建站过程中参考这篇文章颇多，获益匪浅，在此也表达对Zang Bo君的感谢！
+
+
+
+
+本文介绍了在Mac环境下如何利用GitHub和Hexo搭建个人博客，网上有不少教程已经过时，自己也走了不少弯路。最近折腾了下，决定总结一下具体的流程。
+Hexo介绍互联网时代很多人选择用个人博客来展示自己，试想一下拥有一个属于自己的域名，同时搭建一个......  -->
+        <p class="article-more-link">
+          <a href="/2017/06/22/Mac环境利用GitHub和Hexo搭建个人博客/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人博客/">个人博客</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+    <article id="post-安装caffe"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2017/05/03/安装caffe/">Ubuntu 16.04安装caffe及torch</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/05/03/安装caffe/" class="article-date">
+	  <time datetime="2017-05-03T09:19:04.000Z" itemprop="datePublished">2017-05-03</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <excerpt in="" index="" |="" 首页摘要=""> 
+
+<p><img src="http://i1.buimg.com/598176/aa542d666e198f69.jpg" width="600px"></p>
+<p>　　为了满足计算资源的分配，近期实验室新进了一批配备高端显卡TITAN X (PASCAL)的计算机，原始搭载系统为Ubuntu 14.04，在我的钻(zhe)研(teng)下不小心搞崩了系统，只能重装。在选择系统版本时考虑到刚出的17.04可能不够稳定，许多软件包的支持也不完善，而14.04又不够炫酷，索性装个16.04好了。</p>
+<p>　　在人工智能和计算机视觉大红大紫的今天，越来越多的同学纷纷踏入深度学习的坑。俗话说工欲善其事，必先利其器，所以今天给大家介绍一下当下十分流行的深度学习框架caffe和torch在Ubuntu系统下的安装方法，也算是对我近期折腾新机器的一点总结。</p>
+<p>
+        <!--  
+
+
+　　为了满足计算资源的分配，近期实验室新进了一批配备高端显卡TITAN X (PASCAL)的计算机，原始搭载系统为Ubuntu 14.04，在我的钻(zhe)研(teng)下不小心搞崩了系统，只能重装。在选择系统版本时考虑到刚出的17.04可能不够稳定，许多软件包的支持也不完善，而14.04又不够炫酷，索性装个16.04好了。
+　　在人工智能和计算机视觉大红大紫的今天，越来越多的同......  -->
+        <p class="article-more-link">
+          <a href="/2017/05/03/安装caffe/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/环境搭建/">环境搭建</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+  
+
 
 </section>
         
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/10/07/test-try/">test try</a>
-          </li>
-        
-          <li>
-            <a href="/2017/10/07/hello-world/">Hello World</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
       </div>
+      
+        <div align="center" style="margin-top: 30px;"><hr class="hr" style="margin:0px; height:3px;"></div>
+      
       <footer id="footer">
   
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2017 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2017 程序员の养成记 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
   </div>
 </footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
     </div>
-    <nav id="mobile-nav">
+    <!-- <nav id="mobile-nav">
   
     <a href="/" class="mobile-nav-link">Home</a>
   
     <a href="/archives" class="mobile-nav-link">Archives</a>
   
-</nav>
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
   <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/js/script.js"></script>
+<script src="/js/scripts.js"></script>
+<script src="/js/bootstrap.js"></script>
+
+
+  <script src="/js/home.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
 
   </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            程序员の养成记
+          </div>
+          <div class="panel-body">
+            Copyright © 2017 七少 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
 </body>
 </html>
