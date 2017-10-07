@@ -3,29 +3,31 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ubuntu下切换gcc版本 | 程序员の养成记</title>
+  <title>程序员の养成记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="环境搭建" />
   
   
   
-  
-  <meta name="description" content="转载 这篇文章转自Ubuntu linux下gcc版本切换">
-<meta name="keywords" content="环境搭建">
+  <meta name="description" content="随着人工智能和机器学习的浪潮扑面而来，Python以其语法简单、使用灵活、解释性强的优点也逐渐变得炙手可热。然而使用Python实现的许多科学计算、绘画制图、数据处理往往依赖于Python社区强大的第三方库，比如NumPy，Matplotlib等等。我们在使用这些库时不免要提前进行安装，而且往往安装不全，发生缺少某库的错误，令人头痛不已。 　　Anaconda作为一个Python的集">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu下切换gcc版本">
-<meta property="og:url" content="http://www.liliangqi.com/2017/06/30/Ubuntu下切换gcc版本/index.html">
+<meta property="og:title" content="程序员の养成记">
+<meta property="og:url" content="http://www.liliangqi.com/2017/10/06/Anaconda3+OpenCV3配置/index.html">
 <meta property="og:site_name" content="程序员の养成记">
-<meta property="og:description" content="转载 这篇文章转自Ubuntu linux下gcc版本切换">
+<meta property="og:description" content="随着人工智能和机器学习的浪潮扑面而来，Python以其语法简单、使用灵活、解释性强的优点也逐渐变得炙手可热。然而使用Python实现的许多科学计算、绘画制图、数据处理往往依赖于Python社区强大的第三方库，比如NumPy，Matplotlib等等。我们在使用这些库时不免要提前进行安装，而且往往安装不全，发生缺少某库的错误，令人头痛不已。 　　Anaconda作为一个Python的集">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://i1.buimg.com/598176/cb0287319eca4b67.png">
-<meta property="og:image" content="http://i1.buimg.com/598176/4644f71c42e3a53c.png">
-<meta property="og:updated_time" content="2017-06-30T05:42:58.000Z">
+<meta property="og:image" content="http://www.liliangqi.com/2017/10/06/images/anaconda3安装/7.png">
+<meta property="og:image" content="http://www.liliangqi.com/2017/10/06/images/anaconda3安装/1.png">
+<meta property="og:image" content="http://www.liliangqi.com/2017/10/06/images/anaconda3安装/2.png">
+<meta property="og:image" content="http://www.liliangqi.com/2017/10/06/images/anaconda3安装/3.png">
+<meta property="og:image" content="http://www.liliangqi.com/2017/10/06/images/anaconda3安装/4.png">
+<meta property="og:image" content="http://www.liliangqi.com/2017/10/06/images/anaconda3安装/5.png">
+<meta property="og:image" content="http://www.liliangqi.com/2017/10/06/images/anaconda3安装/6.png">
+<meta property="og:updated_time" content="2017-10-07T12:28:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu下切换gcc版本">
-<meta name="twitter:description" content="转载 这篇文章转自Ubuntu linux下gcc版本切换">
-<meta name="twitter:image" content="http://i1.buimg.com/598176/cb0287319eca4b67.png">
+<meta name="twitter:title" content="程序员の养成记">
+<meta name="twitter:description" content="随着人工智能和机器学习的浪潮扑面而来，Python以其语法简单、使用灵活、解释性强的优点也逐渐变得炙手可热。然而使用Python实现的许多科学计算、绘画制图、数据处理往往依赖于Python社区强大的第三方库，比如NumPy，Matplotlib等等。我们在使用这些库时不免要提前进行安装，而且往往安装不全，发生缺少某库的错误，令人头痛不已。 　　Anaconda作为一个Python的集">
+<meta name="twitter:image" content="http://www.liliangqi.com/2017/10/06/images/anaconda3安装/7.png">
   
     <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
   
@@ -157,52 +159,91 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-Ubuntu下切换gcc版本" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-Anaconda3+OpenCV3配置" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" class="article-title" itemprop="name">
-      Ubuntu下切换gcc版本
-    </h1>
-  
-
-      </header>
-    
     <div class="article-meta">
       
-	<a href="/2017/06/30/Ubuntu下切换gcc版本/" class="article-date">
-	  <time datetime="2017-06-30T05:26:14.000Z" itemprop="datePublished">2017-06-30</time>
+	<a href="/2017/10/06/Anaconda3+OpenCV3配置/" class="article-date">
+	  <time datetime="2017-10-06T08:21:01.000Z" itemprop="datePublished">2017-10-06</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
-
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <excerpt in="" index="" |="" 首页摘要=""> 
+        <p>　　<excerpt in="" index="" |="" 首页摘要=""> </excerpt></p>
+<p><img src="../images/anaconda3安装/7.png" width="600px"></p>
+<p>　　随着人工智能和机器学习的浪潮扑面而来，Python以其语法简单、使用灵活、解释性强的优点也逐渐变得炙手可热。然而使用Python实现的许多科学计算、绘画制图、数据处理往往依赖于Python社区强大的第三方库，比如NumPy，Matplotlib等等。我们在使用这些库时不免要提前进行安装，而且往往安装不全，发生缺少某库的错误，令人头痛不已。</p>
+<p>　　Anaconda作为一个Python的集成环境版本，包含了大部分我们平时工作学习所需要用到的Python第三方库，而且易于管理和扩展，故笔者将在此博客中介绍各大平台上Anaconda的安装，并针对计算机视觉工作者介绍OpenCV的安装。</p>
+<p>　　此外，虽然目前很多从业者仍在大量使用Python2，而且官方也表示会继续支持Python2的维护，但Python的未来一定是更新的Python3，所以我们也只介绍安装对应的Anaconda3。</p>
+<p><a id="more"></a><the rest="" of="" contents="" |="" 余下全文=""></the></p>
+<hr>
+<font color="orange" size="4"><strong>版权声明：本文为博主原创文章，未经博主允许不得转载。</strong></font>
 
-<p><img src="http://i1.buimg.com/598176/cb0287319eca4b67.png" alt=""></p>
-<font size="4"><font color="orange"><strong>转载</strong> </font>这篇文章转自<a href="http://www.cnblogs.com/fogcell/p/6628520.html" target="_blank" rel="external">Ubuntu linux下gcc版本切换</a></font>
-
-<a id="more"></a>
-<the rest="" of="" contents="" |="" 余下全文="">
-
-<p>　　Ubuntu更新后，相对应的gcc版本也会更新，有些程序需要调用到本地的gcc来编译相对应的服务以及程序，在嵌入式linux开发中有时候需要本地的gcc来编译一个交叉编译器。基于这个原因有时候需要切换gcc的版本比如说高版本需要降低。之前一直使用手动安装指定的gcc版本，然后通过更改gcc的链接位置达到切换gcc版本的目的，但是这个方法存在问题，比如在更新后，后续安装VMware player的时候存在无法找到gcc 5.4因此正常安装后但是无法打开，因为一下服务需要本地编译，而VMware player只认gcc-5。因此解决方案如下。</p>
-<p>　　使用<code>gcc -v</code>查看当前版本信息。若需要的gcc版本没有安装使用<code>sudo apt-get install gcc-×</code>安装指定的版本，并使用<code>update-alternatives</code>命令配置。</p>
-<pre><code class="shell">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 50
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5   40
+<hr>
+<h1 id="MacOS环境"><a href="#MacOS环境" class="headerlink" title="MacOS环境"></a>MacOS环境</h1><p>　　macOS自带Python，但其版本为2.7.6，而且不含我们所需的大多数第三方库，故接下来介绍macOS上Anaconda3的安装。</p>
+<p>##安装Anaconda3</p>
+<ol>
+<li><p>进入<a href="https://www.anaconda.com/download/" target="_blank" rel="external">Anaconda下载官网</a>，选择<strong>macOS</strong>，然后选择<strong>Python 3.6</strong>版本</p>
+</li>
+<li><p>这里有两种安装方式，一种是图形界面安装，另一种是命令行安装，这里我们选择图形界面安装，点击绿色的图标<strong>Download</strong></p>
+<p><img src="../images/anaconda3安装/1.png" alt=""></p>
+<p>​</p>
+</li>
+<li><p>下载完成后打开<strong>Anaconda3-5.0.0-MacOSX-x86_64.pkg</strong></p>
+<p><img src="../images/anaconda3安装/2.png" alt=""></p>
+</li>
+<li><p>按照安装提示完成安装，无需更改<strong>目的卷宗</strong>，它会自动安装到你的主文件夹下</p>
+</li>
+<li><p>安装完成后我们能够发现在<strong>~/.bash_profile</strong>文件中增加了两行</p>
+<pre><code class="shell"># added by Anaconda3 4.4.0 installer
+export PATH=&quot;Users/yourname/anaconda/bin:$PATH&quot;
 </code></pre>
-<p>使用如上的命令则在配置中加入了这两个gcc版本的选项。</p>
-<p>　　终端输入<code>sudo update-alternatives --config gcc</code>出现如下选项：</p>
-<p><img src="http://i1.buimg.com/598176/4644f71c42e3a53c.png" alt=""></p>
-<p>　　设置以后通过<code>gcc -v</code>查看当前版本信息。如果需要删除则终端输入</p>
-<pre><code class="shell">sudo update-alternatives --remove gcc /usr/bin/gcc-4.9
+<p>这里是完成了环境变量的配置，要使其生效，则在终端输入<code>source ~/.bash_profile</code>即可。</p>
+</li>
+<li><p>在终端中输入<code>python</code>，弹出如下信息则说明安装成功。</p>
+</li>
+</ol>
+<p><img src="../images/anaconda3安装/3.png" alt=""></p>
+<hr>
+<h2 id="安装OpenCV3"><a href="#安装OpenCV3" class="headerlink" title="安装OpenCV3"></a>安装OpenCV3</h2><p>　　macOS上安装Anaconda2对应的OpenCV比较简单，直接使用<code>conda install opencv3</code>即可，但在最新的Anaconda3对应的Python3.6的官方包里还没有OpenCV的支持，因此目前使用conda forge的包。</p>
+<ol>
+<li><p>添加conda forge的频道</p>
+<pre><code class="shell">conda config --add channels conda-forge
 </code></pre>
-</the></excerpt>
+</li>
+<li><p>安装OpenCV及其相应的依赖（依赖会自动安装）</p>
+<pre><code class="shell">conda install opencv
+</code></pre>
+</li>
+</ol>
+<h1 id="Windows环境"><a href="#Windows环境" class="headerlink" title="Windows环境"></a>Windows环境</h1><p>　　Windows原生系统不带Python，我们直接进行Anaconda3的安装。</p>
+<p>##安装Anaconda3</p>
+<ol>
+<li><p>进入<a href="https://www.anaconda.com/download/" target="_blank" rel="external">Anaconda下载官网</a>，选择<strong>Windows</strong>，然后选择<strong>Python 3.6</strong>版本</p>
+</li>
+<li><p>Windows对应的安装方式只有图形界面安装，根据自己计算机和系统的位数选择32位或64位安装包下载即可</p>
+</li>
+<li><p>打开刚才下载的<strong>Anaconda3-5.0.0-Windows-x86_64.exe</strong></p>
+<p><img src="../images/anaconda3安装/4.png" width="600px"></p>
+</li>
+<li><p><strong>Destination Folder</strong>无需设置，默认为C盘，如有需要可进行更改，但要记住安装目录</p>
+</li>
+<li><p>勾选以下两项，将Anaconda3加入环境变量并将Anaconda3作为默认的Python3.6</p>
+<p><img src="../images/anaconda3安装/5.png" width="600px"></p>
+</li>
+<li><p>使用<code>cmd</code>命令呼出终端界面，输入<code>python</code>，弹出如下信息则说明安装成功。</p>
+<p><img src="../images/anaconda3安装/6.png" alt=""></p>
+</li>
+</ol>
+<p>##安装OpenCV3</p>
+<p>　　Windows上安装OpenCV3的方法与macOS上类似，仍然是用如下的两行命令进行安装。</p>
+<pre><code class="shell">conda config --add channels conda-forge
+conda install opencv
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
@@ -250,27 +291,16 @@ var a = new Donate({
 
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/环境搭建/">环境搭建</a></li></ul>
-
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2017/07/05/Python基础之：函数/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          Python基础之：函数
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">faster R-CNN在Caltech行人数据集上的实现</div>
+      <div class="article-nav-title">Joint Detection and Identification Feature Learning for Person Search数据集</div>
     </a>
   
 </nav>
@@ -284,7 +314,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
     
-        <ol class="artnav">无</ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MacOS环境"><span class="nav-number">1.</span> <span class="nav-text">MacOS环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装OpenCV3"><span class="nav-number">1.1.</span> <span class="nav-text">安装OpenCV3</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Windows环境"><span class="nav-number">2.</span> <span class="nav-text">Windows环境</span></a></li></ol>
     
     </div>
   </aside>
