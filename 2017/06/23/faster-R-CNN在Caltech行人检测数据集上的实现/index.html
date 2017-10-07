@@ -65,7 +65,8 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-</head>
+<link rel="stylesheet" href="/css/prism-okaidia.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -200,143 +201,143 @@
 <p>　　要将数据集用于faster R-CNN框架，就要将数据做成类似于PASCAL VOC 2007的格式，也就是图片样本集的名称要是<strong>六位数字</strong>+<code>.jpg</code>，标签信息以xml文件格式给出，下面我们介绍处理方法。</p>
 <h2 id="Seq文件的处理"><a href="#Seq文件的处理" class="headerlink" title="Seq文件的处理"></a>Seq文件的处理</h2><p>　　我的工作是基于图片做行人检测，需要将seq文件处理转换成jpg文件。Caltech官网上有 <a href="https://pdollar.github.io/toolbox/index.html" target="_blank" rel="external">Piotr’s Matlab Toolbox</a>工具用于完成这种转换，其中的功能非常多样，但也非常复杂。如果有同学和我一样，只需要完成简单的转换工作，不妨参考我的代码。</p>
 <p>　　首先下载上面提到的官方工具包，解压后得到的目录下有一个叫做<code>videos</code>的文件夹，我们在该路径下添加一个名为<code>processSeq.m</code>的脚本，代码如下：</p>
-<pre><code class="matlab">% 导入seq文件并全部转换
-clc; close all; 
-path = &#39;/home/liliangqi/pedestrianDetection/INRIA/&#39;;
-files = dir(path); 
+<pre class="line-numbers language-matlab"><code class="language-matlab"><span class="token comment" spellcheck="true">% 导入seq文件并全部转换</span>
+clc<span class="token punctuation">;</span> close all<span class="token punctuation">;</span> 
+path <span class="token operator">=</span> <span class="token string">'/home/liliangqi/pedestrianDetection/INRIA/'</span><span class="token punctuation">;</span>
+files <span class="token operator">=</span> <span class="token function">dir</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">;</span> 
 
-for i =3:size(files, 1) 
+<span class="token keyword">for</span> <span class="token number">i</span> <span class="token operator">=</span><span class="token number">3</span><span class="token operator">:</span><span class="token function">size</span><span class="token punctuation">(</span>files<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span> 
 
-    videoName = files(i).name; 
-    videoPath = [path, videoName, &#39;/&#39;];
+    videoName <span class="token operator">=</span> <span class="token function">files</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">)</span><span class="token punctuation">.</span>name<span class="token punctuation">;</span> 
+    videoPath <span class="token operator">=</span> <span class="token punctuation">[</span>path<span class="token punctuation">,</span> videoName<span class="token punctuation">,</span> <span class="token string">'/'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-    files2 = dir([videoPath, &#39;*.seq&#39;]);  
-    for j = 1:size(files2, 1) 
-        videoname = files2(j).name;
-        seqfile = [videoPath, videoname];
+    files2 <span class="token operator">=</span> <span class="token function">dir</span><span class="token punctuation">(</span><span class="token punctuation">[</span>videoPath<span class="token punctuation">,</span> <span class="token string">'*.seq'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token keyword">for</span> <span class="token number">j</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">:</span><span class="token function">size</span><span class="token punctuation">(</span>files2<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span> 
+        videoname <span class="token operator">=</span> <span class="token function">files2</span><span class="token punctuation">(</span><span class="token number">j</span><span class="token punctuation">)</span><span class="token punctuation">.</span>name<span class="token punctuation">;</span>
+        seqfile <span class="token operator">=</span> <span class="token punctuation">[</span>videoPath<span class="token punctuation">,</span> videoname<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-        videoname2 = strtok(videoname, &#39;.&#39;); 
+        videoname2 <span class="token operator">=</span> <span class="token function">strtok</span><span class="token punctuation">(</span>videoname<span class="token punctuation">,</span> <span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
 
-        imgSavePath = [videoPath, videoname2 ,&#39;/&#39;];
-        if ~exist(imgSavePath) 
-            mkdir(imgSavePath); 
-        end 
+        imgSavePath <span class="token operator">=</span> <span class="token punctuation">[</span>videoPath<span class="token punctuation">,</span> videoname2 <span class="token punctuation">,</span><span class="token string">'/'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token operator">~</span><span class="token function">exist</span><span class="token punctuation">(</span>imgSavePath<span class="token punctuation">)</span> 
+            <span class="token function">mkdir</span><span class="token punctuation">(</span>imgSavePath<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+        <span class="token keyword">end</span> 
 
-        Is = seqIo( seqfile, &#39;toImgs&#39;, imgSavePath); 
+        Is <span class="token operator">=</span> <span class="token function">seqIo</span><span class="token punctuation">(</span> seqfile<span class="token punctuation">,</span> <span class="token string">'toImgs'</span><span class="token punctuation">,</span> imgSavePath<span class="token punctuation">)</span><span class="token punctuation">;</span> 
 
-    end 
+    <span class="token keyword">end</span> 
 
-end
-</code></pre>
+<span class="token keyword">end</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这里注意第9行和第18行，由于我使用的是macOS系统，路径符号用”/“，有些同学用linux也可以，但对于Windows用户来说，路径符号需改为”\”。转换后文件结构如下图所示：</p>
 <p><img src="http://i1.buimg.com/598176/481d457e41f2394b.png" alt=""></p>
 <p>可以看到，<code>set06</code>就是测试集的一个子集，而<code>V000</code>~<code>V018</code>就是19个时长为一分钟的视频转换成的jpg图片，其中图片名称均为为<code>1.jpg</code>等等。由于我们要用整个数据集来训练和测试，也就是将所有的jpg图片整合到一个文件夹中，所以不能有重名的图片，所以我们第一步工作是进行图片的重命名，Python代码如下：</p>
-<pre><code class="python">#coding=UTF-8
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding=UTF-8</span>
 
-import os
-import re 
+<span class="token keyword">import</span> os
+<span class="token keyword">import</span> re 
 
-re_digits = re.compile(r&#39;(\d+)&#39;)  
+re_digits <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span>r<span class="token string">'(\d+)'</span><span class="token punctuation">)</span>  
 
-def emb_numbers(s):  
-    pieces=re_digits.split(s)  
-    pieces[1::2]=map(int,pieces[1::2])      
-    return pieces   
+<span class="token keyword">def</span> <span class="token function">emb_numbers</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>  
+    pieces<span class="token operator">=</span>re_digits<span class="token punctuation">.</span>split<span class="token punctuation">(</span>s<span class="token punctuation">)</span>  
+    pieces<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">=</span>map<span class="token punctuation">(</span>int<span class="token punctuation">,</span>pieces<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>      
+    <span class="token keyword">return</span> pieces   
 
-def sort_strings_with_emb_numbers(alist):
-    &#39;&#39;&#39;根据字符串内嵌的数字进行排序，例如f2应在f10之前&#39;&#39;&#39;
-    return sorted(alist, key=emb_numbers)
-
-
-class BatchRename():
-    &#39;&#39;&#39;批量重命名文件夹中的图片文件&#39;&#39;&#39;
-
-    def __init__(self):
-        &#39;&#39;&#39;设置目标文件夹的绝对路径&#39;&#39;&#39;
-        self.path = &#39;/Users/liliangqi/Desktop/new&#39;
-
-    def rename(self):
-        &#39;&#39;&#39;根据文件后缀修改特定的文件名，可以设定命名后的文件名长度&#39;&#39;&#39;
-        filelist = os.listdir(self.path)
-        if &#39;.DS_Store&#39; in filelist:
-            filelist.remove(&#39;.DS_Store&#39;) # macOS系统的文件夹中往往会出现这个文件
-        filelist = sort_strings_with_emb_numbers(filelist)
-
-        name_length = 0 # 文件名的长度，不含后缀，如&#39;001.jpg&#39;文件名长度为3
-        total_num = len(filelist)
-        i = 1 # 命名起始编号
-
-        for item in filelist:
-            if item.endswith(&#39;.jpg&#39;): # 此处可改为&#39;.png&#39;，那么png图片将被转化为jpg
-                if name_length:
-                    new_name = &#39;0&#39;*(name_length-len(str(i))) + str(i) + &#39;.jpg&#39;
-                else: # 可将name_length设为0，从而避免统一的文件名长度
-                    new_name = str(i) + &#39;.jpg&#39;
-
-                src = os.path.join(os.path.abspath(self.path), item)
-                dst = os.path.join(os.path.abspath(self.path), new_name)
-                try:
-                    os.rename(src, dst)
-                    print(&#39;converting %s to %s ...&#39; % (src, dst))
-                    i = i + 1
-                except:
-                    continue
-
-        print(&#39;total %d to rename &amp; converted %d jpgs&#39; % (total_num, i - 1))
+<span class="token keyword">def</span> <span class="token function">sort_strings_with_emb_numbers</span><span class="token punctuation">(</span>alist<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">'''根据字符串内嵌的数字进行排序，例如f2应在f10之前'''</span>
+    <span class="token keyword">return</span> sorted<span class="token punctuation">(</span>alist<span class="token punctuation">,</span> key<span class="token operator">=</span>emb_numbers<span class="token punctuation">)</span>
 
 
+<span class="token keyword">class</span> <span class="token class-name">BatchRename</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">'''批量重命名文件夹中的图片文件'''</span>
 
-if __name__ == &#39;__main__&#39;:
-    demo = BatchRename()
-    demo.rename()
-</code></pre>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">'''设置目标文件夹的绝对路径'''</span>
+        self<span class="token punctuation">.</span>path <span class="token operator">=</span> <span class="token string">'/Users/liliangqi/Desktop/new'</span>
+
+    <span class="token keyword">def</span> <span class="token function">rename</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">'''根据文件后缀修改特定的文件名，可以设定命名后的文件名长度'''</span>
+        filelist <span class="token operator">=</span> os<span class="token punctuation">.</span>listdir<span class="token punctuation">(</span>self<span class="token punctuation">.</span>path<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token string">'.DS_Store'</span> <span class="token keyword">in</span> filelist<span class="token punctuation">:</span>
+            filelist<span class="token punctuation">.</span>remove<span class="token punctuation">(</span><span class="token string">'.DS_Store'</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># macOS系统的文件夹中往往会出现这个文件</span>
+        filelist <span class="token operator">=</span> sort_strings_with_emb_numbers<span class="token punctuation">(</span>filelist<span class="token punctuation">)</span>
+
+        name_length <span class="token operator">=</span> <span class="token number">0</span> <span class="token comment" spellcheck="true"># 文件名的长度，不含后缀，如'001.jpg'文件名长度为3</span>
+        total_num <span class="token operator">=</span> len<span class="token punctuation">(</span>filelist<span class="token punctuation">)</span>
+        i <span class="token operator">=</span> <span class="token number">1</span> <span class="token comment" spellcheck="true"># 命名起始编号</span>
+
+        <span class="token keyword">for</span> item <span class="token keyword">in</span> filelist<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> item<span class="token punctuation">.</span>endswith<span class="token punctuation">(</span><span class="token string">'.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># 此处可改为'.png'，那么png图片将被转化为jpg</span>
+                <span class="token keyword">if</span> name_length<span class="token punctuation">:</span>
+                    new_name <span class="token operator">=</span> <span class="token string">'0'</span><span class="token operator">*</span><span class="token punctuation">(</span>name_length<span class="token operator">-</span>len<span class="token punctuation">(</span>str<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> str<span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'.jpg'</span>
+                <span class="token keyword">else</span><span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># 可将name_length设为0，从而避免统一的文件名长度</span>
+                    new_name <span class="token operator">=</span> str<span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'.jpg'</span>
+
+                src <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>abspath<span class="token punctuation">(</span>self<span class="token punctuation">.</span>path<span class="token punctuation">)</span><span class="token punctuation">,</span> item<span class="token punctuation">)</span>
+                dst <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>abspath<span class="token punctuation">(</span>self<span class="token punctuation">.</span>path<span class="token punctuation">)</span><span class="token punctuation">,</span> new_name<span class="token punctuation">)</span>
+                <span class="token keyword">try</span><span class="token punctuation">:</span>
+                    os<span class="token punctuation">.</span>rename<span class="token punctuation">(</span>src<span class="token punctuation">,</span> dst<span class="token punctuation">)</span>
+                    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'converting %s to %s ...'</span> <span class="token operator">%</span> <span class="token punctuation">(</span>src<span class="token punctuation">,</span> dst<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    i <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span>
+                <span class="token keyword">except</span><span class="token punctuation">:</span>
+                    <span class="token keyword">continue</span>
+
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'total %d to rename &amp; converted %d jpgs'</span> <span class="token operator">%</span> <span class="token punctuation">(</span>total_num<span class="token punctuation">,</span> i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    demo <span class="token operator">=</span> BatchRename<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    demo<span class="token punctuation">.</span>rename<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>该代码每次处理一个子集，所以在处理下一个子集的时候，要看刚刚处理完的图片命名编号是多少，比如是<code>001128.jpg</code>，那么接下来就从001129开始命名，也就是将第33行改为<code>i = 1129</code>即可。</p>
 <p>　　处理了整个数据集后得到249,884张jpg图片，命名为<code>000001.jpg</code>到<code>249884.jpg</code>，接下来处理标签文件。</p>
 <hr>
 <h2 id="Vbb文件的处理"><a href="#Vbb文件的处理" class="headerlink" title="Vbb文件的处理"></a>Vbb文件的处理</h2><p>　　Caltech数据集的标签信息以vbb文件的形式给出，亦即video bounding box文件。首先在官网上下载<a href="http://www.vision.caltech.edu/Image_Datasets/CaltechPedestrians/code/code3.2.1.zip" target="_blank" rel="external">Matlab evaluation/labeling code (3.2.1)</a>，这个包是用于处理vbb文件的，但是官方给的包都挺坑的，给了一堆乱七八糟的函数，偏偏没有转换的功能，所以我们需要自己在这个包中再添加一个脚本文件：（代码来源于<em>dachao</em>）</p>
-<pre><code class="matlab">% this function is to convert vbb file to txt  
-%by dachao at 2015.11.27  
-a = [0 1];  
-vPath = &#39;/Users/liliangqi/Downloads/annotations/&#39;;  
-outpath = &#39;/Users/liliangqi/Downloads/annotations/converted/&#39;;   
-if ~isdir(outpath)  
-    mkdir(outpath);  
-end  
-disp(&#39;Begin to extract annotations from vbb....&#39;)  
-for ii = 1:length(a)  
-    vName = [&#39;set0&#39;,num2str(a(ii))];    
-    vbbpath = [vPath vName];  
-    str = dir(vbbpath);  
-    for k = 3:numel(str)  
-        finalpath = [vbbpath,&#39;/&#39;,str(k).name];   
-        disp(finalpath);  
-        A = vbb( &#39;vbbLoad&#39;, finalpath);    
-        Path = [outpath,&#39;/&#39;,vName];  
-        if ~isdir(Path)  
-            mkdir(Path);  
-        end  
-        st = str(k).name;  
-        p = findstr(st,&#39;.&#39;);  
-        st = st(1,1:p(1)-1);  
-        fnm = [st,&#39;.txt&#39;];       
-        c = fopen([Path,&#39;/&#39;,fnm],&#39;w&#39;);    
-        for i = 1:A.nFrame    
-            iframe = A.objLists(1,i);    
-            iframe_data = iframe{1,1};    
-            n1length = length(iframe_data);    
-            for  j = 1:n1length    
-                iframe_dataj = iframe_data(j);    
-                if iframe_dataj.pos(1) ~= 0  %pos  posv    
-                    fprintf(c,&#39;%d %f %f %f %f\n&#39;, i, iframe_dataj.pos(1),...  
-                     iframe_dataj.pos(2),iframe_dataj.pos(3),iframe_dataj.pos(4));    
-                end    
-            end    
-        end    
-    end  
-fclose(c);   
-end  
-disp(&#39;Done................&#39;)
-</code></pre>
+<pre class="line-numbers language-matlab"><code class="language-matlab"><span class="token comment" spellcheck="true">% this function is to convert vbb file to txt  </span>
+<span class="token comment" spellcheck="true">%by dachao at 2015.11.27  </span>
+a <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>  
+vPath <span class="token operator">=</span> <span class="token string">'/Users/liliangqi/Downloads/annotations/'</span><span class="token punctuation">;</span>  
+outpath <span class="token operator">=</span> <span class="token string">'/Users/liliangqi/Downloads/annotations/converted/'</span><span class="token punctuation">;</span>   
+<span class="token keyword">if</span> <span class="token operator">~</span><span class="token function">isdir</span><span class="token punctuation">(</span>outpath<span class="token punctuation">)</span>  
+    <span class="token function">mkdir</span><span class="token punctuation">(</span>outpath<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token keyword">end</span>  
+<span class="token function">disp</span><span class="token punctuation">(</span><span class="token string">'Begin to extract annotations from vbb....'</span><span class="token punctuation">)</span>  
+<span class="token keyword">for</span> ii <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">:</span><span class="token function">length</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>  
+    vName <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'set0'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span><span class="token function">a</span><span class="token punctuation">(</span>ii<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>    
+    vbbpath <span class="token operator">=</span> <span class="token punctuation">[</span>vPath vName<span class="token punctuation">]</span><span class="token punctuation">;</span>  
+    str <span class="token operator">=</span> <span class="token function">dir</span><span class="token punctuation">(</span>vbbpath<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token keyword">for</span> k <span class="token operator">=</span> <span class="token number">3</span><span class="token operator">:</span><span class="token function">numel</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span>  
+        finalpath <span class="token operator">=</span> <span class="token punctuation">[</span>vbbpath<span class="token punctuation">,</span><span class="token string">'/'</span><span class="token punctuation">,</span><span class="token function">str</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">.</span>name<span class="token punctuation">]</span><span class="token punctuation">;</span>   
+        <span class="token function">disp</span><span class="token punctuation">(</span>finalpath<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        A <span class="token operator">=</span> <span class="token function">vbb</span><span class="token punctuation">(</span> <span class="token string">'vbbLoad'</span><span class="token punctuation">,</span> finalpath<span class="token punctuation">)</span><span class="token punctuation">;</span>    
+        Path <span class="token operator">=</span> <span class="token punctuation">[</span>outpath<span class="token punctuation">,</span><span class="token string">'/'</span><span class="token punctuation">,</span>vName<span class="token punctuation">]</span><span class="token punctuation">;</span>  
+        <span class="token keyword">if</span> <span class="token operator">~</span><span class="token function">isdir</span><span class="token punctuation">(</span>Path<span class="token punctuation">)</span>  
+            <span class="token function">mkdir</span><span class="token punctuation">(</span>Path<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token keyword">end</span>  
+        st <span class="token operator">=</span> <span class="token function">str</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">.</span>name<span class="token punctuation">;</span>  
+        p <span class="token operator">=</span> <span class="token function">findstr</span><span class="token punctuation">(</span>st<span class="token punctuation">,</span><span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        st <span class="token operator">=</span> <span class="token function">st</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token operator">:</span><span class="token function">p</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        fnm <span class="token operator">=</span> <span class="token punctuation">[</span>st<span class="token punctuation">,</span><span class="token string">'.txt'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>       
+        c <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token punctuation">[</span>Path<span class="token punctuation">,</span><span class="token string">'/'</span><span class="token punctuation">,</span>fnm<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token string">'w'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+        <span class="token keyword">for</span> <span class="token number">i</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">:</span>A<span class="token punctuation">.</span>nFrame    
+            iframe <span class="token operator">=</span> A<span class="token punctuation">.</span><span class="token function">objLists</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">i</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+            iframe_data <span class="token operator">=</span> iframe<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>    
+            n1length <span class="token operator">=</span> <span class="token function">length</span><span class="token punctuation">(</span>iframe_data<span class="token punctuation">)</span><span class="token punctuation">;</span>    
+            <span class="token keyword">for</span>  <span class="token number">j</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">:</span>n1length    
+                iframe_dataj <span class="token operator">=</span> <span class="token function">iframe_data</span><span class="token punctuation">(</span><span class="token number">j</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+                <span class="token keyword">if</span> iframe_dataj<span class="token punctuation">.</span><span class="token function">pos</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">~=</span> <span class="token number">0</span>  <span class="token comment" spellcheck="true">%pos  posv    </span>
+                    <span class="token function">fprintf</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span><span class="token string">'%d %f %f %f %f\n'</span><span class="token punctuation">,</span> <span class="token number">i</span><span class="token punctuation">,</span> iframe_dataj<span class="token punctuation">.</span><span class="token function">pos</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">...</span>  
+                     iframe_dataj<span class="token punctuation">.</span><span class="token function">pos</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>iframe_dataj<span class="token punctuation">.</span><span class="token function">pos</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>iframe_dataj<span class="token punctuation">.</span><span class="token function">pos</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+                <span class="token keyword">end</span>    
+            <span class="token keyword">end</span>    
+        <span class="token keyword">end</span>    
+    <span class="token keyword">end</span>  
+<span class="token function">fclose</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>   
+<span class="token keyword">end</span>  
+<span class="token function">disp</span><span class="token punctuation">(</span><span class="token string">'Done................'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这个脚本中需要注意的是第3行，<code>a = [0 1]</code>表示你所选择的子集，结合第11行，如果<code>a = 0</code>就表示选择要转换的子集是<code>set00</code>，如果要转换子集<code>set10</code>，则将第3行改为<code>a = 0</code>，第11行改成<code>vName = [&#39;set1&#39;,num2str(a(ii))];</code>即可。转换后得到txt文件如下图所示：</p>
 <p><img src="http://i2.kiimg.com/598176/0c51dd5611a0cc0b.png" alt=""></p>
 <p>第一列是图片编号，第二列到第五列是行人bounding box的信息，依次是x坐标、y坐标、box的宽度和高度。每个vbb文件对应一个seq文件，所以我们需要像重命名图片文件一样，对txt文件的第一列图片编号进行重命名，然后将所有的txt文件整合成一个大的txt文件。这里我的处理方式<strong>略显笨拙</strong>，如果哪位同学有更好的方法，请与我联系讨论，我会将你的好办法贴出来供更多的人学习。</p>
@@ -353,316 +354,316 @@ disp(&#39;Done................&#39;)
 </ol>
 <p><img src="http://i2.kiimg.com/598176/ff3d1d44838af796.png" alt=""></p>
 <p>　　至此我们得到了一个含所有标签信息的txt文件，但PASCAL VOC 2007要求的标签信息文件应该是xml格式的，所以最后，我们再将txt文件转换成xml文件。这一步通过<em>小咸鱼_</em>的MATLAB代码来完成：</p>
-<pre><code class="matlab">%%
-%该代码可以做voc2007数据集中的xml文件，
-%txt文件每行格式为：000002.jpg dog 44 28 132 121
-%即每行由图片名、目标类型、包围框坐标组成，空格隔开
-%如果一张图片有多个目标，则格式如下：（比如两个目标）
-%000002.jpg dog 44 28 132 121
-%000002.jpg car 50 27 140 110
-%包围框坐标为左上角和右下角
-%%
-clc;
-clear;
-%注意修改下面四个变量
-imgpath=&#39;/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/Image/000000/&#39;;%图像存放文件夹
-txtpath=&#39;/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/annotation.txt&#39;;%txt文件
-xmlpath_new=&#39;/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/xml/&#39;;%修改后的xml保存文件夹
-foldername=&#39;search&#39;;%xml的folder字段名
+<pre class="line-numbers language-matlab"><code class="language-matlab"><span class="token comment" spellcheck="true">%%</span>
+<span class="token comment" spellcheck="true">%该代码可以做voc2007数据集中的xml文件，</span>
+<span class="token comment" spellcheck="true">%txt文件每行格式为：000002.jpg dog 44 28 132 121</span>
+<span class="token comment" spellcheck="true">%即每行由图片名、目标类型、包围框坐标组成，空格隔开</span>
+<span class="token comment" spellcheck="true">%如果一张图片有多个目标，则格式如下：（比如两个目标）</span>
+<span class="token comment" spellcheck="true">%000002.jpg dog 44 28 132 121</span>
+<span class="token comment" spellcheck="true">%000002.jpg car 50 27 140 110</span>
+<span class="token comment" spellcheck="true">%包围框坐标为左上角和右下角</span>
+<span class="token comment" spellcheck="true">%%</span>
+clc<span class="token punctuation">;</span>
+clear<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">%注意修改下面四个变量</span>
+imgpath<span class="token operator">=</span><span class="token string">'/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/Image/000000/'</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">%图像存放文件夹</span>
+txtpath<span class="token operator">=</span><span class="token string">'/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/annotation.txt'</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">%txt文件</span>
+xmlpath_new<span class="token operator">=</span><span class="token string">'/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/xml/'</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">%修改后的xml保存文件夹</span>
+foldername<span class="token operator">=</span><span class="token string">'search'</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">%xml的folder字段名</span>
 
 
-fidin=fopen(txtpath,&#39;r&#39;);
-lastname=&#39;begin&#39;;
+fidin<span class="token operator">=</span><span class="token function">fopen</span><span class="token punctuation">(</span>txtpath<span class="token punctuation">,</span><span class="token string">'r'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+lastname<span class="token operator">=</span><span class="token string">'begin'</span><span class="token punctuation">;</span>
 
-while ~feof(fidin)
-     tline=fgetl(fidin);
-     str = regexp(tline, &#39; &#39;,&#39;split&#39;);
-     filepath=[imgpath,str{1}];
-     img=imread(filepath);
-     [h,w,d]=size(img);
-      imshow(img);
-      rectangle(&#39;Position&#39;,[str2double(str{3}),str2double(str{4}),str2double(str{5})-str2double(str{3}),str2double(str{6})-str2double(str{4})],&#39;LineWidth&#39;,4,&#39;EdgeColor&#39;,&#39;r&#39;);
-      pause(0.01);
+<span class="token keyword">while</span> <span class="token operator">~</span><span class="token function">feof</span><span class="token punctuation">(</span>fidin<span class="token punctuation">)</span>
+     tline<span class="token operator">=</span><span class="token function">fgetl</span><span class="token punctuation">(</span>fidin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     str <span class="token operator">=</span> <span class="token function">regexp</span><span class="token punctuation">(</span>tline<span class="token punctuation">,</span> <span class="token string">' '</span><span class="token punctuation">,</span><span class="token string">'split'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     filepath<span class="token operator">=</span><span class="token punctuation">[</span>imgpath<span class="token punctuation">,</span>str<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+     img<span class="token operator">=</span><span class="token function">imread</span><span class="token punctuation">(</span>filepath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token punctuation">[</span>h<span class="token punctuation">,</span>w<span class="token punctuation">,</span>d<span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">size</span><span class="token punctuation">(</span>img<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">imshow</span><span class="token punctuation">(</span>img<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">rectangle</span><span class="token punctuation">(</span><span class="token string">'Position'</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token function">str2double</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">str2double</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">4</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">str2double</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">5</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token function">str2double</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">str2double</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">6</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token function">str2double</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">4</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token string">'LineWidth'</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token string">'EdgeColor'</span><span class="token punctuation">,</span><span class="token string">'r'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">pause</span><span class="token punctuation">(</span><span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        if strcmp(str{1},lastname)%如果文件名相等，只需增加object
-           object_node=Createnode.createElement(&#39;object&#39;);
-           Root.appendChild(object_node);
-           node=Createnode.createElement(&#39;name&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,str{2})));
-           object_node.appendChild(node);
+        <span class="token keyword">if</span> <span class="token function">strcmp</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span>lastname<span class="token punctuation">)</span><span class="token comment" spellcheck="true">%如果文件名相等，只需增加object</span>
+           object_node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'object'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           Root<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>object_node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'name'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span>str<span class="token punctuation">{</span><span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           object_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           node=Createnode.createElement(&#39;pose&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;Unspecified&#39;)));
-           object_node.appendChild(node);
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'pose'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token string">'Unspecified'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           object_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           node=Createnode.createElement(&#39;truncated&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;0&#39;)));
-           object_node.appendChild(node);
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'truncated'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           object_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           node=Createnode.createElement(&#39;difficult&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;0&#39;)));
-           object_node.appendChild(node);
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'difficult'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           object_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           bndbox_node=Createnode.createElement(&#39;bndbox&#39;);
-           object_node.appendChild(bndbox_node);
+           bndbox_node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'bndbox'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           object_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>bndbox_node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           node=Createnode.createElement(&#39;xmin&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{3}))));
-           bndbox_node.appendChild(node);
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'xmin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           bndbox_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           node=Createnode.createElement(&#39;ymin&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{4}))));
-           bndbox_node.appendChild(node);
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'ymin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">4</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           bndbox_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           node=Createnode.createElement(&#39;xmax&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{5}))));
-           bndbox_node.appendChild(node);
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'xmax'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">5</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           bndbox_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           node=Createnode.createElement(&#39;ymax&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{6}))));
-           bndbox_node.appendChild(node);
-        else %如果文件名不等，则需要新建xml
-           copyfile(filepath, &#39;JPEGImages&#39;);
-            %先保存上一次的xml
-           if exist(&#39;Createnode&#39;,&#39;var&#39;)
-              tempname=lastname;
-              tempname=strrep(tempname,&#39;.jpg&#39;,&#39;.xml&#39;);
-              xmlwrite(tempname,Createnode);   
-           end
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'ymax'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">6</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           bndbox_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token comment" spellcheck="true">%如果文件名不等，则需要新建xml</span>
+           <span class="token function">copyfile</span><span class="token punctuation">(</span>filepath<span class="token punctuation">,</span> <span class="token string">'JPEGImages'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">%先保存上一次的xml</span>
+           <span class="token keyword">if</span> <span class="token function">exist</span><span class="token punctuation">(</span><span class="token string">'Createnode'</span><span class="token punctuation">,</span><span class="token string">'var'</span><span class="token punctuation">)</span>
+              tempname<span class="token operator">=</span>lastname<span class="token punctuation">;</span>
+              tempname<span class="token operator">=</span><span class="token function">strrep</span><span class="token punctuation">(</span>tempname<span class="token punctuation">,</span><span class="token string">'.jpg'</span><span class="token punctuation">,</span><span class="token string">'.xml'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token function">xmlwrite</span><span class="token punctuation">(</span>tempname<span class="token punctuation">,</span>Createnode<span class="token punctuation">)</span><span class="token punctuation">;</span>   
+           <span class="token keyword">end</span>
 
 
-            Createnode=com.mathworks.xml.XMLUtils.createDocument(&#39;annotation&#39;);
-            Root=Createnode.getDocumentElement;%根节点
-            node=Createnode.createElement(&#39;folder&#39;);
-            node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,foldername)));
-            Root.appendChild(node);
-            node=Createnode.createElement(&#39;filename&#39;);
-            node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,str{1})));
-            Root.appendChild(node);
-            source_node=Createnode.createElement(&#39;source&#39;);
-            Root.appendChild(source_node);
-            node=Createnode.createElement(&#39;database&#39;);
-            node.appendChild(Createnode.createTextNode(sprintf(&#39;My Database&#39;)));
-            source_node.appendChild(node);
-            node=Createnode.createElement(&#39;annotation&#39;);
-            node.appendChild(Createnode.createTextNode(sprintf(&#39;VOC2007&#39;)));
-            source_node.appendChild(node);
+            Createnode<span class="token operator">=</span>com<span class="token punctuation">.</span>mathworks<span class="token punctuation">.</span>xml<span class="token punctuation">.</span>XMLUtils<span class="token punctuation">.</span><span class="token function">createDocument</span><span class="token punctuation">(</span><span class="token string">'annotation'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Root<span class="token operator">=</span>Createnode<span class="token punctuation">.</span>getDocumentElement<span class="token punctuation">;</span><span class="token comment" spellcheck="true">%根节点</span>
+            node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'folder'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span>foldername<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Root<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'filename'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span>str<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Root<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            source_node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'source'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Root<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>source_node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'database'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'My Database'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            source_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'annotation'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'VOC2007'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            source_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           node=Createnode.createElement(&#39;image&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;flickr&#39;)));
-           source_node.appendChild(node);
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'image'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'flickr'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           source_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           node=Createnode.createElement(&#39;flickrid&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;NULL&#39;)));
-           source_node.appendChild(node);
-           owner_node=Createnode.createElement(&#39;owner&#39;);
-           Root.appendChild(owner_node);
-           node=Createnode.createElement(&#39;flickrid&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;NULL&#39;)));
-           owner_node.appendChild(node);
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'flickrid'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'NULL'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           source_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+           owner_node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'owner'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           Root<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>owner_node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'flickrid'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'NULL'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           owner_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-           node=Createnode.createElement(&#39;name&#39;);
-           node.appendChild(Createnode.createTextNode(sprintf(&#39;liliangqi&#39;)));
-           owner_node.appendChild(node);
-           size_node=Createnode.createElement(&#39;size&#39;);
-           Root.appendChild(size_node);
+           node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'name'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'liliangqi'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           owner_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+           size_node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'size'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+           Root<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>size_node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-          node=Createnode.createElement(&#39;width&#39;);
-          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(w))));
-          size_node.appendChild(node);
+          node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'width'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>w<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          size_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-          node=Createnode.createElement(&#39;height&#39;);
-          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(h))));
-          size_node.appendChild(node);
+          node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'height'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          size_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-         node=Createnode.createElement(&#39;depth&#39;);
-         node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(d))));
-         size_node.appendChild(node);
+         node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'depth'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         size_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-          node=Createnode.createElement(&#39;segmented&#39;);
-          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;0&#39;)));
-          Root.appendChild(node);
-          object_node=Createnode.createElement(&#39;object&#39;);
-          Root.appendChild(object_node);
-          node=Createnode.createElement(&#39;name&#39;);
-          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,str{2})));
-          object_node.appendChild(node);
+          node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'segmented'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          Root<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          object_node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'object'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          Root<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>object_node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'name'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span>str<span class="token punctuation">{</span><span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          object_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-          node=Createnode.createElement(&#39;pose&#39;);
-          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;Unspecified&#39;)));
-          object_node.appendChild(node);
+          node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'pose'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token string">'Unspecified'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          object_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-          node=Createnode.createElement(&#39;truncated&#39;);
-          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;0&#39;)));
-          object_node.appendChild(node);
+          node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'truncated'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          object_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-          node=Createnode.createElement(&#39;difficult&#39;);
-          node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,&#39;0&#39;)));
-          object_node.appendChild(node);
+          node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'difficult'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          object_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-          bndbox_node=Createnode.createElement(&#39;bndbox&#39;);
-          object_node.appendChild(bndbox_node);
+          bndbox_node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'bndbox'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          object_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>bndbox_node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-         node=Createnode.createElement(&#39;xmin&#39;);
-         node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{3}))));
-         bndbox_node.appendChild(node);
+         node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'xmin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         bndbox_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-         node=Createnode.createElement(&#39;ymin&#39;);
-         node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{4}))));
-         bndbox_node.appendChild(node);
+         node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'ymin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">4</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+         bndbox_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        node=Createnode.createElement(&#39;xmax&#39;);
-        node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{5}))));
-        bndbox_node.appendChild(node);
+        node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'xmax'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">5</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bndbox_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        node=Createnode.createElement(&#39;ymax&#39;);
-        node.appendChild(Createnode.createTextNode(sprintf(&#39;%s&#39;,num2str(str{6}))));
-        bndbox_node.appendChild(node);
+        node<span class="token operator">=</span>Createnode<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'ymax'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>Createnode<span class="token punctuation">.</span><span class="token function">createTextNode</span><span class="token punctuation">(</span><span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token string">'%s'</span><span class="token punctuation">,</span><span class="token function">num2str</span><span class="token punctuation">(</span>str<span class="token punctuation">{</span><span class="token number">6</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bndbox_node<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-       lastname=str{1};
-        end
-        %处理最后一行
-        if feof(fidin)
-            tempname=lastname;
-            tempname=strrep(tempname,&#39;.jpg&#39;,&#39;.xml&#39;);
-            xmlwrite(tempname,Createnode);
-        end
-end
-fclose(fidin);
+       lastname<span class="token operator">=</span>str<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">end</span>
+        <span class="token comment" spellcheck="true">%处理最后一行</span>
+        <span class="token keyword">if</span> <span class="token function">feof</span><span class="token punctuation">(</span>fidin<span class="token punctuation">)</span>
+            tempname<span class="token operator">=</span>lastname<span class="token punctuation">;</span>
+            tempname<span class="token operator">=</span><span class="token function">strrep</span><span class="token punctuation">(</span>tempname<span class="token punctuation">,</span><span class="token string">'.jpg'</span><span class="token punctuation">,</span><span class="token string">'.xml'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">xmlwrite</span><span class="token punctuation">(</span>tempname<span class="token punctuation">,</span>Createnode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+<span class="token function">fclose</span><span class="token punctuation">(</span>fidin<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-file=dir(pwd);
-for i=1:length(file)
-   if length(file(i).name)&gt;=4 &amp;&amp; strcmp(file(i).name(end-3:end),&#39;.xml&#39;)
-    fold=fopen(file(i).name,&#39;r&#39;);
-    fnew=fopen([xmlpath_new file(i).name],&#39;w&#39;);
-    line=1;
-    while ~feof(fold)
-        tline=fgetl(fold);
-        if line==1
-           line=2;
-           continue;
-        end
-        expression = &#39;   &#39;;
-        replace=char(9);
-        newStr=regexprep(tline,expression,replace);
-        fprintf(fnew,&#39;%s\n&#39;,newStr);
-    end
-    fprintf(&#39;已处理%s\n&#39;,file(i).name);
-    fclose(fold);
-    fclose(fnew);
-    delete(file(i).name);
-   end
-end
-</code></pre>
+file<span class="token operator">=</span><span class="token function">dir</span><span class="token punctuation">(</span>pwd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token number">i</span><span class="token operator">=</span><span class="token number">1</span><span class="token operator">:</span><span class="token function">length</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span>
+   <span class="token keyword">if</span> <span class="token function">length</span><span class="token punctuation">(</span><span class="token function">file</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">)</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token operator">>=</span><span class="token number">4</span> <span class="token operator">&amp;&amp;</span> <span class="token function">strcmp</span><span class="token punctuation">(</span><span class="token function">file</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token keyword">end</span><span class="token number">-3</span><span class="token operator">:</span><span class="token keyword">end</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">'.xml'</span><span class="token punctuation">)</span>
+    fold<span class="token operator">=</span><span class="token function">fopen</span><span class="token punctuation">(</span><span class="token function">file</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">)</span><span class="token punctuation">.</span>name<span class="token punctuation">,</span><span class="token string">'r'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    fnew<span class="token operator">=</span><span class="token function">fopen</span><span class="token punctuation">(</span><span class="token punctuation">[</span>xmlpath_new <span class="token function">file</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">)</span><span class="token punctuation">.</span>name<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token string">'w'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    line<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token operator">~</span><span class="token function">feof</span><span class="token punctuation">(</span>fold<span class="token punctuation">)</span>
+        tline<span class="token operator">=</span><span class="token function">fgetl</span><span class="token punctuation">(</span>fold<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> line<span class="token operator">==</span><span class="token number">1</span>
+           line<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>
+           <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token keyword">end</span>
+        expression <span class="token operator">=</span> <span class="token string">'   '</span><span class="token punctuation">;</span>
+        replace<span class="token operator">=</span><span class="token function">char</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        newStr<span class="token operator">=</span><span class="token function">regexprep</span><span class="token punctuation">(</span>tline<span class="token punctuation">,</span>expression<span class="token punctuation">,</span>replace<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span>fnew<span class="token punctuation">,</span><span class="token string">'%s\n'</span><span class="token punctuation">,</span>newStr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+    <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token string">'已处理%s\n'</span><span class="token punctuation">,</span><span class="token function">file</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">)</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">fclose</span><span class="token punctuation">(</span>fold<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">fclose</span><span class="token punctuation">(</span>fnew<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">delete</span><span class="token punctuation">(</span><span class="token function">file</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">)</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>代码的注释已经写得很清楚了，我就不多说了，其中的第28行到第30行是处理过程中的图片带bounding box框的显示功能，看起来比较炫酷，当热了，为了节省时间可以备注掉。</p>
 <p>　　在等待五六个小时后差不多所有的xml文件就生成了，每一张图片对应一个xml文件。当然了，不含行人的图片是没有对应的xml文件的。xml文件的内容如下所示：</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;annotation&gt;
-   &lt;folder&gt;caltech&lt;/folder&gt;
-   &lt;filename&gt;000187.jpg&lt;/filename&gt;
-   &lt;source&gt;
-      &lt;database&gt;My Database&lt;/database&gt;
-      &lt;annotation&gt;VOC2007&lt;/annotation&gt;
-      &lt;image&gt;flickr&lt;/image&gt;
-      &lt;flickrid&gt;NULL&lt;/flickrid&gt;
-   &lt;/source&gt;
-   &lt;owner&gt;
-      &lt;flickrid&gt;NULL&lt;/flickrid&gt;
-      &lt;name&gt;liliangqi&lt;/name&gt;
-   &lt;/owner&gt;
-   &lt;size&gt;
-      &lt;width&gt;640&lt;/width&gt;
-      &lt;height&gt;480&lt;/height&gt;
-      &lt;depth&gt;3&lt;/depth&gt;
-   &lt;/size&gt;
-   &lt;segmented&gt;0&lt;/segmented&gt;
-   &lt;object&gt;
-      &lt;name&gt;person&lt;/name&gt;
-      &lt;pose&gt;Unspecified&lt;/pose&gt;
-      &lt;truncated&gt;0&lt;/truncated&gt;
-      &lt;difficult&gt;0&lt;/difficult&gt;
-      &lt;bndbox&gt;
-         &lt;xmin&gt;410.782791&lt;/xmin&gt;
-         &lt;ymin&gt;158.810966&lt;/ymin&gt;
-         &lt;xmax&gt;423.919272&lt;/xmax&gt;
-         &lt;ymax&gt;185.305279&lt;/ymax&gt;
-      &lt;/bndbox&gt;
-   &lt;/object&gt;
-&lt;/annotation&gt;
-</code></pre>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="utf-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>annotation</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>folder</span><span class="token punctuation">></span></span>caltech<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>folder</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>filename</span><span class="token punctuation">></span></span>000187.jpg<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>filename</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>database</span><span class="token punctuation">></span></span>My Database<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>database</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>annotation</span><span class="token punctuation">></span></span>VOC2007<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>annotation</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>image</span><span class="token punctuation">></span></span>flickr<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>image</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>flickrid</span><span class="token punctuation">></span></span>NULL<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>flickrid</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>source</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>owner</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>flickrid</span><span class="token punctuation">></span></span>NULL<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>flickrid</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>liliangqi<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>owner</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>size</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>width</span><span class="token punctuation">></span></span>640<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>width</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>height</span><span class="token punctuation">></span></span>480<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>height</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>depth</span><span class="token punctuation">></span></span>3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>depth</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>size</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>segmented</span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>segmented</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>object</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>person<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pose</span><span class="token punctuation">></span></span>Unspecified<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pose</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>truncated</span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>truncated</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>difficult</span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>difficult</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bndbox</span><span class="token punctuation">></span></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>xmin</span><span class="token punctuation">></span></span>410.782791<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>xmin</span><span class="token punctuation">></span></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ymin</span><span class="token punctuation">></span></span>158.810966<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ymin</span><span class="token punctuation">></span></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>xmax</span><span class="token punctuation">></span></span>423.919272<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>xmax</span><span class="token punctuation">></span></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ymax</span><span class="token punctuation">></span></span>185.305279<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ymax</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bndbox</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>object</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>annotation</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>其中第4行是其对应的图片名，第22行是bounding box中的物体的种类（行人可以称为物体嘛！差评），第27行到第30行是bounding box的坐标信息，说明这个xml文件对应的图片中只有一个行人。</p>
 <p>　　至此，vbb文件也就是标签信息文件处理完毕。</p>
 <hr>
 <h2 id="训练集和测试集的设置"><a href="#训练集和测试集的设置" class="headerlink" title="训练集和测试集的设置"></a>训练集和测试集的设置</h2><p>　　标准数据集已经生成了，接下来就是指定训练集和测试集了。虽然官方说<code>set00</code>~<code>set05</code>作为训练集，其余作为测试集，但它的前提是那个时候只有前六个子集有标签信息，而现在我们拥有所有子集的标签信息，就无所谓那些做训练集那些做测试集了，那么最好的设置方法，就是随机设定。</p>
 <p>　　PASCAL VOC 2007标准要求的指定训练集和测试集的方式是用txt文件列出作为训练（测试集）的图片编号，我们利用如下的代码来实现随机设定训练集和测试集：</p>
-<pre><code class="matlab">%%
-%该代码根据已生成的xml，制作VOC2007数据集中的trainval.txt;train.txt;test.txt和val.txt
-%trainval占总数据集的50%，test占总数据集的50%；train占trainval的50%，val占trainval的50%；
-%上面所占百分比可根据自己的数据集修改，如果数据集比较少，test和val可少一些
+<pre class="line-numbers language-matlab"><code class="language-matlab"><span class="token comment" spellcheck="true">%%</span>
+<span class="token comment" spellcheck="true">%该代码根据已生成的xml，制作VOC2007数据集中的trainval.txt;train.txt;test.txt和val.txt</span>
+<span class="token comment" spellcheck="true">%trainval占总数据集的50%，test占总数据集的50%；train占trainval的50%，val占trainval的50%；</span>
+<span class="token comment" spellcheck="true">%上面所占百分比可根据自己的数据集修改，如果数据集比较少，test和val可少一些</span>
 
 
-%%
-%注意修改下面四个值
-xmlfilepath=&#39;/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/xml/&#39;;
-txtsavepath=&#39;/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/ImageSets/Main/&#39;;
-trainval_percent=0.5;%trainval占整个数据集的百分比，剩下部分就是test所占百分比
-train_percent=0.5;%train占trainval的百分比，剩下部分就是val所占百分比
+<span class="token comment" spellcheck="true">%%</span>
+<span class="token comment" spellcheck="true">%注意修改下面四个值</span>
+xmlfilepath<span class="token operator">=</span><span class="token string">'/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/xml/'</span><span class="token punctuation">;</span>
+txtsavepath<span class="token operator">=</span><span class="token string">'/Users/liliangqi/Documents/pedestrianDetection/person_search/dataset/annotation/ImageSets/Main/'</span><span class="token punctuation">;</span>
+trainval_percent<span class="token operator">=</span><span class="token number">0.5</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">%trainval占整个数据集的百分比，剩下部分就是test所占百分比</span>
+train_percent<span class="token operator">=</span><span class="token number">0.5</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">%train占trainval的百分比，剩下部分就是val所占百分比</span>
 
 
-%%
-xmlfile=dir(xmlfilepath);
-numOfxml=length(xmlfile)-2;%减去.和..  总的数据集大小
+<span class="token comment" spellcheck="true">%%</span>
+xmlfile<span class="token operator">=</span><span class="token function">dir</span><span class="token punctuation">(</span>xmlfilepath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+numOfxml<span class="token operator">=</span><span class="token function">length</span><span class="token punctuation">(</span>xmlfile<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">%减去.和..  总的数据集大小</span>
 
-% 此为原生成方法
-trainval=sort(randperm(numOfxml,floor(numOfxml*trainval_percent)));
-test=sort(setdiff(1:numOfxml,trainval));
+<span class="token comment" spellcheck="true">% 此为原生成方法</span>
+trainval<span class="token operator">=</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token function">randperm</span><span class="token punctuation">(</span>numOfxml<span class="token punctuation">,</span><span class="token function">floor</span><span class="token punctuation">(</span>numOfxml<span class="token operator">*</span>trainval_percent<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+test<span class="token operator">=</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token function">setdiff</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">:</span>numOfxml<span class="token punctuation">,</span>trainval<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-% 为避免过拟合，将数据集从中间分开
-% trainval = 1: floor(numOfxml*trainval_percent);
-% test = (floor(numOfxml*trainval_percent) + 1) : numOfxml;
+<span class="token comment" spellcheck="true">% 为避免过拟合，将数据集从中间分开</span>
+<span class="token comment" spellcheck="true">% trainval = 1: floor(numOfxml*trainval_percent);</span>
+<span class="token comment" spellcheck="true">% test = (floor(numOfxml*trainval_percent) + 1) : numOfxml;</span>
 
-% 为避免过拟合，对视频数据集进行采样
-% trainval = 1: floor(numOfxml*trainval_percent);
-% trainval_size = length(trainval);
-% test = 1: (numOfxml - trainval_size);
-% sampleRate = 6;
-% trainval = trainval * sampleRate;
-% trainval = trainval(1:floor(trainval_size/sampleRate));
-% test = test * sampleRate;
-% test = test(1:floor(length(test)/sampleRate));
-% test = test + trainval_size;
+<span class="token comment" spellcheck="true">% 为避免过拟合，对视频数据集进行采样</span>
+<span class="token comment" spellcheck="true">% trainval = 1: floor(numOfxml*trainval_percent);</span>
+<span class="token comment" spellcheck="true">% trainval_size = length(trainval);</span>
+<span class="token comment" spellcheck="true">% test = 1: (numOfxml - trainval_size);</span>
+<span class="token comment" spellcheck="true">% sampleRate = 6;</span>
+<span class="token comment" spellcheck="true">% trainval = trainval * sampleRate;</span>
+<span class="token comment" spellcheck="true">% trainval = trainval(1:floor(trainval_size/sampleRate));</span>
+<span class="token comment" spellcheck="true">% test = test * sampleRate;</span>
+<span class="token comment" spellcheck="true">% test = test(1:floor(length(test)/sampleRate));</span>
+<span class="token comment" spellcheck="true">% test = test + trainval_size;</span>
 
-trainvalsize=length(trainval);%trainval的大小
-train=sort(trainval(randperm(trainvalsize,floor(trainvalsize*train_percent))));
-val=sort(setdiff(trainval,train));
-
-
-ftrainval=fopen([txtsavepath &#39;trainval.txt&#39;],&#39;w&#39;);
-ftest=fopen([txtsavepath &#39;test.txt&#39;],&#39;w&#39;);
-ftrain=fopen([txtsavepath &#39;train.txt&#39;],&#39;w&#39;);
-fval=fopen([txtsavepath &#39;val.txt&#39;],&#39;w&#39;);
+trainvalsize<span class="token operator">=</span><span class="token function">length</span><span class="token punctuation">(</span>trainval<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">%trainval的大小</span>
+train<span class="token operator">=</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token function">trainval</span><span class="token punctuation">(</span><span class="token function">randperm</span><span class="token punctuation">(</span>trainvalsize<span class="token punctuation">,</span><span class="token function">floor</span><span class="token punctuation">(</span>trainvalsize<span class="token operator">*</span>train_percent<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+val<span class="token operator">=</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token function">setdiff</span><span class="token punctuation">(</span>trainval<span class="token punctuation">,</span>train<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 
-for i=1:numOfxml
-    if ismember(i,trainval)
-        fprintf(ftrainval,&#39;%s\n&#39;,xmlfile(i+2).name(1:end-4));
-        if ismember(i,train)
-            fprintf(ftrain,&#39;%s\n&#39;,xmlfile(i+2).name(1:end-4));
-        else
-            fprintf(fval,&#39;%s\n&#39;,xmlfile(i+2).name(1:end-4));
-        end
-%     else
-%         fprintf(ftest,&#39;%s\n&#39;,xmlfile(i+2).name(1:end-4));
-    end
-    if ismember(i, test)
-        fprintf(ftest,&#39;%s\n&#39;,xmlfile(i+2).name(1:end-4));
-    end
-end
-fclose(ftrainval);
-fclose(ftrain);
-fclose(fval);
-fclose(ftest);
-</code></pre>
+ftrainval<span class="token operator">=</span><span class="token function">fopen</span><span class="token punctuation">(</span><span class="token punctuation">[</span>txtsavepath <span class="token string">'trainval.txt'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token string">'w'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ftest<span class="token operator">=</span><span class="token function">fopen</span><span class="token punctuation">(</span><span class="token punctuation">[</span>txtsavepath <span class="token string">'test.txt'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token string">'w'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ftrain<span class="token operator">=</span><span class="token function">fopen</span><span class="token punctuation">(</span><span class="token punctuation">[</span>txtsavepath <span class="token string">'train.txt'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token string">'w'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+fval<span class="token operator">=</span><span class="token function">fopen</span><span class="token punctuation">(</span><span class="token punctuation">[</span>txtsavepath <span class="token string">'val.txt'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token string">'w'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+<span class="token keyword">for</span> <span class="token number">i</span><span class="token operator">=</span><span class="token number">1</span><span class="token operator">:</span>numOfxml
+    <span class="token keyword">if</span> <span class="token function">ismember</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">,</span>trainval<span class="token punctuation">)</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span>ftrainval<span class="token punctuation">,</span><span class="token string">'%s\n'</span><span class="token punctuation">,</span><span class="token function">xmlfile</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">:</span><span class="token keyword">end</span><span class="token number">-4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token function">ismember</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">,</span>train<span class="token punctuation">)</span>
+            <span class="token function">fprintf</span><span class="token punctuation">(</span>ftrain<span class="token punctuation">,</span><span class="token string">'%s\n'</span><span class="token punctuation">,</span><span class="token function">xmlfile</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">:</span><span class="token keyword">end</span><span class="token number">-4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span>
+            <span class="token function">fprintf</span><span class="token punctuation">(</span>fval<span class="token punctuation">,</span><span class="token string">'%s\n'</span><span class="token punctuation">,</span><span class="token function">xmlfile</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">:</span><span class="token keyword">end</span><span class="token number">-4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">end</span>
+<span class="token comment" spellcheck="true">%     else</span>
+<span class="token comment" spellcheck="true">%         fprintf(ftest,</span><span class="token string">'%s\n'</span><span class="token punctuation">,</span><span class="token function">xmlfile</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">:</span><span class="token keyword">end</span><span class="token number">-4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+    <span class="token keyword">if</span> <span class="token function">ismember</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">,</span> test<span class="token punctuation">)</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span>ftest<span class="token punctuation">,</span><span class="token string">'%s\n'</span><span class="token punctuation">,</span><span class="token function">xmlfile</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">:</span><span class="token keyword">end</span><span class="token number">-4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+<span class="token function">fclose</span><span class="token punctuation">(</span>ftrainval<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">fclose</span><span class="token punctuation">(</span>ftrain<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">fclose</span><span class="token punctuation">(</span>fval<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">fclose</span><span class="token punctuation">(</span>ftest<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>生成四个txt文件，分别是<code>train.txt</code>,<code>val.txt</code>,<code>trainval.txt</code>和<code>test.txt</code>，分别对应训练集、验证集、训练集加验证集和测试集，<code>trainval.txt</code>与<code>test.txt</code>没有交集，其中，<code>trainval.txt</code>的内容如下图所示：</p>
 <p><img src="http://i1.buimg.com/598176/28b7254b4a47b976.png" alt=""></p>
 <p>可以看到这是训练集加验证集的图片编号集合。</p>
@@ -670,84 +671,84 @@ fclose(ftest);
 <hr>
 <h1 id="利用faster-R-CNN进行行人检测"><a href="#利用faster-R-CNN进行行人检测" class="headerlink" title="利用faster R-CNN进行行人检测"></a>利用faster R-CNN进行行人检测</h1><h2 id="配置实验环境"><a href="#配置实验环境" class="headerlink" title="配置实验环境"></a>配置实验环境</h2><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
 <li><p>将faster R-CNN工程从github上克隆到本地</p>
-<pre><code class="shell">git clone --recursive https://github.com/rbgirshick/py-faster-rcnn.git
-</code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell">git clone --recursive https://github.com/rbgirshick/py-faster-rcnn.git
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 <li><p>安装必要的Python包： <code>cython</code>, <code>python-opencv</code>, <code>easydict</code></p>
-<pre><code class="shell">sudo apt-get install cython
+<pre class="line-numbers language-shell"><code class="language-shell">sudo apt-get install cython
 sudo apt-get install python-opencv
 sudo apt-get install python-pip python-dev build-essential    #安装pip
 sudo pip install easydict
 sudo pip install numpy
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 <li><p>我们将克隆faster R-CNN工程的根目录称为<code>FRCN_ROOT</code>，然后build Cython模型</p>
-<pre><code class="shell">cd $FRCN_ROOT/lib
+<pre class="line-numbers language-shell"><code class="language-shell">cd $FRCN_ROOT/lib
 make
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 </li>
 <li><p>首先对<code>caffe-fast-rcnn</code>的<code>Makefile.config</code>文件进行配置，可以参考我的<a href="http://www.liliangqi.com/2017/05/03/%E5%AE%89%E8%A3%85caffe/">Ubuntu 16.04安装caffe及torch</a>一文，然后build caffe 以及pycaffe</p>
-<pre><code class="shell">cd $FRCN_ROOT/caffe-fast-rcnn
+<pre class="line-numbers language-shell"><code class="language-shell">cd $FRCN_ROOT/caffe-fast-rcnn
 sudo make all -j8
 sudo make pycaffe
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 </li>
 <li><p>下载预训练的检测模型</p>
-<pre><code class="shell">cd $FRCN_ROOT
+<pre class="line-numbers language-shell"><code class="language-shell">cd $FRCN_ROOT
 ./data/scripts/fetch_faster_rcnn_models.sh
 ./data/scripts/fetch_imagenet_models.sh
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>经此步骤我们在 <code>$FRCN_ROOT/data</code> 目录下将会得到一个叫做 <code>faster_rcnn_models</code>的文件夹和一个叫做<code>imagenet_models</code>的文件夹。</p>
 </li>
 <li><p>运行Demo</p>
-<pre><code class="shell">cd $FRCN_ROOT
+<pre class="line-numbers language-shell"><code class="language-shell">cd $FRCN_ROOT
 ./tools/demo.py
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>此Demo使用的网络为VGG16网络，利用训练好的模型在五幅图片上做测试，输出带有bounding box的结果。</p>
 </li>
 </ol>
 <h3 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h3><ol>
 <li><p>在<code>sudo make all -j8</code>时报错：</p>
-<pre><code class="shell">In file included from ./include/caffe/util/cudnn.hpp:5:0,
+<pre class="line-numbers language-shell"><code class="language-shell">In file included from ./include/caffe/util/cudnn.hpp:5:0,
                  from ./include/caffe/util/device_alternate.hpp:40,
                  from ./include/caffe/common.hpp:19,
                  from src/caffe/data_reader.cpp:6:
 /usr/local/cuda/include/cudnn.h:803:27: note: declared here
  cudnnStatus_t CUDNNWINAPI cudnnSetPooling2dDescriptor(
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>原因：我们使用的cudnn v5中修改了<code>cudnnStatus_t CUDNNWINAPI cudnnActivationBackward</code>等函数接口，而旧版的caffe中（例如faster rcnn里的caffe）仍然使用原来的调用方式。</p>
 <p>解决办法：使用最新版本的caffe里面的部分文件对faster rcnn文件进行替换</p>
-<pre><code class="shell">cp caffe-master/inlude/caffe/layers/cudnn_* caffe-fast-rcnn/include/caffe/layers/
+<pre class="line-numbers language-shell"><code class="language-shell">cp caffe-master/inlude/caffe/layers/cudnn_* caffe-fast-rcnn/include/caffe/layers/
 cp caffe-master/src/caffe/layers/cudnn_* caffe-fast-rcnn/src/caffe/layers/
 cp caffe-master/include/caffe/util/cudnn.hpp caffe-fast-rcnn/include/caffe/util/
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 </li>
 </ol>
 <hr>
 <h2 id="训练PASCAL-VOC-2007数据集"><a href="#训练PASCAL-VOC-2007数据集" class="headerlink" title="训练PASCAL VOC 2007数据集"></a>训练PASCAL VOC 2007数据集</h2><h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3><ol>
 <li><p>下载数据集</p>
-<pre><code class="shell">wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
+<pre class="line-numbers language-shell"><code class="language-shell">wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
 wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar
 wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCdevkit_08-Jun-2007.tar
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 </li>
 <li><p>将下载的压缩文件解压缩到一个名为<code>VOCdevkit</code>的文件夹中</p>
-<pre><code class="shell">tar xvf VOCtrainval_06-Nov-2007.tar
+<pre class="line-numbers language-shell"><code class="language-shell">tar xvf VOCtrainval_06-Nov-2007.tar
 tar xvf VOCtest_06-Nov-2007.tar
 tar xvf VOCdevkit_08-Jun-2007.tar
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 </li>
 <li><p>建立软连接</p>
-<pre><code class="shell">cd $FRCN_ROOT/data
+<pre class="line-numbers language-shell"><code class="language-shell">cd $FRCN_ROOT/data
 ln -s $VOCdevkit VOCdevkit2007
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>其中<code>$VOCdevkit</code>表示我们刚刚解压出的<code>VOCdevkit</code>文件夹的路径，这一步操作其实是方便我们共享数据，比如我在两个工程里都要用到<code>VOCdevkit</code>文件夹里的数据，我就不必把<code>VOCdevkit</code>文件夹拷贝两份放到每个工程里，而是通过这种数据共享的方式来节省硬盘内存。当然了这样做的缺点就是你在每个共享软连接的目录下修改文件时，所有同时共享的文件夹和原始文件夹中的数据都会被同步修改。</p>
 </li>
 <li><p>选择训练方式以及训练模型</p>
 <p>faster R-CNN提供了两种训练方式：<em>分阶段训练</em>和<em>端到端训练</em>。分阶段训练就是先训练用于生成region preposal的rpn网络，再训练用于检测的fast R-CNN网络；而端到端的网络则是连续进行训练，无需人为地接续后面的操作。所以我们这里选择端到端的训练方式。</p>
 <p>在终端运行：</p>
-<pre><code class="shell">./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
-</code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell">./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>其中<code>0</code>表示使用的GPU编号为0，<code>VGG16</code>表示使用VGG16网络，<code>pascal_voc</code>表示使用的数据格式为PASCAL VOC格式的，恰好我们这里使用的数据集就是PASCAL VOC 2007数据集。</p>
 </li>
 <li><p>训练结束后我们会在<code>$FRCN_ROOT</code>目录下得到一个<code>output</code>文件夹，里面保存着我们训练后得到的模型</p>
@@ -757,8 +758,8 @@ ln -s $VOCdevkit VOCdevkit2007
 <li><p>训练模型时出现错误：<font color="red"><strong>TypeError: slice indices must be integers or None or have an __index__ method</strong></font></p>
 <p>原因：numpy版本过高，将其降级到1.11.0即可</p>
 <p>解决办法：</p>
-<pre><code class="shell">sudo pip install -U numpy==1.11.0
-</code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell">sudo pip install -U numpy==1.11.0
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 </ol>
 <hr>
@@ -783,61 +784,61 @@ ln -s $VOCdevkit VOCdevkit2007
 <li><p>修改相应的Python文件</p>
 <ol>
 <li><p>将<code>$FRCN_ROOT/lib/datasets/pascal_voc.py</code>第30行</p>
-<pre><code class="python">self._classes = (&#39;__background__&#39;, # always index 0
-                 &#39;aeroplane&#39;, &#39;bicycle&#39;, &#39;bird&#39;, &#39;boat&#39;,
-                 &#39;bottle&#39;, &#39;bus&#39;, &#39;car&#39;, &#39;cat&#39;, &#39;chair&#39;,
-                 &#39;cow&#39;, &#39;diningtable&#39;, &#39;dog&#39;, &#39;horse&#39;,
-                 &#39;motorbike&#39;, &#39;person&#39;, &#39;pottedplant&#39;,
-                 &#39;sheep&#39;, &#39;sofa&#39;, &#39;train&#39;, &#39;tvmonitor&#39;)
-</code></pre>
+<pre class="line-numbers language-python"><code class="language-python">self<span class="token punctuation">.</span>_classes <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string">'__background__'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true"># always index 0</span>
+                 <span class="token string">'aeroplane'</span><span class="token punctuation">,</span> <span class="token string">'bicycle'</span><span class="token punctuation">,</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> <span class="token string">'boat'</span><span class="token punctuation">,</span>
+                 <span class="token string">'bottle'</span><span class="token punctuation">,</span> <span class="token string">'bus'</span><span class="token punctuation">,</span> <span class="token string">'car'</span><span class="token punctuation">,</span> <span class="token string">'cat'</span><span class="token punctuation">,</span> <span class="token string">'chair'</span><span class="token punctuation">,</span>
+                 <span class="token string">'cow'</span><span class="token punctuation">,</span> <span class="token string">'diningtable'</span><span class="token punctuation">,</span> <span class="token string">'dog'</span><span class="token punctuation">,</span> <span class="token string">'horse'</span><span class="token punctuation">,</span>
+                 <span class="token string">'motorbike'</span><span class="token punctuation">,</span> <span class="token string">'person'</span><span class="token punctuation">,</span> <span class="token string">'pottedplant'</span><span class="token punctuation">,</span>
+                 <span class="token string">'sheep'</span><span class="token punctuation">,</span> <span class="token string">'sofa'</span><span class="token punctuation">,</span> <span class="token string">'train'</span><span class="token punctuation">,</span> <span class="token string">'tvmonitor'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>改为</p>
-<pre><code class="python">self._classes = (&#39;__background__&#39;, # always index 0
-                 &#39;person&#39;)
-</code></pre>
+<pre class="line-numbers language-python"><code class="language-python">self<span class="token punctuation">.</span>_classes <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string">'__background__'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true"># always index 0</span>
+                 <span class="token string">'person'</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>也就是刚才说的，将21类检测对象改为2类</p>
 </li>
 <li><p>将<code>$FRCN_ROOT/lib/datasets/imdb.py</code>第102行到117行</p>
-<pre><code class="python">def append_flipped_images(self):
-        num_images = self.num_images
-        widths = self._get_widths()
-        for i in xrange(num_images):
-            boxes = self.roidb[i][&#39;boxes&#39;].copy()
-            oldx1 = boxes[:, 0].copy()
-            oldx2 = boxes[:, 2].copy()
-            boxes[:, 0] = widths[i] - oldx2 - 1
-            boxes[:, 2] = widths[i] - oldx1 - 1
-            assert (boxes[:, 2] &gt;= boxes[:, 0]).all()
-            entry = {&#39;boxes&#39; : boxes,
-                     &#39;gt_overlaps&#39; : self.roidb[i][&#39;gt_overlaps&#39;],
-                     &#39;gt_classes&#39; : self.roidb[i][&#39;gt_classes&#39;],
-                     &#39;flipped&#39; : True}
-            self.roidb.append(entry)
-        self._image_index = self._image_index * 2
-</code></pre>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">append_flipped_images</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        num_images <span class="token operator">=</span> self<span class="token punctuation">.</span>num_images
+        widths <span class="token operator">=</span> self<span class="token punctuation">.</span>_get_widths<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> xrange<span class="token punctuation">(</span>num_images<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            boxes <span class="token operator">=</span> self<span class="token punctuation">.</span>roidb<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'boxes'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            oldx1 <span class="token operator">=</span> boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            oldx2 <span class="token operator">=</span> boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> widths<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> oldx2 <span class="token operator">-</span> <span class="token number">1</span>
+            boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> widths<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> oldx1 <span class="token operator">-</span> <span class="token number">1</span>
+            <span class="token keyword">assert</span> <span class="token punctuation">(</span>boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">>=</span> boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>all<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            entry <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'boxes'</span> <span class="token punctuation">:</span> boxes<span class="token punctuation">,</span>
+                     <span class="token string">'gt_overlaps'</span> <span class="token punctuation">:</span> self<span class="token punctuation">.</span>roidb<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'gt_overlaps'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                     <span class="token string">'gt_classes'</span> <span class="token punctuation">:</span> self<span class="token punctuation">.</span>roidb<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'gt_classes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                     <span class="token string">'flipped'</span> <span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">}</span>
+            self<span class="token punctuation">.</span>roidb<span class="token punctuation">.</span>append<span class="token punctuation">(</span>entry<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>_image_index <span class="token operator">=</span> self<span class="token punctuation">.</span>_image_index <span class="token operator">*</span> <span class="token number">2</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>修改为</p>
-<pre><code class="python">def append_flipped_images(self):
-        num_images = self.num_images
-        widths = [PIL.Image.open(self.image_path.at(i)).size[0]
-                 for i in xrange(num_images)]
-        for i in xrange(num_images):
-            boxes = self.roidb[i][&#39;boxes&#39;].copy()
-            oldx1 = boxes[:, 0].copy()
-            oldx2 = boxes[:, 2].copy()
-            boxes[:, 0] = widths[i] - oldx2 - 1
-            print boxes[:, 0]
-            boxes[:, 2] = widths[i] - oldx1 - 1
-            print boxes[:, 0]
-            for b in range(len(boxes)):
-                if boxes[b][2] &lt; boxes[b][0]:
-                    boxes[b][0] = 0
-            assert (boxes[:, 2] &gt;= boxes[:, 0]).all()
-            entry = {&#39;boxes&#39; : boxes,
-                     &#39;gt_overlaps&#39; : self.roidb[i][&#39;gt_overlaps&#39;],
-                     &#39;gt_classes&#39; : self.roidb[i][&#39;gt_classes&#39;],
-                     &#39;flipped&#39; : True}
-            self.roidb.append(entry)
-        self._image_index = self._image_index * 2
-</code></pre>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">append_flipped_images</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        num_images <span class="token operator">=</span> self<span class="token punctuation">.</span>num_images
+        widths <span class="token operator">=</span> <span class="token punctuation">[</span>PIL<span class="token punctuation">.</span>Image<span class="token punctuation">.</span>open<span class="token punctuation">(</span>self<span class="token punctuation">.</span>image_path<span class="token punctuation">.</span>at<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>size<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+                 <span class="token keyword">for</span> i <span class="token keyword">in</span> xrange<span class="token punctuation">(</span>num_images<span class="token punctuation">)</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> xrange<span class="token punctuation">(</span>num_images<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            boxes <span class="token operator">=</span> self<span class="token punctuation">.</span>roidb<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'boxes'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            oldx1 <span class="token operator">=</span> boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            oldx2 <span class="token operator">=</span> boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> widths<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> oldx2 <span class="token operator">-</span> <span class="token number">1</span>
+            <span class="token keyword">print</span> boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+            boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> widths<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> oldx1 <span class="token operator">-</span> <span class="token number">1</span>
+            <span class="token keyword">print</span> boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+            <span class="token keyword">for</span> b <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>boxes<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> boxes<span class="token punctuation">[</span>b<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">&lt;</span> boxes<span class="token punctuation">[</span>b<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                    boxes<span class="token punctuation">[</span>b<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
+            <span class="token keyword">assert</span> <span class="token punctuation">(</span>boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">>=</span> boxes<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>all<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            entry <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'boxes'</span> <span class="token punctuation">:</span> boxes<span class="token punctuation">,</span>
+                     <span class="token string">'gt_overlaps'</span> <span class="token punctuation">:</span> self<span class="token punctuation">.</span>roidb<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'gt_overlaps'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                     <span class="token string">'gt_classes'</span> <span class="token punctuation">:</span> self<span class="token punctuation">.</span>roidb<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'gt_classes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                     <span class="token string">'flipped'</span> <span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">}</span>
+            self<span class="token punctuation">.</span>roidb<span class="token punctuation">.</span>append<span class="token punctuation">(</span>entry<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>_image_index <span class="token operator">=</span> self<span class="token punctuation">.</span>_image_index <span class="token operator">*</span> <span class="token number">2</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 </ol>
 </li>
@@ -850,17 +851,17 @@ ln -s $VOCdevkit VOCdevkit2007
 <li><p><font color="red"><strong>开始训练前一定要删除</strong></font><code>$FRCN_ROOT/output</code>文件夹、<code>$FRCN_ROOT/data/cache</code>文件夹和<code>$FRCN_ROOT/data/VOCdevkit2007/annotations_cache</code>文件夹，否则训练会出错</p>
 </li>
 <li><p>开始训练（测试紧接着进行）</p>
-<pre><code class="shell">./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
-</code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell">./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 <li><p>训练和测试的结果如下图所示：</p>
 <p><img src="http://i2.kiimg.com/598176/0458e7f23c6b2872.png" alt=""></p>
 <p>训练完毕后得到的<code>$FRCN_ROOT/output</code>文件夹结构为</p>
-<pre><code class="shell">+ output
+<pre class="line-numbers language-shell"><code class="language-shell">+ output
     + faster_rcnn_end2end
         + voc_2007_trainval
             - *.caffemodel
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>其中的<code>.caffemodel</code>文件就是训练迭代次数对应的训练结果模型。</p>
 </li>
 </ol>

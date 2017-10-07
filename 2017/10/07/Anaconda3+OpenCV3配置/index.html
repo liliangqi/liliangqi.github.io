@@ -66,7 +66,8 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-</head>
+<link rel="stylesheet" href="/css/prism-okaidia.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -214,9 +215,9 @@
 <li><p>按照安装提示完成安装，无需更改<strong>目的卷宗</strong>，它会自动安装到你的主文件夹下</p>
 </li>
 <li><p>安装完成后我们能够发现在<strong>~/.bash_profile</strong>文件中增加了两行</p>
-<pre><code class="shell"># added by Anaconda3 4.4.0 installer
-export PATH=&quot;Users/yourname/anaconda/bin:$PATH&quot;
-</code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell"># added by Anaconda3 4.4.0 installer
+export PATH="Users/yourname/anaconda/bin:$PATH"
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>这里是完成了环境变量的配置，要使其生效，则在终端输入<code>source ~/.bash_profile</code>即可。</p>
 </li>
 <li><p>在终端中输入<code>python</code>，弹出如下信息则说明安装成功。</p>
@@ -227,12 +228,12 @@ export PATH=&quot;Users/yourname/anaconda/bin:$PATH&quot;
 <h2 id="安装OpenCV3"><a href="#安装OpenCV3" class="headerlink" title="安装OpenCV3"></a>安装OpenCV3</h2><p>　　macOS上安装Anaconda2对应的OpenCV比较简单，直接使用<code>conda install opencv3</code>即可，但在最新的Anaconda3对应的Python3.6的官方包里还没有OpenCV的支持，因此目前使用conda forge的包。</p>
 <ol>
 <li><p>添加conda forge的频道</p>
-<pre><code class="shell">conda config --add channels conda-forge
-</code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell">conda config --add channels conda-forge
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 <li><p>安装OpenCV及其相应的依赖（依赖会自动安装）</p>
-<pre><code class="shell">conda install opencv
-</code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell">conda install opencv
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 </ol>
 <h1 id="Windows环境"><a href="#Windows环境" class="headerlink" title="Windows环境"></a>Windows环境</h1><p>　　Windows原生系统不带Python，我们直接进行Anaconda3的安装。</p>
@@ -256,9 +257,9 @@ export PATH=&quot;Users/yourname/anaconda/bin:$PATH&quot;
 </ol>
 <p>##安装OpenCV3</p>
 <p>　　Windows上安装OpenCV3的方法与macOS上类似，仍然是用如下的两行命令进行安装。</p>
-<pre><code class="shell">conda config --add channels conda-forge
+<pre class="line-numbers language-shell"><code class="language-shell">conda config --add channels conda-forge
 conda install opencv
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 </excerpt>
       
     </div>

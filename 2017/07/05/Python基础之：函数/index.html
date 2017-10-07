@@ -60,7 +60,8 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-</head>
+<link rel="stylesheet" href="/css/prism-okaidia.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -194,8 +195,8 @@
 </ul>
 <h2 id="禁止函数修改列表"><a href="#禁止函数修改列表" class="headerlink" title="禁止函数修改列表"></a>禁止函数修改列表</h2><ul>
 <li><p><strong>调用函数</strong>时将列表的副本（切片）而非本身传递给函数</p>
-<pre><code class="python">function_name(list_name[:])
-</code></pre>
+<pre class="line-numbers language-python"><code class="language-python">function_name<span class="token punctuation">(</span>list_name<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 <li><p>非必要的情况下还是尽可能向函数传递原始列表，这样可以避免花时间和内存创建副本，从而提高效率</p>
 </li>
@@ -207,8 +208,8 @@
 </ul>
 <h2 id="结合使用位置实参和任意数量实参"><a href="#结合使用位置实参和任意数量实参" class="headerlink" title="结合使用位置实参和任意数量实参"></a>结合使用位置实参和任意数量实参</h2><ul>
 <li><p>若要让函数接受不同类型的实参，必须在函数定义中将接纳任意数量实参的形参放在最后</p>
-<pre><code class="python">def make_pizza(size, *toppings):
-</code></pre>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">make_pizza</span><span class="token punctuation">(</span>size<span class="token punctuation">,</span> <span class="token operator">*</span>toppings<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 </ul>
 <h2 id="使用任意数量的关键字实参"><a href="#使用任意数量的关键字实参" class="headerlink" title="使用任意数量的关键字实参"></a>使用任意数量的关键字实参</h2><ul>

@@ -70,7 +70,8 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-</head>
+<link rel="stylesheet" href="/css/prism-okaidia.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -240,20 +241,20 @@
 <p><br></p>
 <h1 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h1><p>Git是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。具体的细节可以看廖雪峰老师的教程：<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">Git教程 - 廖雪峰的官方网站</a>，打开Git的官方网站下载Git安装包：<a href="https://git-scm.com/downloads" target="_blank" rel="external">Git - Downloads</a>，由于我们是Mac OS系统，这里选择相关的下载包，下载后根据提示安装。</p>
 <p>安装结束后，打开终端输入git测试是否安装成功，安装成功后，需要把Git和GitHub账号绑定，首先设置user.name和user.email信息，在终端中输入：</p>
-<pre><code class="Bash">git config --global user.name &quot;你的GitHub用户名&quot;
-git config --global user.email &quot;你的GitHub注册邮箱&quot;
-</code></pre>
+<pre class="line-numbers language-Bash"><code class="language-Bash">git config --global user.name "你的GitHub用户名"
+git config --global user.email "你的GitHub注册邮箱"
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>生成ssh密钥文件：</p>
-<pre><code class="Bash">ssh-keygen -t rsa -C &quot;你的GitHub注册邮箱&quot;
-</code></pre>
+<pre class="line-numbers language-Bash"><code class="language-Bash">ssh-keygen -t rsa -C "你的GitHub注册邮箱"
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>然后连续按三个回车即可，这里默认不需要设置密码。我们根据终端中提示的地址找到生成的 .ssh 文件夹，该文件夹为隐藏文件夹，可以在终端中用 cd 指令进入，我们需要的Key就存放在该文件夹下面的 id_rsa.pub 文件中，我们可以用指令<code>cat id_rsa.pub</code>打印出该文件中的内容，然后复制全部内容（以ssh-rsa开头）。</p>
 <p>打开<a href="https://github.com/settings/keys" target="_blank" rel="external">GitHub_Settings_keys</a>页面，点击 new SSH Key 按钮：</p>
 <center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_ujfyFj_3.jpeg" alt=""></center>
 
 <p>其中Title可以随意填，因为我们可能会用不同的电脑连接GitHub，比如家里的电脑，公司的电脑等等，所以后面可能会添加多个Key，可以把Title取为Home或者School等方便区分。把刚复制的内容粘贴进去，点击Add SSH key。</p>
 <p>在终端中检测GitHub公钥是否设置成功，输入：</p>
-<pre><code class="Bash">ssh git@github.com
-</code></pre>
+<pre class="line-numbers language-Bash"><code class="language-Bash">ssh git@github.com
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>显示以下内容说明成功：</p>
 <center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_0OonVo_4.jpeg?imageView2/2/w/800" alt=""></center>
 
@@ -263,35 +264,35 @@ git config --global user.email &quot;你的GitHub注册邮箱&quot;
 <p><br></p>
 <h1 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h1><p>hexo基于Node.js，我们需要首先安装Node.js，下载地址<a href="https://nodejs.org/en/download/" target="_blank" rel="external">Download | Node.js</a>，注意安装Node.js会包含环境变量及npm的安装。</p>
 <p>检测Node.js是否安装成功，在命令行中输入：</p>
-<pre><code class="Bash">node -v
-</code></pre>
+<pre class="line-numbers language-Bash"><code class="language-Bash">node -v
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>检查npm是否安装成功，在命令行输入：</p>
-<pre><code class="Bash">npm -v
-</code></pre>
+<pre class="line-numbers language-Bash"><code class="language-Bash">npm -v
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>若显示版本号， 则表明安装成功。</p>
 <p>对于Mac用户，要想安装hexo需要首先安装Xcode，我们可以从AppStore安装Xcode，安装结束后，我们需要安装Command Line Tools，Command LineTools是在Xcode中的一款工具，可以在命令行中运行C程序。打开终端输入：</p>
-<pre><code class="Bash">xcode-select --install
-</code></pre>
+<pre class="line-numbers language-Bash"><code class="language-Bash">xcode-select --install
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>安装结束后，再次在终端输入：                                                                                              </p>
-<pre><code class="Bash">xcode-select --install
-</code></pre>
+<pre class="line-numbers language-Bash"><code class="language-Bash">xcode-select --install
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>若显示command line tools are already installed，则表明安装成功。</p>
 <p>到此，Hexo所需要的环境已经全部搭建完成。</p>
 <p> <br></p>
 <h1 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h1><p>我们可以用npm命令安装Hexo，打开终端输入：</p>
-<pre><code class="Bash">npm install -g hexo-cli
-</code></pre>
+<pre class="line-numbers language-Bash"><code class="language-Bash">npm install -g hexo-cli
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>安装结束后，输入以下命令来初始化一个Hexo博客：</p>
-<pre><code class="Bash">hexo init &quot;folder&quot;
-cd &quot;folder&quot;
+<pre class="line-numbers language-Bash"><code class="language-Bash">hexo init "folder"
+cd "folder"
 npm install
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>该命令会在当前文件夹下新建一个名叫folder的文件夹来初始化一个博客，如果命令中没有folder，则在当前文件夹初始化博客。比如我要初始化一个名字叫blog的博客，则需要输入<code>hexo init blog</code>，这样我们就在该目录下新建了一个名为blog的文件夹，接着我们利用命令<code>cd blog</code>进入该文件夹，输入<code>npm install</code>来安装必备的库。</p>
 <p>到这里我们的网站就初始化完毕了，下面我们尝试添加一篇新的文章并且在本地服务器上查看。不出意外当前终端定位是在我们刚建立的文件夹下，即刚刚的blog文件夹下，此时在终端输入以下命令：</p>
-<pre><code class="Bash">hexo new [layout] &quot;title&quot;  #等价于 hexo n [layout] &quot;title&quot;
+<pre class="line-numbers language-Bash"><code class="language-Bash">hexo new [layout] "title"  #等价于 hexo n [layout] "title"
 hexo generate  #等价于 hexo g
 hexo server  #等价于 hexo s
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>我新建了一篇名为“<em>The first article</em>”的文章。</p>
 <center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204124_1ieo4u_5.jpeg?imageView2/2/w/800" alt=""></center>
 
@@ -304,30 +305,30 @@ hexo server  #等价于 hexo s
 <center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204125_k0kChT_7.jpeg?imageView2/2/w/800" alt=""></center>
 
 <p>接下来我们来介绍常用的Hexo命令（详细用法可查看Hexo官方文档<a href="https://hexo.io/docs/commands.html" target="_blank" rel="external">Commands | Hexo</a>）：</p>
-<pre><code class="Bash">hexo init #初始化博客
-</code></pre>
+<pre class="line-numbers language-Bash"><code class="language-Bash">hexo init #初始化博客
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>命令简写：</p>
-<pre><code class="Bash">hexo n &quot;我的博客&quot; #  == hexo new &quot;我的博客&quot; ：新建文章
+<pre class="line-numbers language-Bash"><code class="language-Bash">hexo n "我的博客" #  == hexo new "我的博客" ：新建文章
 hexo g # == hexo generate ：生成
 hexo s # == hexo server ：启动服务预览
 hexo d # == hexo deploy ：部署
-</code></pre>
-<pre><code class="Bash">hexo server #Hexo会监视文件变动并自动更新，无须重启服务器
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-Bash"><code class="language-Bash">hexo server #Hexo会监视文件变动并自动更新，无须重启服务器
 hexo server -s #静态模式
 hexo server -p 5000 #更改端口
 hexo server -i 192.168.1.1 #自定义 IP
 hexo clean #清除缓存，若是网页正常情况下可以忽略这条命令
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><br></p>
 <h1 id="推送网站"><a href="#推送网站" class="headerlink" title="推送网站"></a>推送网站</h1><p>推送网站需要关联Github和Hexo，官方文档下的关联步骤，输入第一行代码后，需要打开blog根目录下的 <em>_config.yml</em> 文件，按照下面所示要求进行配置。在 Hexo中有两份主要的配置文件，其名称都是 <em>_config.yml</em>。其中，一份位于站点根目录下，主要包含Hexo本身的配置；另一份位于主题目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。为了描述方便，在以下说明中，将前者称为站点配置文件，后者称为主题配置文件。我们在这一步只需要修改站点配置文件。</p>
 <center><img src="http://orwbuystz.bkt.clouddn.com/个人博客/20170621204125_CCOYpH_8.jpeg" alt=""></center>
 
 <p>其实就是给<code>hexo d</code>这个命令做相应的配置，让hexo知道你要把blog部署在哪个位置，很显然，我们部署在我们GitHub的仓库里。</p>
 <p>接下来，我们输入三条命令：</p>
-<pre><code class="Bash">hexo clean
+<pre class="line-numbers language-Bash"><code class="language-Bash">hexo clean
 hexo g
 hexo d
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>完成后打开浏览器，在地址栏输入 <strong>用户名</strong>.github.io ，这里的<strong>用户名</strong>为你的GitHub用户名，比如我的就是 <a href="zangbo.github.io">zangbo.github.io</a>，然后你就会发现你的博客已经可以在网络上被访问了。</p>
 <p><br></p>
 <h1 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h1><p>虽然在Internet上可以访问我们的网站，但是网址是GitHub提供的：<strong>xxx.github.io</strong> 而我们想使用我们自己刚买的个性化域名，这就需要绑定，这里以阿里云为例。登陆到阿里云：<a href="https://www.aliyun.com" target="_blank" rel="external">阿里云-为了无法计算的价值</a>，点击 <strong>控制台</strong> 进入管理控制台的域名列表，找到你的个性化域名，进入解析：</p>
@@ -366,64 +367,64 @@ hexo d
 <h1 id="功能扩展"><a href="#功能扩展" class="headerlink" title="功能扩展"></a>功能扩展</h1><h2 id="文章置顶"><a href="#文章置顶" class="headerlink" title="文章置顶"></a>文章置顶</h2><p>打开文件：</p>
 <p><code>根目录/node_modules/hexo-generator-index/lib/generator.js</code></p>
 <p>替换为以下代码并保存：</p>
-<pre><code class="javascript">&#39;use strict&#39;;
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token string">'use strict'</span><span class="token punctuation">;</span>
 
-var pagination = require(&#39;hexo-pagination&#39;);
+<span class="token keyword">var</span> pagination <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'hexo-pagination'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-module.exports = function(locals){
-  var config = this.config;
-  var posts = locals.posts;
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>locals<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">var</span> config <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>config<span class="token punctuation">;</span>
+  <span class="token keyword">var</span> posts <span class="token operator">=</span> locals<span class="token punctuation">.</span>posts<span class="token punctuation">;</span>
 
-    posts.data = posts.data.sort(function(a, b) {
-        if(a.top &amp;&amp; b.top) { // 两篇文章top都有定义
-            if(a.top == b.top) return b.date - a.date; // 若top值一样则按照文章日期降序排
-            else return b.top - a.top; // 否则按照top值降序排
-        }
-        else if(a.top &amp;&amp; !b.top) { // 以下是只有一篇文章top有定义，那么将有top的排在前面（这里用异或操作居然不行233）
-            return -1;
-        }
-        else if(!a.top &amp;&amp; b.top) {
-            return 1;
-        }
-        else return b.date - a.date; // 都没定义按照文章日期降序排
+    posts<span class="token punctuation">.</span>data <span class="token operator">=</span> posts<span class="token punctuation">.</span>data<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>top <span class="token operator">&amp;&amp;</span> b<span class="token punctuation">.</span>top<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 两篇文章top都有定义</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>top <span class="token operator">==</span> b<span class="token punctuation">.</span>top<span class="token punctuation">)</span> <span class="token keyword">return</span> b<span class="token punctuation">.</span>date <span class="token operator">-</span> a<span class="token punctuation">.</span>date<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 若top值一样则按照文章日期降序排</span>
+            <span class="token keyword">else</span> <span class="token keyword">return</span> b<span class="token punctuation">.</span>top <span class="token operator">-</span> a<span class="token punctuation">.</span>top<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 否则按照top值降序排</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>top <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>b<span class="token punctuation">.</span>top<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// 以下是只有一篇文章top有定义，那么将有top的排在前面（这里用异或操作居然不行233）</span>
+            <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>a<span class="token punctuation">.</span>top <span class="token operator">&amp;&amp;</span> b<span class="token punctuation">.</span>top<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">return</span> b<span class="token punctuation">.</span>date <span class="token operator">-</span> a<span class="token punctuation">.</span>date<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 都没定义按照文章日期降序排</span>
 
-    });
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  var paginationDir = config.pagination_dir || &#39;page&#39;;
+  <span class="token keyword">var</span> paginationDir <span class="token operator">=</span> config<span class="token punctuation">.</span>pagination_dir <span class="token operator">||</span> <span class="token string">'page'</span><span class="token punctuation">;</span>
 
-  return pagination(&#39;&#39;, posts, {
-    perPage: config.index_generator.per_page,
-    layout: [&#39;index&#39;, &#39;archive&#39;],
-    format: paginationDir + &#39;/%d/&#39;,
-    data: {
-      __index: true
-    }
-  });
-};
-</code></pre>
+  <span class="token keyword">return</span> <span class="token function">pagination</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">,</span> posts<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    perPage<span class="token punctuation">:</span> config<span class="token punctuation">.</span>index_generator<span class="token punctuation">.</span>per_page<span class="token punctuation">,</span>
+    layout<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'index'</span><span class="token punctuation">,</span> <span class="token string">'archive'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    format<span class="token punctuation">:</span> paginationDir <span class="token operator">+</span> <span class="token string">'/%d/'</span><span class="token punctuation">,</span>
+    data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      __index<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>在写文章时，只需要设置top参数为true即可。</p>
 <p><br></p>
 <h2 id="数学公式"><a href="#数学公式" class="headerlink" title="数学公式"></a>数学公式</h2><p>Hexo允许使用MathJax来渲染LaTeX数学公式，首先安装自动部署MathJax的插件：</p>
-<pre><code class="bash">npm install hexo-math --save
-hexo math install
-</code></pre>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-math --save
+hexo math <span class="token function">install</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>接着把主题配置文件下的mathjax选项设置为true：</p>
 <pre><code>mathjax: true
 </code></pre><p>如果直接在新建的博文中使用LaTeX格式的公式会出现一些问题，原因是hexo先用marked.<a href="http://lib.csdn.net/base/javascript" target="_blank" rel="external">js</a>渲染，然后再交给MathJax渲染。在marked.js渲染的时候下划线<code>_</code>是被escape掉并且换成了<code>&lt;em&gt;</code>标签，即斜体字，另外LaTeX中的<code>\\</code>也会被转义成一个<code>\</code>，这样会导致MathJax渲染时不认为它是一个换行符了。</p>
 <p>我们只要不让marked.js去转义<code>\\</code>,<code>\{</code>,<code>\}</code>在MathJax中有特殊用途的字符就行了。<br>具体修改方式，用编辑器打开marked.js（在<code>./node_modules/marked/lib/</code>中）</p>
 <p><strong>Step 1:</strong></p>
-<pre><code class="javascript">escape: /^\\([\\`*{}\[\]()# +\-.!_&gt;])/,
-</code></pre>
+<pre class="line-numbers language-javascript"><code class="language-javascript">escape<span class="token punctuation">:</span> <span class="token regex">/^\\([\\`*{}\[\]()# +\-.!_>])/</span><span class="token punctuation">,</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>替换成</p>
-<pre><code class="javascript">escape: /^\\([`*\[\]()# +\-.!_&gt;])/,
-</code></pre>
+<pre class="line-numbers language-javascript"><code class="language-javascript">escape<span class="token punctuation">:</span> <span class="token regex">/^\\([`*\[\]()# +\-.!_>])/</span><span class="token punctuation">,</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>这一步是在原基础上取消了对<code>\\</code>,<code>\{</code>,<code>\}</code>的转义(escape)</p>
 <p><strong>Step 2:</strong></p>
-<pre><code class="javascript">em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
-</code></pre>
+<pre class="line-numbers language-javascript"><code class="language-javascript">em<span class="token punctuation">:</span> <span class="token regex">/^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span><span class="token punctuation">,</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>替换成</p>
-<pre><code class="javascript">em:/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
-</code></pre>
+<pre class="line-numbers language-javascript"><code class="language-javascript">em<span class="token punctuation">:</span><span class="token regex">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span><span class="token punctuation">,</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>这样一来MathJax就能与marked.js共存了。</p>
 <p>在Markdown中输入数学公式：</p>
 <ul>

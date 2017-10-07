@@ -61,7 +61,8 @@
     <link rel="stylesheet" href="/css/vdonate.css" >
   
 
-</head>
+<link rel="stylesheet" href="/css/prism-okaidia.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -193,15 +194,15 @@
 
 <p>　　Ubuntu更新后，相对应的gcc版本也会更新，有些程序需要调用到本地的gcc来编译相对应的服务以及程序，在嵌入式linux开发中有时候需要本地的gcc来编译一个交叉编译器。基于这个原因有时候需要切换gcc的版本比如说高版本需要降低。之前一直使用手动安装指定的gcc版本，然后通过更改gcc的链接位置达到切换gcc版本的目的，但是这个方法存在问题，比如在更新后，后续安装VMware player的时候存在无法找到gcc 5.4因此正常安装后但是无法打开，因为一下服务需要本地编译，而VMware player只认gcc-5。因此解决方案如下。</p>
 <p>　　使用<code>gcc -v</code>查看当前版本信息。若需要的gcc版本没有安装使用<code>sudo apt-get install gcc-×</code>安装指定的版本，并使用<code>update-alternatives</code>命令配置。</p>
-<pre><code class="shell">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 50
+<pre class="line-numbers language-shell"><code class="language-shell">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 50
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5   40
-</code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>使用如上的命令则在配置中加入了这两个gcc版本的选项。</p>
 <p>　　终端输入<code>sudo update-alternatives --config gcc</code>出现如下选项：</p>
 <p><img src="http://i1.buimg.com/598176/4644f71c42e3a53c.png" alt=""></p>
 <p>　　设置以后通过<code>gcc -v</code>查看当前版本信息。如果需要删除则终端输入</p>
-<pre><code class="shell">sudo update-alternatives --remove gcc /usr/bin/gcc-4.9
-</code></pre>
+<pre class="line-numbers language-shell"><code class="language-shell">sudo update-alternatives --remove gcc /usr/bin/gcc-4.9
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </the></excerpt>
       
     </div>
