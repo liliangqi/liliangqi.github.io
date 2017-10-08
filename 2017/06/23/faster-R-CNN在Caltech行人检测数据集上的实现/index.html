@@ -6,30 +6,30 @@
   <title>faster r-cnn在caltech行人数据集上的实现 | 程序员の养成记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="数据处理环境搭建代码复现" />
+  <meta name="keywords" content="环境搭建数据处理代码复现" />
   
   
   
   
   <meta name="description" content="这篇文章致力于在faster R-CNN框架下，利用Caffe在Caltech行人数据集上实现行人检测任务。本文分为两部分，首先是对数据集的处理，其次是搭建环境对py-faster-rcnn代码进行复现。">
-<meta name="keywords" content="数据处理,环境搭建,代码复现">
+<meta name="keywords" content="环境搭建,数据处理,代码复现">
 <meta property="og:type" content="article">
 <meta property="og:title" content="faster R-CNN在Caltech行人数据集上的实现">
 <meta property="og:url" content="http://www.liliangqi.com/2017/06/23/faster-R-CNN在Caltech行人检测数据集上的实现/index.html">
 <meta property="og:site_name" content="程序员の养成记">
 <meta property="og:description" content="这篇文章致力于在faster R-CNN框架下，利用Caffe在Caltech行人数据集上实现行人检测任务。本文分为两部分，首先是对数据集的处理，其次是搭建环境对py-faster-rcnn代码进行复现。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://i1.buimg.com/598176/6deaf9e1f45db47b.jpg">
-<meta property="og:image" content="http://i1.buimg.com/598176/481d457e41f2394b.png">
-<meta property="og:image" content="http://i2.kiimg.com/598176/0c51dd5611a0cc0b.png">
-<meta property="og:image" content="http://i2.kiimg.com/598176/ff3d1d44838af796.png">
-<meta property="og:image" content="http://i1.buimg.com/598176/28b7254b4a47b976.png">
-<meta property="og:image" content="http://i2.kiimg.com/598176/0458e7f23c6b2872.png">
-<meta property="og:updated_time" content="2017-07-12T13:25:34.000Z">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/6deaf9e1f45db47b.jpg">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/481d457e41f2394b.png">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/0c51dd5611a0cc0b.png">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/ff3d1d44838af796.png">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/28b7254b4a47b976.png">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/0458e7f23c6b2872.png">
+<meta property="og:updated_time" content="2017-10-08T02:37:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="faster R-CNN在Caltech行人数据集上的实现">
 <meta name="twitter:description" content="这篇文章致力于在faster R-CNN框架下，利用Caffe在Caltech行人数据集上实现行人检测任务。本文分为两部分，首先是对数据集的处理，其次是搭建环境对py-faster-rcnn代码进行复现。">
-<meta name="twitter:image" content="http://i1.buimg.com/598176/6deaf9e1f45db47b.jpg">
+<meta name="twitter:image" content="http://oxg3si0yz.bkt.clouddn.com/6deaf9e1f45db47b.jpg">
   
     <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
   
@@ -188,7 +188,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p><excerpt in="" index="" |="" 首页摘要=""><img src="http://i1.buimg.com/598176/6deaf9e1f45db47b.jpg" alt=""></excerpt></p>
+        <p><excerpt in="" index="" |="" 首页摘要=""><img src="http://oxg3si0yz.bkt.clouddn.com/6deaf9e1f45db47b.jpg" alt=""></excerpt></p>
 <p>　　这篇文章致力于在faster R-CNN框架下，利用Caffe在Caltech行人数据集上实现行人检测任务。本文分为两部分，首先是对数据集的处理，其次是搭建环境对py-faster-rcnn代码进行复现。</p>
 <a id="more"></a>
 <the rest="" of="" contents="" |="" 余下全文="">
@@ -230,7 +230,7 @@ files <span class="token operator">=</span> <span class="token function">dir</sp
 <span class="token keyword">end</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这里注意第9行和第18行，由于我使用的是macOS系统，路径符号用”/“，有些同学用linux也可以，但对于Windows用户来说，路径符号需改为”\”。转换后文件结构如下图所示：</p>
-<p><img src="http://i1.buimg.com/598176/481d457e41f2394b.png" alt=""></p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/481d457e41f2394b.png" alt=""></p>
 <p>可以看到，<code>set06</code>就是测试集的一个子集，而<code>V000</code>~<code>V018</code>就是19个时长为一分钟的视频转换成的jpg图片，其中图片名称均为为<code>1.jpg</code>等等。由于我们要用整个数据集来训练和测试，也就是将所有的jpg图片整合到一个文件夹中，所以不能有重名的图片，所以我们第一步工作是进行图片的重命名，Python代码如下：</p>
 <pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding=UTF-8</span>
 
@@ -339,7 +339,7 @@ outpath <span class="token operator">=</span> <span class="token string">'/Users
 <span class="token function">disp</span><span class="token punctuation">(</span><span class="token string">'Done................'</span><span class="token punctuation">)</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这个脚本中需要注意的是第3行，<code>a = [0 1]</code>表示你所选择的子集，结合第11行，如果<code>a = 0</code>就表示选择要转换的子集是<code>set00</code>，如果要转换子集<code>set10</code>，则将第3行改为<code>a = 0</code>，第11行改成<code>vName = [&#39;set1&#39;,num2str(a(ii))];</code>即可。转换后得到txt文件如下图所示：</p>
-<p><img src="http://i2.kiimg.com/598176/0c51dd5611a0cc0b.png" alt=""></p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/0c51dd5611a0cc0b.png" alt=""></p>
 <p>第一列是图片编号，第二列到第五列是行人bounding box的信息，依次是x坐标、y坐标、box的宽度和高度。每个vbb文件对应一个seq文件，所以我们需要像重命名图片文件一样，对txt文件的第一列图片编号进行重命名，然后将所有的txt文件整合成一个大的txt文件。这里我的处理方式<strong>略显笨拙</strong>，如果哪位同学有更好的方法，请与我联系讨论，我会将你的好办法贴出来供更多的人学习。</p>
 <ol>
 <li>首先将txt文件导入Excel，得到csv文件或者xsl文件</li>
@@ -352,7 +352,7 @@ outpath <span class="token operator">=</span> <span class="token string">'/Users
 <li>把保存这个大表格保存成制表符间隔的txt文本文件</li>
 <li>打开txt文件，利用<code>查找</code>&amp;<code>替换</code>将所有<strong>制表符</strong>替换成<strong>空格键</strong>，得到如下txt文件：</li>
 </ol>
-<p><img src="http://i2.kiimg.com/598176/ff3d1d44838af796.png" alt=""></p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/ff3d1d44838af796.png" alt=""></p>
 <p>　　至此我们得到了一个含所有标签信息的txt文件，但PASCAL VOC 2007要求的标签信息文件应该是xml格式的，所以最后，我们再将txt文件转换成xml文件。这一步通过<em>小咸鱼_</em>的MATLAB代码来完成：</p>
 <pre class="line-numbers language-matlab"><code class="language-matlab"><span class="token comment" spellcheck="true">%%</span>
 <span class="token comment" spellcheck="true">%该代码可以做voc2007数据集中的xml文件，</span>
@@ -665,7 +665,7 @@ fval<span class="token operator">=</span><span class="token function">fopen</spa
 <span class="token function">fclose</span><span class="token punctuation">(</span>ftest<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>生成四个txt文件，分别是<code>train.txt</code>,<code>val.txt</code>,<code>trainval.txt</code>和<code>test.txt</code>，分别对应训练集、验证集、训练集加验证集和测试集，<code>trainval.txt</code>与<code>test.txt</code>没有交集，其中，<code>trainval.txt</code>的内容如下图所示：</p>
-<p><img src="http://i1.buimg.com/598176/28b7254b4a47b976.png" alt=""></p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/28b7254b4a47b976.png" alt=""></p>
 <p>可以看到这是训练集加验证集的图片编号集合。</p>
 <p>　　至此，我们整个数据集的处理就结束了。</p>
 <hr>
@@ -855,7 +855,7 @@ ln -s $VOCdevkit VOCdevkit2007
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 <li><p>训练和测试的结果如下图所示：</p>
-<p><img src="http://i2.kiimg.com/598176/0458e7f23c6b2872.png" alt=""></p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/0458e7f23c6b2872.png" alt=""></p>
 <p>训练完毕后得到的<code>$FRCN_ROOT/output</code>文件夹结构为</p>
 <pre class="line-numbers language-shell"><code class="language-shell">+ output
     + faster_rcnn_end2end
