@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>bounding box标记工具及使用方法 | 程序员の养成记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="数据处理" />
+  
+  
+  
+  
+  <meta name="description" content="在如今的深度学习领域中，行人检测和重识别越来越火，在社区监控、行人行为分析、社会治安方面都有重大应用。我们在研究、验证自己的想法的同时，也需要庞大的数据集作为支撑。 　　本文改进了BBox-Label-Tool标注工具，新增了标注行人ID功能以及行人识别难易的标记功能，可以帮助需要同时进行行人检测和行人重识别研究的相关领域工作者标记自己收集的原始数据。文章在对该工具的源码进行说明的同时">
+<meta name="keywords" content="数据处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bounding Box标记工具及使用方法">
+<meta property="og:url" content="http://www.liliangqi.com/2017/10/09/Bounding Box标记工具及使用方法/index.html">
+<meta property="og:site_name" content="程序员の养成记">
+<meta property="og:description" content="在如今的深度学习领域中，行人检测和重识别越来越火，在社区监控、行人行为分析、社会治安方面都有重大应用。我们在研究、验证自己的想法的同时，也需要庞大的数据集作为支撑。 　　本文改进了BBox-Label-Tool标注工具，新增了标注行人ID功能以及行人识别难易的标记功能，可以帮助需要同时进行行人检测和行人重识别研究的相关领域工作者标记自己收集的原始数据。文章在对该工具的源码进行说明的同时">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/gakki.png">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/LabeltoolGUI.png">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/ltchooseDir.png">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/ltbblist2.png">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/lttxt.png">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/ltdatasetStrcut.png">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/ltbblist2.png">
+<meta property="og:updated_time" content="2017-10-10T03:18:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bounding Box标记工具及使用方法">
+<meta name="twitter:description" content="在如今的深度学习领域中，行人检测和重识别越来越火，在社区监控、行人行为分析、社会治安方面都有重大应用。我们在研究、验证自己的想法的同时，也需要庞大的数据集作为支撑。 　　本文改进了BBox-Label-Tool标注工具，新增了标注行人ID功能以及行人识别难易的标记功能，可以帮助需要同时进行行人检测和行人重识别研究的相关领域工作者标记自己收集的原始数据。文章在对该工具的源码进行说明的同时">
+<meta name="twitter:image" content="http://oxg3si0yz.bkt.clouddn.com/gakki.png">
+  
+    <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
+  
+  <link rel="icon" href="/css/images/qishao.jpg">
+  <link rel="apple-touch-icon" href="/css/images/qishao.jpg">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+    <link rel="stylesheet" href="/css/vdonate.css" >
+  
+
+<link rel="stylesheet" href="/css/prism-okaidia.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/qishao.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">关于</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Bounding Box标记工具及使用方法" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Bounding Box标记工具及使用方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2017/10/09/Bounding Box标记工具及使用方法/" class="article-date">
+	  <time datetime="2017-10-09T12:53:17.000Z" itemprop="datePublished">2017-10-09</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <excerpt in="" index="" |="" 首页摘要=""> 
+
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/gakki.png" width="600px"></p>
+<p>　　在如今的深度学习领域中，行人检测和重识别越来越火，在社区监控、行人行为分析、社会治安方面都有重大应用。我们在研究、验证自己的想法的同时，也需要庞大的数据集作为支撑。</p>
+<p>　　本文改进了<a href="https://github.com/puzzledqs/BBox-Label-Tool" target="_blank" rel="external">BBox-Label-Tool</a>标注工具，新增了标注行人ID功能以及行人识别难易的标记功能，可以帮助需要同时进行行人检测和行人重识别研究的相关领域工作者标记自己收集的原始数据。文章在对该工具的源码进行说明的同时，也介绍了笔者所用的数据集在进行标注图片时应该注意的事项。</p>
+<p><a id="more"></a><the rest="" of="" contents="" |="" 余下全文=""></the></p>
+<hr>
+<font color="orange" size="4"><strong>版权声明：本文为博主原创文章，未经博主允许不得转载。</strong></font>
+
+<hr>
+<h1 id="标注工具源码及部分解析"><a href="#标注工具源码及部分解析" class="headerlink" title="标注工具源码及部分解析"></a>标注工具源码及部分解析</h1><p>　　该工具由Python语言编写（Python3），主要使用了tkinter库来进行GUI界面设计。</p>
+<pre class="line-numbers language-python"><code class="language-python">
+<span class="token comment" spellcheck="true">#-------------------------------------------------------------------------------</span>
+<span class="token comment" spellcheck="true"># Name:        Object bounding box label tool</span>
+<span class="token comment" spellcheck="true"># Purpose:     Label object bboxes for ImageNet Detection data</span>
+<span class="token comment" spellcheck="true"># Created:     06/06/2014</span>
+<span class="token comment" spellcheck="true"># Rectified:   09/29/2017</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#-------------------------------------------------------------------------------</span>
+<span class="token keyword">from</span> __future__ <span class="token keyword">import</span> division
+<span class="token keyword">from</span> tkinter <span class="token keyword">import</span> <span class="token operator">*</span>
+<span class="token keyword">from</span> PIL <span class="token keyword">import</span> Image <span class="token keyword">as</span> pilimg 
+<span class="token keyword">from</span> PIL <span class="token keyword">import</span> ImageTk
+<span class="token keyword">import</span> os
+<span class="token keyword">import</span> glob
+<span class="token keyword">import</span> random
+<span class="token keyword">from</span> tkinter<span class="token punctuation">.</span>filedialog <span class="token keyword">import</span> <span class="token operator">*</span>
+
+<span class="token comment" spellcheck="true"># colors for the bboxes</span>
+COLORS <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'red'</span><span class="token punctuation">,</span> <span class="token string">'blue'</span><span class="token punctuation">,</span> <span class="token string">'yellow'</span><span class="token punctuation">,</span> <span class="token string">'pink'</span><span class="token punctuation">,</span> <span class="token string">'cyan'</span><span class="token punctuation">,</span> <span class="token string">'green'</span><span class="token punctuation">,</span> <span class="token string">'black'</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># image sizes for the examples</span>
+SIZE <span class="token operator">=</span> <span class="token number">256</span><span class="token punctuation">,</span> <span class="token number">256</span>
+<span class="token comment" spellcheck="true"># 指定缩放后的图像大小</span>
+DEST_SIZE <span class="token operator">=</span> <span class="token number">1200</span><span class="token punctuation">,</span> <span class="token number">900</span>
+
+classLabels <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'1'</span><span class="token punctuation">,</span> <span class="token string">'2'</span><span class="token punctuation">,</span> <span class="token string">'3'</span><span class="token punctuation">,</span> <span class="token string">'4'</span><span class="token punctuation">,</span> <span class="token string">'5'</span><span class="token punctuation">,</span> <span class="token string">'6'</span><span class="token punctuation">,</span> <span class="token string">'7'</span><span class="token punctuation">,</span> <span class="token string">'8'</span><span class="token punctuation">]</span>
+hardLabels <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'easy'</span><span class="token punctuation">,</span> <span class="token string">'hard'</span><span class="token punctuation">,</span> <span class="token string">'very'</span><span class="token punctuation">]</span>
+
+<span class="token keyword">class</span> <span class="token class-name">LabelTool</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> master<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment" spellcheck="true"># set up the main frame</span>
+        self<span class="token punctuation">.</span>parent <span class="token operator">=</span> master
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>title<span class="token punctuation">(</span><span class="token string">"LabelTool"</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>frame <span class="token operator">=</span> Frame<span class="token punctuation">(</span>self<span class="token punctuation">.</span>parent<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>frame<span class="token punctuation">.</span>pack<span class="token punctuation">(</span>fill<span class="token operator">=</span>BOTH<span class="token punctuation">,</span> expand<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>resizable<span class="token punctuation">(</span>width <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">,</span> height <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># initialize global state</span>
+        self<span class="token punctuation">.</span>imageDir <span class="token operator">=</span> <span class="token string">''</span>
+        self<span class="token punctuation">.</span>imageList<span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>egDir <span class="token operator">=</span> <span class="token string">''</span>
+        self<span class="token punctuation">.</span>egList <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>outDir <span class="token operator">=</span> <span class="token string">''</span>
+        self<span class="token punctuation">.</span>cur <span class="token operator">=</span> <span class="token number">0</span>
+        self<span class="token punctuation">.</span>total <span class="token operator">=</span> <span class="token number">0</span>
+        self<span class="token punctuation">.</span>category <span class="token operator">=</span> <span class="token number">0</span>
+        self<span class="token punctuation">.</span>imagename <span class="token operator">=</span> <span class="token string">''</span>
+        self<span class="token punctuation">.</span>labelfilename <span class="token operator">=</span> <span class="token string">''</span>
+        self<span class="token punctuation">.</span>tkimg <span class="token operator">=</span> None
+
+        <span class="token comment" spellcheck="true"># initialize mouse state</span>
+        self<span class="token punctuation">.</span>STATE <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+        self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'click'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
+        self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span>
+
+        <span class="token comment" spellcheck="true"># reference to bbox</span>
+        self<span class="token punctuation">.</span>bboxIdList <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>bboxId <span class="token operator">=</span> None
+        self<span class="token punctuation">.</span>bboxList <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>hl <span class="token operator">=</span> None
+        self<span class="token punctuation">.</span>vl <span class="token operator">=</span> None
+        self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'1'</span>
+        self<span class="token punctuation">.</span>currentHard <span class="token operator">=</span> <span class="token string">'easy'</span>
+
+        <span class="token comment" spellcheck="true"># ----------------- GUI stuff ---------------------</span>
+        <span class="token comment" spellcheck="true"># dir entry &amp; load</span>
+        self<span class="token punctuation">.</span>label <span class="token operator">=</span> Label<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">,</span> text <span class="token operator">=</span> <span class="token string">"Image Dir:"</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>label<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> column <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> sticky <span class="token operator">=</span> E<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#self.entry = Entry(self.frame)</span>
+        <span class="token comment" spellcheck="true">#self.entry.grid(row = 0, column = 1, sticky = W+E)</span>
+        self<span class="token punctuation">.</span>ldBtn <span class="token operator">=</span> Button<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">,</span> text <span class="token operator">=</span> <span class="token string">"Load"</span><span class="token punctuation">,</span> command <span class="token operator">=</span> self<span class="token punctuation">.</span>loadDir<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>ldBtn<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> column <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> sticky <span class="token operator">=</span> W<span class="token operator">+</span>E<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># main panel for labeling</span>
+        self<span class="token punctuation">.</span>mainPanel <span class="token operator">=</span> Canvas<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">,</span> cursor<span class="token operator">=</span><span class="token string">'tcross'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"&lt;Button-1>"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>mouseClick<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"&lt;Motion>"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>mouseMove<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> column <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> rowspan <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">,</span> sticky <span class="token operator">=</span> W<span class="token operator">+</span>N<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># showing bbox info &amp; delete bbox</span>
+        self<span class="token punctuation">.</span>lb1 <span class="token operator">=</span> Label<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">,</span> text <span class="token operator">=</span> <span class="token string">'Bounding boxes:'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>lb1<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> column <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span>  sticky <span class="token operator">=</span> W<span class="token operator">+</span>N<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>listbox <span class="token operator">=</span> Listbox<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">,</span> width <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">,</span> height <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>listbox<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> column <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> sticky <span class="token operator">=</span> N<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>btnDel <span class="token operator">=</span> Button<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">,</span> text <span class="token operator">=</span> <span class="token string">'Delete'</span><span class="token punctuation">,</span>
+            command <span class="token operator">=</span> self<span class="token punctuation">.</span>delBBox<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>btnDel<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">,</span> column <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> sticky <span class="token operator">=</span> W<span class="token operator">+</span>E<span class="token operator">+</span>N<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>btnClear <span class="token operator">=</span> Button<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">,</span> text <span class="token operator">=</span> <span class="token string">'ClearAll'</span><span class="token punctuation">,</span>
+            command <span class="token operator">=</span> self<span class="token punctuation">.</span>clearBBox<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>btnClear<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span> column<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> sticky<span class="token operator">=</span>W<span class="token operator">+</span>E<span class="token operator">+</span>N<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true">#select class type</span>
+        self<span class="token punctuation">.</span>classPanel <span class="token operator">=</span> Frame<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classPanel<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> column<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> columnspan<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span> sticky<span class="token operator">=</span>W<span class="token operator">+</span>E<span class="token punctuation">)</span>
+        label <span class="token operator">=</span> Label<span class="token punctuation">(</span>self<span class="token punctuation">.</span>classPanel<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">'person:'</span><span class="token punctuation">)</span>
+        label<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> column<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> sticky <span class="token operator">=</span> W<span class="token operator">+</span>N<span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>classbox <span class="token operator">=</span> Listbox<span class="token punctuation">(</span>self<span class="token punctuation">.</span>classPanel<span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span> height<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span>column<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'1'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> fg<span class="token operator">=</span>COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> each <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>classLabels<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            function <span class="token operator">=</span> <span class="token string">'select'</span> <span class="token operator">+</span> classLabels<span class="token punctuation">[</span>each<span class="token punctuation">]</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>classLabels<span class="token punctuation">[</span>each<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            btnMat <span class="token operator">=</span> Button<span class="token punctuation">(</span>self<span class="token punctuation">.</span>classPanel<span class="token punctuation">,</span> text<span class="token operator">=</span>classLabels<span class="token punctuation">[</span>each<span class="token punctuation">]</span><span class="token punctuation">,</span>
+                command<span class="token operator">=</span>getattr<span class="token punctuation">(</span>self<span class="token punctuation">,</span> function<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            btnMat<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span> column <span class="token operator">=</span> each <span class="token operator">+</span> <span class="token number">3</span><span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true">#select hard type</span>
+        self<span class="token punctuation">.</span>hardPanel <span class="token operator">=</span> Frame<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hardPanel<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> column<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> columnspan<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span> sticky<span class="token operator">=</span>W<span class="token operator">+</span>E<span class="token punctuation">)</span>
+        hard <span class="token operator">=</span> Label<span class="token punctuation">(</span>self<span class="token punctuation">.</span>hardPanel<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">'hard:'</span><span class="token punctuation">)</span>
+        hard<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> column<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span> sticky <span class="token operator">=</span> W<span class="token operator">+</span>N<span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>hard <span class="token operator">=</span> Listbox<span class="token punctuation">(</span>self<span class="token punctuation">.</span>hardPanel<span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span> height<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span>column<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'easy'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> fg<span class="token operator">=</span>COLORS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> each <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>hardLabels<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            function <span class="token operator">=</span> <span class="token string">'choose_'</span> <span class="token operator">+</span> hardLabels<span class="token punctuation">[</span>each<span class="token punctuation">]</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>classLabels<span class="token punctuation">[</span>each<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            btnMat <span class="token operator">=</span> Button<span class="token punctuation">(</span>self<span class="token punctuation">.</span>hardPanel<span class="token punctuation">,</span> text<span class="token operator">=</span>hardLabels<span class="token punctuation">[</span>each<span class="token punctuation">]</span><span class="token punctuation">,</span>
+                command<span class="token operator">=</span>getattr<span class="token punctuation">(</span>self<span class="token punctuation">,</span> function<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            btnMat<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span> column <span class="token operator">=</span> each <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">)</span>
+
+
+        <span class="token comment" spellcheck="true"># control panel for image navigation</span>
+        self<span class="token punctuation">.</span>ctrPanel <span class="token operator">=</span> Frame<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>ctrPanel<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">,</span> column <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> columnspan <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> sticky <span class="token operator">=</span> W<span class="token operator">+</span>E<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>prevBtn <span class="token operator">=</span> Button<span class="token punctuation">(</span>self<span class="token punctuation">.</span>ctrPanel<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">'&lt;&lt; Prev'</span><span class="token punctuation">,</span> width <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">,</span> 
+            command <span class="token operator">=</span> self<span class="token punctuation">.</span>prevImage<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>prevBtn<span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side <span class="token operator">=</span> LEFT<span class="token punctuation">,</span> padx <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span> pady <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>nextBtn <span class="token operator">=</span> Button<span class="token punctuation">(</span>self<span class="token punctuation">.</span>ctrPanel<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">'Next >>'</span><span class="token punctuation">,</span> width <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">,</span> 
+            command <span class="token operator">=</span> self<span class="token punctuation">.</span>nextImage<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>nextBtn<span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side <span class="token operator">=</span> LEFT<span class="token punctuation">,</span> padx <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span> pady <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>progLabel <span class="token operator">=</span> Label<span class="token punctuation">(</span>self<span class="token punctuation">.</span>ctrPanel<span class="token punctuation">,</span> text <span class="token operator">=</span> <span class="token string">"Progress:     /    "</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>progLabel<span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side <span class="token operator">=</span> LEFT<span class="token punctuation">,</span> padx <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>tmpLabel <span class="token operator">=</span> Label<span class="token punctuation">(</span>self<span class="token punctuation">.</span>ctrPanel<span class="token punctuation">,</span> text <span class="token operator">=</span> <span class="token string">"Go to Image No."</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>tmpLabel<span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side <span class="token operator">=</span> LEFT<span class="token punctuation">,</span> padx <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>idxEntry <span class="token operator">=</span> Entry<span class="token punctuation">(</span>self<span class="token punctuation">.</span>ctrPanel<span class="token punctuation">,</span> width <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>idxEntry<span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side <span class="token operator">=</span> LEFT<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>goBtn <span class="token operator">=</span> Button<span class="token punctuation">(</span>self<span class="token punctuation">.</span>ctrPanel<span class="token punctuation">,</span> text <span class="token operator">=</span> <span class="token string">'Go'</span><span class="token punctuation">,</span>
+            command <span class="token operator">=</span> self<span class="token punctuation">.</span>gotoImage<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>goBtn<span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side <span class="token operator">=</span> LEFT<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># example pannel for illustration</span>
+        self<span class="token punctuation">.</span>egPanel <span class="token operator">=</span> Frame<span class="token punctuation">(</span>self<span class="token punctuation">.</span>frame<span class="token punctuation">,</span> border <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>egPanel<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> column <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> rowspan <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span> sticky <span class="token operator">=</span> N<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>tmpLabel2 <span class="token operator">=</span> Label<span class="token punctuation">(</span>self<span class="token punctuation">.</span>egPanel<span class="token punctuation">,</span> text <span class="token operator">=</span> <span class="token string">"Examples:"</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>tmpLabel2<span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side <span class="token operator">=</span> TOP<span class="token punctuation">,</span> pady <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>egLabels <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>egLabels<span class="token punctuation">.</span>append<span class="token punctuation">(</span>Label<span class="token punctuation">(</span>self<span class="token punctuation">.</span>egPanel<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>egLabels<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side <span class="token operator">=</span> TOP<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># display mouse position</span>
+        self<span class="token punctuation">.</span>disp <span class="token operator">=</span> Label<span class="token punctuation">(</span>self<span class="token punctuation">.</span>ctrPanel<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>disp<span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side <span class="token operator">=</span> RIGHT<span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>frame<span class="token punctuation">.</span>columnconfigure<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> weight <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>frame<span class="token punctuation">.</span>rowconfigure<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> weight <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># for debugging</span>
+<span class="token comment" spellcheck="true">##        self.setImage()</span>
+<span class="token comment" spellcheck="true">##        self.loadDir()</span>
+
+    <span class="token keyword">def</span> <span class="token function">loadDir</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">'''
+        if not dbg:
+            s = self.entry.get()
+            self.parent.focus()
+            self.category = int(s)
+        else:
+            s = r'D:\workspace\python\labelGUI'
+        '''</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>focus<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#self.category = askdirectory()</span>
+<span class="token comment" spellcheck="true">##        if not os.path.isdir(s):</span>
+<span class="token comment" spellcheck="true">##            tkMessageBox.showerror("Error!", message = "The specified dir doesn't exist!")</span>
+<span class="token comment" spellcheck="true">##            return</span>
+        <span class="token comment" spellcheck="true"># get image list</span>
+        <span class="token comment" spellcheck="true"># self.imageDir = os.path.join(r'./Images', '%d' %(self.category))</span>
+        self<span class="token punctuation">.</span>imageDir <span class="token operator">=</span> askdirectory<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>imageList <span class="token operator">=</span> glob<span class="token punctuation">.</span>glob<span class="token punctuation">(</span>os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>self<span class="token punctuation">.</span>imageDir<span class="token punctuation">,</span> <span class="token string">'*.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>imageList<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'No .jpg images found in the specified dir!'</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span>   
+
+      <span class="token comment" spellcheck="true"># set up output dir</span>
+        self<span class="token punctuation">.</span>outDir <span class="token operator">=</span> self<span class="token punctuation">.</span>imageDir
+        <span class="token keyword">if</span> <span class="token operator">not</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span>self<span class="token punctuation">.</span>outDir<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            os<span class="token punctuation">.</span>mkdir<span class="token punctuation">(</span>self<span class="token punctuation">.</span>outDir<span class="token punctuation">)</span>
+
+        labeledPicList <span class="token operator">=</span> glob<span class="token punctuation">.</span>glob<span class="token punctuation">(</span>os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>self<span class="token punctuation">.</span>outDir<span class="token punctuation">,</span> <span class="token string">'*.txt'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        <span class="token keyword">for</span> label <span class="token keyword">in</span> labeledPicList<span class="token punctuation">:</span>
+            data <span class="token operator">=</span> open<span class="token punctuation">(</span>label<span class="token punctuation">,</span> <span class="token string">'r'</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token string">'0\n'</span> <span class="token operator">==</span> data<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                data<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token keyword">continue</span>
+            data<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            picture <span class="token operator">=</span> label<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">'Labels'</span><span class="token punctuation">,</span> <span class="token string">'Images'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">'.txt'</span><span class="token punctuation">,</span> <span class="token string">'.jpg'</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> picture <span class="token keyword">in</span> self<span class="token punctuation">.</span>imageList<span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>imageList<span class="token punctuation">.</span>remove<span class="token punctuation">(</span>picture<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true"># default to the 1st image in the collection</span>
+        self<span class="token punctuation">.</span>cur <span class="token operator">=</span> <span class="token number">1</span>
+        self<span class="token punctuation">.</span>total <span class="token operator">=</span> len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>imageList<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>loadImage<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'%d images loaded from %s'</span> <span class="token operator">%</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>total<span class="token punctuation">,</span> self<span class="token punctuation">.</span>imageDir<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">loadImage</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment" spellcheck="true"># load image</span>
+        imagepath <span class="token operator">=</span> self<span class="token punctuation">.</span>imageList<span class="token punctuation">[</span>self<span class="token punctuation">.</span>cur <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
+        pil_image <span class="token operator">=</span> pilimg<span class="token punctuation">.</span>open<span class="token punctuation">(</span>imagepath<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># 缩放到指定大小</span>
+        resize_image <span class="token operator">=</span> pil_image<span class="token punctuation">.</span>resize<span class="token punctuation">(</span><span class="token punctuation">(</span>DEST_SIZE<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> DEST_SIZE<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            pilimg<span class="token punctuation">.</span>ANTIALIAS<span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>img <span class="token operator">=</span> resize_image
+        self<span class="token punctuation">.</span>imgSize <span class="token operator">=</span> self<span class="token punctuation">.</span>img<span class="token punctuation">.</span>size
+        self<span class="token punctuation">.</span>truesize <span class="token operator">=</span> pil_image<span class="token punctuation">.</span>size
+        self<span class="token punctuation">.</span>tkimg <span class="token operator">=</span> ImageTk<span class="token punctuation">.</span>PhotoImage<span class="token punctuation">(</span>self<span class="token punctuation">.</span>img<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>config<span class="token punctuation">(</span>width <span class="token operator">=</span> max<span class="token punctuation">(</span>self<span class="token punctuation">.</span>tkimg<span class="token punctuation">.</span>width<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">400</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+            height <span class="token operator">=</span> max<span class="token punctuation">(</span>self<span class="token punctuation">.</span>tkimg<span class="token punctuation">.</span>height<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">400</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>create_image<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> image <span class="token operator">=</span> self<span class="token punctuation">.</span>tkimg<span class="token punctuation">,</span> anchor<span class="token operator">=</span>NW<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>progLabel<span class="token punctuation">.</span>config<span class="token punctuation">(</span>text <span class="token operator">=</span> <span class="token string">"%04d/%04d"</span> <span class="token operator">%</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>cur<span class="token punctuation">,</span> self<span class="token punctuation">.</span>total<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># 载入图片以后的键盘响应</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"&lt;Escape>"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>cancelBBox<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># press &lt;Espace> to cancel current bbox</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"s"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>cancelBBox<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>prevImage<span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># press 'a' to go backforward</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"d"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>nextImage<span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># press 'd' to go forward</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>select1<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"2"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>select2<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"3"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>select3<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"4"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>select4<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"5"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>select5<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"6"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>select6<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"7"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>select7<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"8"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>select8<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"e"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>choose_easy<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"h"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>choose_hard<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>parent<span class="token punctuation">.</span>bind<span class="token punctuation">(</span><span class="token string">"v"</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>choose_very<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># 每次load进新的图片时初始化person和hard</span>
+        self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'1'</span>
+        self<span class="token punctuation">.</span>currentHard <span class="token operator">=</span> <span class="token string">'easy'</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'1'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> fg<span class="token operator">=</span>COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'easy'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> fg<span class="token operator">=</span>COLORS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># load labels</span>
+        self<span class="token punctuation">.</span>clearBBox<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>imagename <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>split<span class="token punctuation">(</span>imagepath<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+        labelname <span class="token operator">=</span> self<span class="token punctuation">.</span>imagename <span class="token operator">+</span> <span class="token string">'.txt'</span>
+        self<span class="token punctuation">.</span>labelfilename <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>self<span class="token punctuation">.</span>outDir<span class="token punctuation">,</span> labelname<span class="token punctuation">)</span>
+        bbox_cnt <span class="token operator">=</span> <span class="token number">0</span>
+
+        <span class="token comment" spellcheck="true"># 再次标记某张图片时从对应的txt文件里读入已有的bbox</span>
+        <span class="token keyword">if</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span>self<span class="token punctuation">.</span>labelfilename<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">with</span> open<span class="token punctuation">(</span>self<span class="token punctuation">.</span>labelfilename<span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span>i<span class="token punctuation">,</span> line<span class="token punctuation">)</span> <span class="token keyword">in</span> enumerate<span class="token punctuation">(</span>f<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                    <span class="token keyword">if</span> i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                        bbox_cnt <span class="token operator">=</span> int<span class="token punctuation">(</span>line<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                        <span class="token keyword">continue</span>
+                    <span class="token comment" spellcheck="true"># 添加两种bbox，tbbox用于添加入txt文件，tmp用于画框</span>
+                    tbbox <span class="token operator">=</span> <span class="token punctuation">[</span>t<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">for</span> t <span class="token keyword">in</span> line<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+                    tmp <span class="token operator">=</span> tbbox<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true"># 取一个切片防止tbbox被更改</span>
+
+                    rate0 <span class="token operator">=</span> DEST_SIZE<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">/</span>self<span class="token punctuation">.</span>truesize<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+                    rate1 <span class="token operator">=</span> DEST_SIZE<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">/</span>self<span class="token punctuation">.</span>truesize<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+                    tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> int<span class="token punctuation">(</span>int<span class="token punctuation">(</span>tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> rate0<span class="token punctuation">)</span>
+                    tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> int<span class="token punctuation">(</span>int<span class="token punctuation">(</span>tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> rate1<span class="token punctuation">)</span>
+                    tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> int<span class="token punctuation">(</span>int<span class="token punctuation">(</span>tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> rate0<span class="token punctuation">)</span>
+                    tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> int<span class="token punctuation">(</span>int<span class="token punctuation">(</span>tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> rate1<span class="token punctuation">)</span>
+
+                    self<span class="token punctuation">.</span>bboxList<span class="token punctuation">.</span>append<span class="token punctuation">(</span>tuple<span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    tmpId <span class="token operator">=</span> self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>create_rectangle<span class="token punctuation">(</span>
+                        tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> tmp<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> width <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                        outline <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token punctuation">(</span>len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxList<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> len<span class="token punctuation">(</span>COLORS<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+                    self<span class="token punctuation">.</span>bboxIdList<span class="token punctuation">.</span>append<span class="token punctuation">(</span>tmpId<span class="token punctuation">)</span>
+                    self<span class="token punctuation">.</span>listbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span>END<span class="token punctuation">,</span> <span class="token string">'p%s %s (%s, %s) -> (%s, %s)'</span> <span class="token operator">%</span> \
+                        <span class="token punctuation">(</span>tbbox<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> tbbox<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> tbbox<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> tbbox<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> tbbox<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                            tbbox<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    self<span class="token punctuation">.</span>listbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span>len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxIdList<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                        fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token punctuation">(</span>len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxIdList<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> len<span class="token punctuation">(</span>COLORS<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">saveImage</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">with</span> open<span class="token punctuation">(</span>self<span class="token punctuation">.</span>labelfilename<span class="token punctuation">,</span> <span class="token string">'w'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+            f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">'%d\n'</span> <span class="token operator">%</span>len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxList<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">for</span> bbox <span class="token keyword">in</span> self<span class="token punctuation">.</span>bboxList<span class="token punctuation">:</span>
+                tx0 <span class="token operator">=</span> int<span class="token punctuation">(</span>bbox<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">*</span> self<span class="token punctuation">.</span>truesize<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">/</span>DEST_SIZE<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                ty0 <span class="token operator">=</span> int<span class="token punctuation">(</span>bbox<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">*</span> self<span class="token punctuation">.</span>truesize<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">/</span>DEST_SIZE<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                tx1 <span class="token operator">=</span> int<span class="token punctuation">(</span>bbox<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">*</span> self<span class="token punctuation">.</span>truesize<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">/</span>DEST_SIZE<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                ty1 <span class="token operator">=</span> int<span class="token punctuation">(</span>bbox<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">*</span> self<span class="token punctuation">.</span>truesize<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">/</span>DEST_SIZE<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                tbbox <span class="token operator">=</span> <span class="token punctuation">[</span>bbox<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> bbox<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> tx0<span class="token punctuation">,</span> ty0<span class="token punctuation">,</span> tx1<span class="token punctuation">,</span> ty1<span class="token punctuation">]</span>
+                f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>map<span class="token punctuation">(</span>str<span class="token punctuation">,</span> tbbox<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'\n'</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Image No. %d saved'</span> <span class="token operator">%</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>cur<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+
+    <span class="token keyword">def</span> <span class="token function">mouseClick</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'click'</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span> <span class="token operator">=</span> event<span class="token punctuation">.</span>x<span class="token punctuation">,</span> event<span class="token punctuation">.</span>y
+            <span class="token comment" spellcheck="true">#self.STATE['x'], self.STATE['y'] = self.imgSize[0], self.imgSize[1]</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            x1<span class="token punctuation">,</span> x2 <span class="token operator">=</span> min<span class="token punctuation">(</span>self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> max<span class="token punctuation">(</span>self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                event<span class="token punctuation">.</span>x<span class="token punctuation">)</span>
+            y1<span class="token punctuation">,</span> y2 <span class="token operator">=</span> min<span class="token punctuation">(</span>self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">,</span> max<span class="token punctuation">(</span>self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                event<span class="token punctuation">.</span>y<span class="token punctuation">)</span>
+            <span class="token keyword">if</span> x2 <span class="token operator">></span> self<span class="token punctuation">.</span>imgSize<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                x2 <span class="token operator">=</span> self<span class="token punctuation">.</span>imgSize<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+            <span class="token keyword">if</span> y2 <span class="token operator">></span> self<span class="token punctuation">.</span>imgSize<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                y2 <span class="token operator">=</span> self<span class="token punctuation">.</span>imgSize<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>    
+
+            tx0 <span class="token operator">=</span> int<span class="token punctuation">(</span>x1 <span class="token operator">*</span> self<span class="token punctuation">.</span>truesize<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">/</span>DEST_SIZE<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            ty0 <span class="token operator">=</span> int<span class="token punctuation">(</span>y1 <span class="token operator">*</span> self<span class="token punctuation">.</span>truesize<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">/</span>DEST_SIZE<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            tx1 <span class="token operator">=</span> int<span class="token punctuation">(</span>x2 <span class="token operator">*</span> self<span class="token punctuation">.</span>truesize<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">/</span>DEST_SIZE<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            ty1 <span class="token operator">=</span> int<span class="token punctuation">(</span>y2 <span class="token operator">*</span> self<span class="token punctuation">.</span>truesize<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">/</span>DEST_SIZE<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+            self<span class="token punctuation">.</span>bboxList<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>currentClass<span class="token punctuation">,</span> self<span class="token punctuation">.</span>currentHard<span class="token punctuation">,</span> 
+                x1<span class="token punctuation">,</span> y1<span class="token punctuation">,</span> x2<span class="token punctuation">,</span> y2<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>bboxIdList<span class="token punctuation">.</span>append<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxId<span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>bboxId <span class="token operator">=</span> None
+            self<span class="token punctuation">.</span>listbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span>END<span class="token punctuation">,</span> <span class="token string">'p%s %s (%d, %d) -> (%d, %d)'</span> <span class="token operator">%</span>\
+                <span class="token punctuation">(</span>self<span class="token punctuation">.</span>currentClass<span class="token punctuation">,</span> self<span class="token punctuation">.</span>currentHard<span class="token punctuation">,</span> tx0<span class="token punctuation">,</span> ty0<span class="token punctuation">,</span> tx1<span class="token punctuation">,</span> ty1<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>listbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span>len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxIdList<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> 
+                fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token punctuation">(</span>len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxIdList<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> len<span class="token punctuation">(</span>COLORS<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+            <span class="token comment" spellcheck="true"># 每画一个框personID自动加1</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>currentClass <span class="token operator">==</span> <span class="token string">'8'</span><span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'2'</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> str<span class="token punctuation">(</span>int<span class="token punctuation">(</span>self<span class="token punctuation">.</span>currentClass<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>currentClass<span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> fg<span class="token operator">=</span>COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'click'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">-</span> self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'click'</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">mouseMove</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>disp<span class="token punctuation">.</span>config<span class="token punctuation">(</span>text <span class="token operator">=</span> <span class="token string">'x: %d, y: %d'</span> <span class="token operator">%</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>x<span class="token punctuation">,</span> event<span class="token punctuation">.</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>tkimg<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>hl<span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>delete<span class="token punctuation">(</span>self<span class="token punctuation">.</span>hl<span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>hl <span class="token operator">=</span> self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>create_line<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>y<span class="token punctuation">,</span>
+                self<span class="token punctuation">.</span>tkimg<span class="token punctuation">.</span>width<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>y<span class="token punctuation">,</span> width <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>vl<span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>delete<span class="token punctuation">(</span>self<span class="token punctuation">.</span>vl<span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>vl <span class="token operator">=</span> self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>create_line<span class="token punctuation">(</span>event<span class="token punctuation">.</span>x<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>x<span class="token punctuation">,</span>
+                self<span class="token punctuation">.</span>tkimg<span class="token punctuation">.</span>height<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> width <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token number">1</span> <span class="token operator">==</span> self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'click'</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>bboxId<span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>delete<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxId<span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>bboxId <span class="token operator">=</span> self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>create_rectangle<span class="token punctuation">(</span>self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'x'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'y'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> event<span class="token punctuation">.</span>x<span class="token punctuation">,</span> event<span class="token punctuation">.</span>y<span class="token punctuation">,</span> width <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> 
+                outline <span class="token operator">=</span> COLORS<span class="token punctuation">[</span>len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxList<span class="token punctuation">)</span> <span class="token operator">%</span> len<span class="token punctuation">(</span>COLORS<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">cancelBBox</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token number">1</span> <span class="token operator">==</span> self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'click'</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>bboxId<span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>delete<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxId<span class="token punctuation">)</span>
+                self<span class="token punctuation">.</span>bboxId <span class="token operator">=</span> None
+                self<span class="token punctuation">.</span>STATE<span class="token punctuation">[</span><span class="token string">'click'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
+
+    <span class="token keyword">def</span> <span class="token function">delBBox</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        sel <span class="token operator">=</span> self<span class="token punctuation">.</span>listbox<span class="token punctuation">.</span>curselection<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> len<span class="token punctuation">(</span>sel<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">1</span> <span class="token punctuation">:</span>
+            <span class="token keyword">return</span>
+        idx <span class="token operator">=</span> int<span class="token punctuation">(</span>sel<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>delete<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxIdList<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>bboxIdList<span class="token punctuation">.</span>pop<span class="token punctuation">(</span>idx<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>bboxList<span class="token punctuation">.</span>pop<span class="token punctuation">(</span>idx<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>listbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span>idx<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">clearBBox</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> idx <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxIdList<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>mainPanel<span class="token punctuation">.</span>delete<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxIdList<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>listbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> len<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bboxList<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>bboxIdList <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>bboxList <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">select1</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'1'</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'1'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">select2</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'2'</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'2'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">select3</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'3'</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'3'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">select4</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'4'</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'4'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">select5</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'5'</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'5'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">select6</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'6'</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'6'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">select7</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'7'</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'7'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">select8</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentClass <span class="token operator">=</span> <span class="token string">'8'</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>    
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'8'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>classbox<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">choose_easy</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentHard <span class="token operator">=</span> <span class="token string">'easy'</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'easy'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">choose_hard</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentHard <span class="token operator">=</span> <span class="token string">'hard'</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'hard'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">choose_very</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>currentHard <span class="token operator">=</span> <span class="token string">'very'</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>END<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">'very'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>hard<span class="token punctuation">.</span>itemconfig<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>fg <span class="token operator">=</span> COLORS<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">prevImage</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>saveImage<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>cur <span class="token operator">></span> <span class="token number">1</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>cur <span class="token operator">-=</span> <span class="token number">1</span>
+            self<span class="token punctuation">.</span>loadImage<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">nextImage</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event<span class="token operator">=</span>None<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>saveImage<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>cur <span class="token operator">&lt;</span> self<span class="token punctuation">.</span>total<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>cur <span class="token operator">+=</span> <span class="token number">1</span>
+            self<span class="token punctuation">.</span>loadImage<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">gotoImage</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        idx <span class="token operator">=</span> int<span class="token punctuation">(</span>self<span class="token punctuation">.</span>idxEntry<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token number">1</span> <span class="token operator">&lt;=</span> idx <span class="token operator">and</span> idx <span class="token operator">&lt;=</span> self<span class="token punctuation">.</span>total<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>saveImage<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>cur <span class="token operator">=</span> idx
+            self<span class="token punctuation">.</span>loadImage<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">##    def setImage(self, imagepath = r'test2.png'):</span>
+<span class="token comment" spellcheck="true">##        self.img = Image.open(imagepath)</span>
+<span class="token comment" spellcheck="true">##        self.tkimg = ImageTk.PhotoImage(self.img)</span>
+<span class="token comment" spellcheck="true">##        self.mainPanel.config(width = self.tkimg.width())</span>
+<span class="token comment" spellcheck="true">##        self.mainPanel.config(height = self.tkimg.height())</span>
+<span class="token comment" spellcheck="true">##        self.mainPanel.create_image(0, 0, image = self.tkimg, anchor=NW)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    root <span class="token operator">=</span> Tk<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    tool <span class="token operator">=</span> LabelTool<span class="token punctuation">(</span>root<span class="token punctuation">)</span>
+    root<span class="token punctuation">.</span>mainloop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>　　</p>
+<p>　　由于某些图片分辨率过高，载入后会使得GUI界面显示不完全，故代码第23行设置了缩放后图片的大小，这里的分辨率需要按照个人显示屏的大小进行调整，例如24英寸左右的屏幕设置为<code>1200, 900</code>，而13英寸的屏幕则设置为<code>720, 540</code>较为适宜，这里的比例<strong>4:3</strong>是根据笔者数据集的原图<strong>1600:1200</strong>的分辨率来设置的。此处参考了<em>Qiushi</em>的想法。</p>
+<p>　　而要进行行人重识别工作，就要将行人区分开来，所以代码第91行至第106行设置了行人的ID编号，考虑到笔者的数据集中，同一张图像里出现的行人数大多在8个以内，故将ID设置为从1到8。可以用鼠标在GUI界面进行点击选择，也可以使用键盘数字<strong>1</strong>~<strong>8</strong>来进行选择。此处参考了<em>达文喜</em>的想法。</p>
+<p>　　同时，因为存在遮挡、背光、行人像素过少等原因，行人的识别难度也有区别，我们在进行实验的时候必须要考虑到这些因素，因此代码第108行至第123行设置了bounding box里行人识别的难易程度，分为<strong>easy</strong>、<strong>hard</strong>和<strong>very</strong>，分别表示容易识别、难以识别和极难识别。可以用鼠标在GUI界面进行选择，也可以使用键盘<strong>E</strong>、<strong>H</strong>或<strong>V</strong>来进行选择。</p>
+<p>　　考虑到一张图像中某个行人不可能出现多次，所以代码第333行至第340行进行了设置。每当我们框出一个person，ID就会自动加一；如果前一个框的ID是8，则当前框的ID为1。</p>
+<hr>
+<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><ol>
+<li><p>修改源代码第23行，改为适合自己屏幕大小的分辨率</p>
+</li>
+<li><p>代码第183行设置了目标图像格式为<strong>jpg</strong>，如需标注<strong>png</strong>图片可自行更改</p>
+</li>
+<li><p>将该源码保存为py文件，比如<strong>labelbbox.py</strong>，保存到工程目录下（其实任意位置都可以）</p>
+</li>
+<li><p>在终端中cd到该py文件的目录下，然后运行该脚本</p>
+<pre class="line-numbers language-shell"><code class="language-shell">cd XXX # 你存放的目录
+python labelbbox.py
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>弹出的界面如下所示</p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/LabeltoolGUI.png" alt=""></p>
+</li>
+<li><p>点击右上角的<strong>Load</strong>按钮载入需要标注的图片的<strong>文件夹</strong>，然后所有该文件夹下的图片都会被载入</p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/ltchooseDir.png" alt=""></p>
+</li>
+<li><p>载入后GUI界面上会自动显示第一张图片，我们即可开始使用鼠标画框</p>
+<ul>
+<li>画框时默认第一个框的ID为<strong>1</strong>，难易程度为<strong>easy</strong>，如需更改务必在画框前进行更改</li>
+<li>画第二个框及后续框的时候，每画一个，ID会自动加一，但难易程度保持不变；亦即上一个框选择了<strong>hard</strong>，那么当前框的难易程度也默认为<strong>hard</strong>，如需更改务必在画框前进行更改</li>
+</ul>
+</li>
+<li><p>GUI界面的右侧有一个显示标注结果的list，每当框出一个人，就会显示该person的ID以及识别的难易程度，如下图所示</p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/ltbblist2.png" alt=""></p>
+</li>
+<li><p>若标记起始点选择错误，可使用<strong>Esc</strong>键取消；若画成的框有问题，可以在右侧的list中点击有问题的框，按下面的<strong>Delete</strong>按钮删除，或按<strong>Clear All</strong>按钮清空所有的框</p>
+</li>
+<li><p>标注完该文件夹的一张图片后，可使用左下角的<strong>Next &gt;&gt;</strong>按钮或键盘上的<strong>D</strong>键载入下一张图片开始标注；同理可使用左下角的<strong>&lt;&lt; Prev</strong>按钮或键盘上的<strong>A</strong>键重新载入之前标记过的图片进行更改。注意每次新载入一张图片时，ID会自动变为<strong>1</strong>，难易程度会自动变为<strong>easy</strong></p>
+</li>
+<li><p>每当新载入图片（上一张或下一张）时，当前标注的结果都会在该图片所属的文件夹下被保存为一个txt文件</p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/lttxt.png" alt=""></p>
+<p>文件名是由所标注的图片<strong>1.jpg</strong>得到，第一行的<strong>7</strong>表示一共有7个框，下面的7行是详细情况，各列分别表示的是(ID, difficulty, xmin, ymin, xmax, ymax)</p>
+</li>
+<li><p>处理完该文件夹下所有的图片后可以按GUI界面右上角的<strong>Load</strong>重新载入另一个文件夹</p>
+</li>
+</ol>
+<hr>
+<h1 id="个人数据集标注"><a href="#个人数据集标注" class="headerlink" title="个人数据集标注"></a>个人数据集标注</h1><p>　　这一部分为笔者个人数据集的处理，可略过。</p>
+<h2 id="数据集结构"><a href="#数据集结构" class="headerlink" title="数据集结构"></a>数据集结构</h2><p>　　原始数据集为mp4视频数据，目前已经全部转为jpg图片格式，结构如下图所示</p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/ltdatasetStrcut.png" alt=""></p>
+<p>　　数据集分为五个<strong>dataset1</strong>、<strong>dataset2</strong>、<strong>dataset3</strong>、<strong>dataset4</strong>和<strong>dataset5</strong>，每个dataset中又包含若干子文件夹，这些子文件夹每个都对应一个主要的person，比如笔者选中的<strong>./dataset1/13/</strong>文件夹，有三个视频文件转化而来的图片文件夹和一张单独的图片（最下方的<strong>P0020160…000432.jpg</strong>）。</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li><p>在标注上图所示的三个图片文件夹之前首先要打开这张单独的图片作为对照，将接下来要标注的所有图片中与该图片吻合的行人ID标注为1</p>
+</li>
+<li><p>画框前一定要注意所选的行人ID和识别的难易程度（难易程度可带有一定的主观性，可以参考下图）</p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/ltbblist2.png" alt=""></p>
+</li>
+<li><p>如果某张图片中不含目标行人，<strong>一定要更改ID</strong></p>
+</li>
+<li><p>如果某张图片中不含任何行人，可直接跳过该图片，载入下一张图</p>
+</li>
+<li><p>”行人“只是习惯性说法，静止、坐着的人仍然需要标注出来</p>
+</li>
+</ul>
+</excerpt>
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div id="donation_div"></div>
+
+<script src="/js/vdonate.js"></script>
+<script>
+var a = new Donate({
+  title: '如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作!', // 可选参数，打赏标题
+  btnText: '打赏支持', // 可选参数，打赏按钮文字
+  el: document.getElementById('donation_div'),
+  wechatImage: 'http://oxg3si0yz.bkt.clouddn.com/wechatpay.jpg',
+  alipayImage: 'http://oxg3si0yz.bkt.clouddn.com/alipay.png'
+});
+</script>
+      
+      
+        
+	<section id="comments" class="comment">
+	  <div id="disqus_thread">
+	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	  </div>
+	</section>
+
+	<script type="text/javascript">
+	var disqus_shortname = 'qishao';
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	(function(){
+	  var dsq = document.createElement('script');
+	  dsq.type = 'text/javascript';
+	  dsq.async = true;
+	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	}());
+	</script>
+
+
+
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据处理/">数据处理</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/10/07/Anaconda3+OpenCV3配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Anaconda3+OpenCV3配置</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#标注工具源码及部分解析"><span class="nav-number">1.</span> <span class="nav-text">标注工具源码及部分解析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用方法"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#个人数据集标注"><span class="nav-number">3.</span> <span class="nav-text">个人数据集标注</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集结构"><span class="nav-number">3.1.</span> <span class="nav-text">数据集结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">3.2.</span> <span class="nav-text">注意事项</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2017 - 2017 程序员の养成记 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+<script src="/js/bootstrap.js"></script>
+
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            程序员の养成记
+          </div>
+          <div class="panel-body">
+            Copyright © 2017 七少 All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+</body>
+</html>
