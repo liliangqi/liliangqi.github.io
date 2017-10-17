@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/nvidia-smi.png">
 <meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/a37a376eebd1cea3.png">
 <meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/c233f3cefa5077b4s.png">
-<meta property="og:updated_time" content="2017-10-08T02:26:36.000Z">
+<meta property="og:updated_time" content="2017-10-17T09:24:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu 16.04安装caffe及torch">
 <meta name="twitter:description" content="为了满足计算资源的分配，近期实验室新进了一批配备高端显卡TITAN X (PASCAL)的计算机，原始搭载系统为Ubuntu 14.04，在我的钻(zhe)研(teng)下不小心搞崩了系统，只能重装。在选择系统版本时考虑到刚出的17.04可能不够稳定，许多软件包的支持也不完善，而14.04又不够炫酷，索性装个16.04好了。 　　在人工智能和计算机视觉大红大紫的今天，越来越多的同学纷纷">
@@ -535,7 +535,7 @@ make: *** [.build_release/lib/libcaffe.so.1.0.0] error 1
 <p>解决办法：终端输入<code>sudo ldconfig /usr/local/cuda/lib64</code></p>
 </li>
 <li><p>在<code>make runtest</code>时报错：<font color="red"><strong>error while loading shared libraries: libcudart.so.8.0: cannot open shared object file: No such file or directory</strong></font></p>
-<p>解决办法：参考<a href="http://blog.csdn.net/md_learning/article/details/53185992" target="_blank" rel="external">这篇博客</a></p>
+<p>解决办法：参考<a href="http://blog.csdn.net/md_learning/article/details/53185992" target="_blank" rel="external">这篇博客</a>和<a href="http://blog.csdn.net/liuyifang0810680/article/details/53008698" target="_blank" rel="external">这篇博客</a></p>
 </li>
 <li><p>在执行<code>import caffe</code>时出现错误：<font color="red"><strong>ImportError: No module named skimage.io</strong></font></p>
 <p>解决办法：终端输入</p>
