@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/realvnc.png">
 <meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/vnclogin.png">
 <meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/vncGUI.png">
-<meta property="og:updated_time" content="2017-10-17T07:37:38.000Z">
+<meta property="og:updated_time" content="2017-10-18T08:27:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu配置多用户的VNC服务器">
 <meta name="twitter:description" content="平日里我们经常使用Windows或MacOS系统的个人电脑，而Ubuntu或者其他的Linux系统往往被我们装到服务器上使用。如今许多科学计算类的实验都在Ubuntu上进行，各公司、研究院、实验室也都配备了性能强劲的服务器搭载Ubuntu系统来使用。 　　但服务器价格昂贵，往往配备的数量有限，而我们又需要多用户共同使用。这时我们就可以配置VNC远程控制系统，让多个用户能够同时在自己的个">
@@ -241,7 +241,7 @@ gnome-terminal &
 </ol>
 <h2 id="配置多用户"><a href="#配置多用户" class="headerlink" title="配置多用户"></a>配置多用户</h2><ol>
 <li><p>创建用户</p>
-<pre class="line-numbers language-shell"><code class="language-shell">adduser <yourname> # <yourname>是你创建的新用户名
+<pre class="line-numbers language-shell"><code class="language-shell">adduser yourname # yourname是你创建的新用户名
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 <li><p>给新用户添加执行<code>sudo</code>的权限</p>
@@ -256,7 +256,7 @@ sudo gedit /etc/sudoers
 <p>下添加一行</p>
 <pre class="line-numbers language-shell"><code class="language-shell"># Allow members of group sudo to execute any command
 %sudo ALL=(ALL:ALL) ALL
-<yourname> ALL=(ALL:ALL) ALL
+yourname ALL=(ALL:ALL) ALL
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 </li>
 <li><p>切换到创建的新用户根目录</p>
@@ -287,7 +287,7 @@ gnome-terminal &
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 <li><p>给新用户添加权限</p>
-<pre class="line-numbers language-shell"><code class="language-shell">sudo chown -R <yourname>:<yourname> /home/<yourname>
+<pre class="line-numbers language-shell"><code class="language-shell">sudo chown -R yourname:yourname /home/yourname
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 </ol>
