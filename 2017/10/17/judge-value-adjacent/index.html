@@ -3,27 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>python基础之：函数 | 程序员の养成记</title>
+  <title>判断np.array中相邻元素是否相等以及python列表分割 | 程序员の养成记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="语言学习" />
+  <meta name="keywords" content="巧妙算法" />
   
   
   
   
-  <meta name="description" content="函数是带名字的代码块，用于完成具体的工作。 　　要执行函数定义的特定任务，可调用该函数。需要在程序中多次 执行同一项任务时，无需反复编写完成该任务的代码，而只需调用执行该任务的函数，让Python运行其中的代码。通过使用函数，程序的编写、阅读、测试和修复都将更容易。">
-<meta name="keywords" content="语言学习">
+  <meta name="description" content="使用numpy.array时我们有时候需要判断相邻数组中是否存在两个相邻元素数值相等的情况，有时候需要将 Python列表按照相等的元素进行分割，如列表[0, 0, 0, 1, 1, 2, 3, 3, 3, 2, 3, 3, 0, 0]分割成[[0, 0, 0], [1, 1], [2], [3, 3, 3], [2], [3, 3], [0, 0]]。这两种算法思路相似，下面进行介绍">
+<meta name="keywords" content="巧妙算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python基础之：函数">
-<meta property="og:url" content="http://www.liliangqi.com/2017/07/05/Python基础之：函数/index.html">
+<meta property="og:title" content="判断np.array中相邻元素是否相等以及Python列表分割">
+<meta property="og:url" content="http://www.liliangqi.com/2017/10/17/judge-value-adjacent/index.html">
 <meta property="og:site_name" content="程序员の养成记">
-<meta property="og:description" content="函数是带名字的代码块，用于完成具体的工作。 　　要执行函数定义的特定任务，可调用该函数。需要在程序中多次 执行同一项任务时，无需反复编写完成该任务的代码，而只需调用执行该任务的函数，让Python运行其中的代码。通过使用函数，程序的编写、阅读、测试和修复都将更容易。">
+<meta property="og:description" content="使用numpy.array时我们有时候需要判断相邻数组中是否存在两个相邻元素数值相等的情况，有时候需要将 Python列表按照相等的元素进行分割，如列表[0, 0, 0, 1, 1, 2, 3, 3, 3, 2, 3, 3, 0, 0]分割成[[0, 0, 0], [1, 1], [2], [3, 3, 3], [2], [3, 3], [0, 0]]。这两种算法思路相似，下面进行介绍">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/2e4b7313c92d53d4.png">
-<meta property="og:updated_time" content="2017-10-08T02:18:13.000Z">
+<meta property="og:updated_time" content="2018-02-12T12:16:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python基础之：函数">
-<meta name="twitter:description" content="函数是带名字的代码块，用于完成具体的工作。 　　要执行函数定义的特定任务，可调用该函数。需要在程序中多次 执行同一项任务时，无需反复编写完成该任务的代码，而只需调用执行该任务的函数，让Python运行其中的代码。通过使用函数，程序的编写、阅读、测试和修复都将更容易。">
+<meta name="twitter:title" content="判断np.array中相邻元素是否相等以及Python列表分割">
+<meta name="twitter:description" content="使用numpy.array时我们有时候需要判断相邻数组中是否存在两个相邻元素数值相等的情况，有时候需要将 Python列表按照相等的元素进行分割，如列表[0, 0, 0, 1, 1, 2, 3, 3, 3, 2, 3, 3, 0, 0]分割成[[0, 0, 0], [1, 1], [2], [3, 3, 3], [2], [3, 3], [0, 0]]。这两种算法思路相似，下面进行介绍">
 <meta name="twitter:image" content="http://oxg3si0yz.bkt.clouddn.com/2e4b7313c92d53d4.png">
   
     <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
@@ -157,7 +157,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-Python基础之：函数" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-judge-value-adjacent" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -165,7 +165,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      Python基础之：函数
+      判断np.array中相邻元素是否相等以及Python列表分割
     </h1>
   
 
@@ -173,8 +173,8 @@
     
     <div class="article-meta">
       
-	<a href="/2017/07/05/Python基础之：函数/" class="article-date">
-	  <time datetime="2017-07-05T13:19:04.000Z" itemprop="datePublished">2017-07-05</time>
+	<a href="/2017/10/17/judge-value-adjacent/" class="article-date">
+	  <time datetime="2017-10-17T07:19:04.000Z" itemprop="datePublished">2017-10-17</time>
 	</a>
 
       
@@ -186,65 +186,54 @@
         <excerpt in="" index="" |="" 首页摘要=""> 
 
 <p><img src="http://oxg3si0yz.bkt.clouddn.com/2e4b7313c92d53d4.png" width="600px"></p>
-<p>　　函数是带名字的代码块，用于完成具体的工作。</p>
-<p>　　要执行函数定义的特定任务，可调用该函数。需要在程序中多次 执行同一项任务时，无需反复编写完成该任务的代码，而只需调用执行该任务的函数，让Python运行其中的代码。通过使用函数，程序的编写、阅读、测试和修复都将更容易。</p>
+<p>　　使用numpy.array时我们有时候需要判断相邻数组中是否存在两个相邻元素数值相等的情况，有时候需要将 Python列表按照相等的元素进行分割，如列表<code>[0, 0, 0, 1, 1, 2, 3, 3, 3, 2, 3, 3, 0, 0]</code>分割成<code>[[0, 0, 0], [1, 1], [2], [3, 3, 3], [2], [3, 3], [0, 0]]</code>。这两种算法思路相似，下面进行介绍。</p>
 <p><a id="more"></a><the rest="" of="" contents="" |="" 余下全文=""></the></p>
 <hr>
-<h1 id="传递列表"><a href="#传递列表" class="headerlink" title="传递列表"></a>传递列表</h1><h2 id="在函数中修改列表"><a href="#在函数中修改列表" class="headerlink" title="在函数中修改列表"></a>在函数中修改列表</h2><ul>
-<li>在函数中对参数传递的列表所做的任何修改都是永久性的</li>
-</ul>
-<h2 id="禁止函数修改列表"><a href="#禁止函数修改列表" class="headerlink" title="禁止函数修改列表"></a>禁止函数修改列表</h2><ul>
-<li><p><strong>调用函数</strong>时将列表的副本（切片）而非本身传递给函数</p>
-<pre class="line-numbers language-python"><code class="language-python">function_name<span class="token punctuation">(</span>list_name<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>非必要的情况下还是尽可能向函数传递原始列表，这样可以避免花时间和内存创建副本，从而提高效率</p>
-</li>
-</ul>
+<font color="orange" size="4"><strong>版权声明：本文为博主原创文章，未经博主允许不得转载。</strong></font>
+
 <hr>
-<h1 id="传递任意数量的实参"><a href="#传递任意数量的实参" class="headerlink" title="传递任意数量的实参"></a>传递任意数量的实参</h1><ul>
-<li>在形参前加*即可</li>
-<li>调用函数时传递的实参则会被封装到一个元组中</li>
-</ul>
-<h2 id="结合使用位置实参和任意数量实参"><a href="#结合使用位置实参和任意数量实参" class="headerlink" title="结合使用位置实参和任意数量实参"></a>结合使用位置实参和任意数量实参</h2><ul>
-<li><p>若要让函数接受不同类型的实参，必须在函数定义中将接纳任意数量实参的形参放在最后</p>
-<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">make_pizza</span><span class="token punctuation">(</span>size<span class="token punctuation">,</span> <span class="token operator">*</span>toppings<span class="token punctuation">)</span><span class="token punctuation">:</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-</ul>
-<h2 id="使用任意数量的关键字实参"><a href="#使用任意数量的关键字实参" class="headerlink" title="使用任意数量的关键字实参"></a>使用任意数量的关键字实参</h2><ul>
-<li><p>关键字形参前加**即可</p>
-</li>
-<li><p>关键字形参可以理解为字典的<strong>键</strong>，关键字实参可以理解为键对应的<strong>值</strong></p>
-<p>eg: 形参<code>\**user_info</code>让Python创建一个名为<code>user_info</code>的空字典，并将收到的所有<code>名称-值</code>对都封装到这个字典中</p>
-</li>
-</ul>
+<h1 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h1><p>　　这两个问题都可以归结为判断某相邻的两个元素是否相等，对于一维的Python列表而言，我们可以去掉列表收尾各一个元素形成两个子列表，逐次对比得到结果；对于二维的numpy.array而言，我们可以将数组分割为行和列，然后类似于一维列表进行判断。下面是具体的代码。</p>
 <hr>
-<h1 id="将函数存储在模块中"><a href="#将函数存储在模块中" class="headerlink" title="将函数存储在模块中"></a>将函数存储在模块中</h1><p>##导入整个模块 </p>
-<ul>
-<li><code>import module_name</code></li>
-<li>调用函数方法：<code>module_name.function_name()</code></li>
-</ul>
-<h2 id="导入特定的函数"><a href="#导入特定的函数" class="headerlink" title="导入特定的函数"></a>导入特定的函数</h2><ul>
-<li><code>from module_name import function_name</code></li>
-<li><code>from module_name import function_0, function_1, function_2</code></li>
-<li>调用函数时无需使用句点：<code>function_name()</code></li>
-</ul>
-<h2 id="使用as给函数指定别名"><a href="#使用as给函数指定别名" class="headerlink" title="使用as给函数指定别名"></a>使用as给函数指定别名</h2><ul>
-<li><code>from module_name import function_name as fn</code></li>
-<li>调用时直接使用<code>fn()</code></li>
-</ul>
-<h2 id="使用as给模块指定别名"><a href="#使用as给模块指定别名" class="headerlink" title="使用as给模块指定别名"></a>使用as给模块指定别名</h2><ul>
-<li><code>import module_name as mn</code></li>
-<li>调用时使用<code>mn.function_name()</code></li>
-</ul>
-<h2 id="导入模块中的所有函数"><a href="#导入模块中的所有函数" class="headerlink" title="导入模块中的所有函数"></a>导入模块中的所有函数</h2><ul>
-<li><code>from module_name import *</code></li>
-<li>调用函数时无需使用句点：<code>function_name()</code></li>
-</ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li>《Python编程：从入门到实践》</li>
-</ul>
+<h1 id="Python列表按照相同元素进行分割"><a href="#Python列表按照相同元素进行分割" class="headerlink" title="Python列表按照相同元素进行分割"></a>Python列表按照相同元素进行分割</h1><pre class="line-numbers language-python"><code class="language-python">a <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+g <span class="token operator">=</span> <span class="token punctuation">[</span>a<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+
+<span class="token keyword">for</span> x<span class="token punctuation">,</span> y <span class="token keyword">in</span> zip<span class="token punctuation">(</span>a<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> x <span class="token operator">==</span> y<span class="token punctuation">:</span>
+        g<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>append<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        g<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>g<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># output: [[0, 0, 0], [1, 1], [2], [3, 3, 3], [2], [3, 3], [0, 0]]</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<hr>
+<h1 id="判断np-array中相邻元素是否相等"><a href="#判断np-array中相邻元素是否相等" class="headerlink" title="判断np.array中相邻元素是否相等"></a>判断np.array中相邻元素是否相等</h1><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+
+
+<span class="token keyword">def</span> <span class="token function">adjacent_equal</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    flag <span class="token operator">=</span> <span class="token boolean">False</span>
+
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>array<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        column <span class="token operator">=</span> array<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> i<span class="token punctuation">]</span>
+        <span class="token comment" spellcheck="true"># judge if there are two adjacent numbers with same value</span>
+        <span class="token keyword">for</span> prev<span class="token punctuation">,</span> nex <span class="token keyword">in</span> zip<span class="token punctuation">(</span>column<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> column<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> prev <span class="token operator">==</span> nex<span class="token punctuation">:</span>
+                flag <span class="token operator">=</span> <span class="token boolean">True</span>
+                <span class="token keyword">break</span>
+        <span class="token keyword">if</span> flag<span class="token punctuation">:</span>
+            <span class="token keyword">break</span>
+
+    <span class="token keyword">return</span> flag
+
+
+a <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># [[1, 2, 3, 4],</span>
+<span class="token comment" spellcheck="true">#  [1, 4, 4, 6],</span>
+<span class="token comment" spellcheck="true">#  [4, 6, 7, 9]]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>adjacent_equal<span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">or</span> adjacent_equal<span class="token punctuation">(</span>a<span class="token punctuation">.</span>T<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># output: True</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </excerpt>
       
     </div>
@@ -293,7 +282,7 @@ var a = new Donate({
 
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语言学习/">语言学习</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/巧妙算法/">巧妙算法</a></li></ul>
 
     </footer>
   </div>
@@ -301,19 +290,19 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/10/17/vnc-multiuser/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
-          Joint Detection and Identification Feature Learning for Person Search数据集
+          Ubuntu配置多用户的VNC服务器
         
       </div>
     </a>
   
   
-    <a href="/2017/06/30/Ubuntu下切换gcc版本/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/10/09/Bounding-Box-Tool/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Ubuntu下切换gcc版本</div>
+      <div class="article-nav-title">Bounding Box标记工具及使用方法</div>
     </a>
   
 </nav>
@@ -327,7 +316,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#传递列表"><span class="nav-number">1.</span> <span class="nav-text">传递列表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在函数中修改列表"><span class="nav-number">1.1.</span> <span class="nav-text">在函数中修改列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#禁止函数修改列表"><span class="nav-number">1.2.</span> <span class="nav-text">禁止函数修改列表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#传递任意数量的实参"><span class="nav-number">2.</span> <span class="nav-text">传递任意数量的实参</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#结合使用位置实参和任意数量实参"><span class="nav-number">2.1.</span> <span class="nav-text">结合使用位置实参和任意数量实参</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用任意数量的关键字实参"><span class="nav-number">2.2.</span> <span class="nav-text">使用任意数量的关键字实参</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将函数存储在模块中"><span class="nav-number">3.</span> <span class="nav-text">将函数存储在模块中</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导入特定的函数"><span class="nav-number">3.1.</span> <span class="nav-text">导入特定的函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用as给函数指定别名"><span class="nav-number">3.2.</span> <span class="nav-text">使用as给函数指定别名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用as给模块指定别名"><span class="nav-number">3.3.</span> <span class="nav-text">使用as给模块指定别名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入模块中的所有函数"><span class="nav-number">3.4.</span> <span class="nav-text">导入模块中的所有函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本思路"><span class="nav-number">1.</span> <span class="nav-text">基本思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python列表按照相同元素进行分割"><span class="nav-number">2.</span> <span class="nav-text">Python列表按照相同元素进行分割</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#判断np-array中相邻元素是否相等"><span class="nav-number">3.</span> <span class="nav-text">判断np.array中相邻元素是否相等</span></a></li></ol>
     
     </div>
   </aside>
