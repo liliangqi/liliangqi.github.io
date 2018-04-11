@@ -3,28 +3,28 @@
 <head>
   <meta charset="utf-8">
   
-  <title>joint detection and identification feature learning for person search数据集 | 程序员の养成记</title>
+  <title>用python自带的库实现argsort | 程序员の养成记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="数据处理论文理解" />
+  <meta name="keywords" content="巧妙算法" />
   
   
   
   
-  <meta name="description" content="这篇文章主要总结了《Joint Detection and Identification Feature Learning for Person Search》一文中所用到的数据集的结构，帮助理解训练以及测试方式。">
-<meta name="keywords" content="数据处理,论文理解">
+  <meta name="description" content="在牛客网上刷题时遇到不能用第三方库如numpy，pandas等，需要自己实现某些平时用第三方库很容易实现的功能。本文使用第三方库实现numpy中的argsort，即返回对数组排列后，数组中元素的原索引。例如，对列表[3, 4, 5, 1, 2]从小到大排序，结果为[1, 2, 3, 4, 5]，排序后列表元素对应在原列表中的位置（索引）为[3, 4, 0, 1, 2]。">
+<meta name="keywords" content="巧妙算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Joint Detection and Identification Feature Learning for Person Search数据集">
-<meta property="og:url" content="http://www.liliangqi.com/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/index.html">
+<meta property="og:title" content="用Python自带的库实现argsort">
+<meta property="og:url" content="http://www.liliangqi.com/2018/04/11/implement-argsort/index.html">
 <meta property="og:site_name" content="程序员の养成记">
-<meta property="og:description" content="这篇文章主要总结了《Joint Detection and Identification Feature Learning for Person Search》一文中所用到的数据集的结构，帮助理解训练以及测试方式。">
+<meta property="og:description" content="在牛客网上刷题时遇到不能用第三方库如numpy，pandas等，需要自己实现某些平时用第三方库很容易实现的功能。本文使用第三方库实现numpy中的argsort，即返回对数组排列后，数组中元素的原索引。例如，对列表[3, 4, 5, 1, 2]从小到大排序，结果为[1, 2, 3, 4, 5]，排序后列表元素对应在原列表中的位置（索引）为[3, 4, 0, 1, 2]。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/bd9288fc09140199.png">
-<meta property="og:updated_time" content="2017-10-08T02:12:44.000Z">
+<meta property="og:image" content="http://oxg3si0yz.bkt.clouddn.com/2e4b7313c92d53d4.png">
+<meta property="og:updated_time" content="2018-04-11T09:46:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Joint Detection and Identification Feature Learning for Person Search数据集">
-<meta name="twitter:description" content="这篇文章主要总结了《Joint Detection and Identification Feature Learning for Person Search》一文中所用到的数据集的结构，帮助理解训练以及测试方式。">
-<meta name="twitter:image" content="http://oxg3si0yz.bkt.clouddn.com/bd9288fc09140199.png">
+<meta name="twitter:title" content="用Python自带的库实现argsort">
+<meta name="twitter:description" content="在牛客网上刷题时遇到不能用第三方库如numpy，pandas等，需要自己实现某些平时用第三方库很容易实现的功能。本文使用第三方库实现numpy中的argsort，即返回对数组排列后，数组中元素的原索引。例如，对列表[3, 4, 5, 1, 2]从小到大排序，结果为[1, 2, 3, 4, 5]，排序后列表元素对应在原列表中的位置（索引）为[3, 4, 0, 1, 2]。">
+<meta name="twitter:image" content="http://oxg3si0yz.bkt.clouddn.com/2e4b7313c92d53d4.png">
   
     <link rel="alternate" href="/atom.xml" title="程序员の养成记" type="application/atom+xml">
   
@@ -157,7 +157,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-Joint Detection and Identification Feature Learning for Person Search数据集" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+          <section id="main" style="float:none;"><article id="post-implement-argsort" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
@@ -165,7 +165,7 @@
         
   
     <h1 class="thumb" class="article-title" itemprop="name">
-      Joint Detection and Identification Feature Learning for Person Search数据集
+      用Python自带的库实现argsort
     </h1>
   
 
@@ -173,81 +173,62 @@
     
     <div class="article-meta">
       
-	<a href="/2017/07/06/Joint Detection and Identification Feature Learning for Person Search数据集/" class="article-date">
-	  <time datetime="2017-07-06T13:17:04.000Z" itemprop="datePublished">2017-07-06</time>
+	<a href="/2018/04/11/implement-argsort/" class="article-date">
+	  <time datetime="2018-04-11T12:17:04.000Z" itemprop="datePublished">2018-04-11</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/machine-learning/">machine learning</a>
+    <a class="article-category-link" href="/categories/Python基础/">Python基础</a>
 
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <excerpt in="" index="" |="" 首页摘要=""> 
 
-<p><img src="http://oxg3si0yz.bkt.clouddn.com/bd9288fc09140199.png" alt=""></p>
-<p>　　这篇文章主要总结了《Joint Detection and Identification Feature Learning for Person Search》一文中所用到的数据集的结构，帮助理解训练以及测试方式。</p>
+<p><img src="http://oxg3si0yz.bkt.clouddn.com/2e4b7313c92d53d4.png" width="600px"></p>
+<p>　　在牛客网上刷题时遇到不能用第三方库如numpy，pandas等，需要自己实现某些平时用第三方库很容易实现的功能。本文使用第三方库实现numpy中的argsort，即返回对数组排列后，数组中元素的原索引。例如，对列表<code>[3, 4, 5, 1, 2]</code>从小到大排序，结果为<code>[1, 2, 3, 4, 5]</code>，排序后列表元素对应在原列表中的位置（索引）为<code>[3, 4, 0, 1, 2]</code>。</p>
 <p><a id="more"></a><the rest="" of="" contents="" |="" 余下全文=""></the></p>
 <hr>
-<h2 id="Image-SSM"><a href="#Image-SSM" class="headerlink" title="./Image/SSM"></a>./Image/SSM</h2><p>包含所有的18184张图片，包括<em>街道拍摄</em>和<em>电影截屏</em></p>
-<h2 id="annotation-Images-mat"><a href="#annotation-Images-mat" class="headerlink" title="./annotation/Images.mat"></a>./annotation/Images.mat</h2><p>这是一个1*18184的<strong>结构体</strong>，其中包含三个变量</p>
-<ul>
-<li>imname: 图片名</li>
-<li>nAppear: 包含的行人个数</li>
-<li>box: 1*nAppear的<strong>结构体变量</strong>，表示nAppear个行人的位置<ul>
-<li>idlocate: 每个行人位置对应的四个坐标</li>
-<li>ishard: 取值为0或1，用途未知</li>
-</ul>
-</li>
-</ul>
-<h2 id="annotation-Person-mat"><a href="#annotation-Person-mat" class="headerlink" title="./annotation/Person.mat"></a>./annotation/Person.mat</h2><p>这是一个1*11934的<strong>结构体</strong>，其中包含三个变量</p>
-<ul>
-<li>idname: identity的编号（字符串变量）</li>
-<li>nAppear: 该identity出现的次数</li>
-<li>scene: 1*nAppear的<strong>结构体变量</strong>，表示该identity出现的图片及位置<ul>
-<li>imname: 图片名</li>
-<li>idlocate: identity对应的instance的坐标</li>
-<li>ishard: 取值为0或1，用途未知</li>
-</ul>
-</li>
-</ul>
-<h2 id="annotation-pool-mat"><a href="#annotation-pool-mat" class="headerlink" title="./annotation/pool.mat"></a>./annotation/pool.mat</h2><p>这是一个1*6978的元组，包含了6978个测试图片的文件名（字符串变量）</p>
-<h2 id="annotation-test-train-test-Train-mat"><a href="#annotation-test-train-test-Train-mat" class="headerlink" title="./annotation/test/train_test/Train.mat"></a>./annotation/test/train_test/Train.mat</h2><p>这是一个1*5532的元组，每个元素是一个1*1的<strong>结构体</strong>，以下为结构体的结构</p>
-<ul>
-<li>idname: identity的编号（字符串变量）</li>
-<li>nAppear: 该identity出现的次数</li>
-<li>scene: 1*nAppear的<strong>结构体变量</strong>，表示该identity出现的图片及位置<ul>
-<li>imname: 图片名</li>
-<li>idlocate: identity对应的instance的坐标</li>
-<li>ishard: 取值为0或1，用途未知</li>
-</ul>
-</li>
-</ul>
-<h2 id="annotation-test-train-test-TestG50-mat"><a href="#annotation-test-train-test-TestG50-mat" class="headerlink" title="./annotation/test/train_test/TestG50.mat"></a>./annotation/test/train_test/TestG50.mat</h2><p>这是一个1*2900的<strong>结构体</strong>，其中包含两个变量</p>
-<ul>
-<li>Query: 1*1的<strong>结构体变量</strong>，表示用作query的instance<ul>
-<li>imname: 该instance出现的图片的文件名（字符串变量）</li>
-<li>idlocate: 该instance的坐标信息</li>
-<li>ishard: 取值为0或1，用途未知</li>
-<li>idname: 该instance所属的identity的编号（字符串变量）</li>
-</ul>
-</li>
-<li>Gallery: 1*50的<strong>结构体变量</strong>，表示用作gallery的图片信息<ul>
-<li>imname: 图片名</li>
-<li>idlocate: <ul>
-<li>若该图片中包含对应identity的instance，则为其对应的坐标信息</li>
-<li>若该图片中不包含对应identity的instance，则该变量为空矩阵</li>
-</ul>
-</li>
-<li>ishard:<ul>
-<li>若该图片中包含对应identity的instance，则为其取值为0或1，用途未知</li>
-<li>若该图片中不包含对应identity的instance，则该变量为空矩阵</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><code>TestG100~TestG400.mat</code>等文件类似。</p>
+<font color="orange" size="4"><strong>版权声明：本文为博主原创文章，未经博主允许不得转载。</strong></font>
+
+<hr>
+<h1 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h1><p>　　对列表<code>[3, 4, 5, 1, 2]</code>从小到大排序非常容易实现，用Python内置函数<code>sorted()</code>或者列表方法<code>list.sort()</code>都可以实现，但如何返回排序后元素对应于原列表的索引比较难。</p>
+<p>　　一种思路是将元素与索引进行捆绑，捆绑的方式可以是元组或字典，考虑到列表元素可能重复以及字典映射的不可逆性，我们采用元组实现，即对要排序的列表<code>[3, 4, 5, 1, 2]</code>创建一个新的元组列表，元组列表的每一项包含原列表的元素和索引，即<code>[(3, 0), (4, 1), (5, 2), (1, 3), (2, 4)]</code>。然后按照元组列表的元素的第一项进行排序，那么第二项会跟着被排序。这种实现方式也比较简单，利用<code>sorted()</code>函数的<code>key</code>参数即可。</p>
+<p>　　<code>key</code>参数要求传入一个函数，这个函数指定了排序的方法，这里可以用匿名函数<code>lambda lst: lst[0]</code>，即按照元组列表元素的第一项进行排序。另一种方式可以考虑<code>operator</code>模块（自带库）中的<code>itemgetter</code>对象，将<code>key</code>设为<code>itemgetter(0)</code>，也能实现相同的功能。注意，<code>itemgetter(0)</code>是一个对象，但它是可调用的，相当于一个函数。</p>
+<p>　　对元组列表排序完成后，取其每个元素的第二项即得到了我们要的索引。</p>
+<hr>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># -------------------------------------------</span>
+<span class="token comment" spellcheck="true"># Implement "Argsort" by pure python code</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Author: Liangqi Li</span>
+<span class="token comment" spellcheck="true"># Creating Date: Apr 11, 2018</span>
+<span class="token comment" spellcheck="true"># -------------------------------------------</span>
+<span class="token keyword">from</span> operator <span class="token keyword">import</span> itemgetter
+
+<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+
+
+<span class="token comment" spellcheck="true"># ==========Pure Python Implementation=======</span>
+<span class="token comment" spellcheck="true"># Begin with a shuffled list</span>
+arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># Create a tuple list to save both number and index</span>
+arr_ind <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">(</span>num<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token keyword">for</span> index<span class="token punctuation">,</span> num <span class="token keyword">in</span> enumerate<span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># output: [(3, 0), (4, 1), (5, 2), (1, 3), (2, 4)]</span>
+
+<span class="token comment" spellcheck="true"># Sort the list of tuples, and `key` indicates how to sort</span>
+sorted_arr_ind <span class="token operator">=</span> sorted<span class="token punctuation">(</span>arr_ind<span class="token punctuation">,</span> key<span class="token operator">=</span>itemgetter<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># output: [(1, 3), (2, 4), (3, 0), (4, 1), (5, 2)]</span>
+
+<span class="token comment" spellcheck="true"># Acquire "argsort" information</span>
+arg_sort <span class="token operator">=</span> <span class="token punctuation">[</span>item<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token keyword">for</span> item <span class="token keyword">in</span> sorted_arr_ind<span class="token punctuation">]</span>
+<span class="token comment" spellcheck="true"># output: [3, 4, 0, 1, 2]</span>
+
+<span class="token comment" spellcheck="true"># =============Numpy Implementation==========</span>
+arr_np <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>arr<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Call the `argsort` function directly</span>
+arg_sort_np <span class="token operator">=</span> np<span class="token punctuation">.</span>argsort<span class="token punctuation">(</span>arr_np<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># output: array([3, 4, 0, 1, 2])</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </excerpt>
       
     </div>
@@ -296,7 +277,7 @@ var a = new Donate({
 
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据处理/">数据处理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/论文理解/">论文理解</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/巧妙算法/">巧妙算法</a></li></ul>
 
     </footer>
   </div>
@@ -304,19 +285,10 @@ var a = new Donate({
     
 <nav id="article-nav">
   
-    <a href="/2017/07/06/Python基础之：类/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          Python基础之：类
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/07/05/Python基础之：函数/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/02/12/judge-value-adjacent/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Python基础之：函数</div>
+      <div class="article-nav-title">判断np.array中相邻元素是否相等以及Python列表分割</div>
     </a>
   
 </nav>
@@ -330,7 +302,7 @@ var a = new Donate({
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Image-SSM"><span class="nav-number">1.</span> <span class="nav-text">./Image/SSM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotation-Images-mat"><span class="nav-number">2.</span> <span class="nav-text">./annotation/Images.mat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotation-Person-mat"><span class="nav-number">3.</span> <span class="nav-text">./annotation/Person.mat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotation-pool-mat"><span class="nav-number">4.</span> <span class="nav-text">./annotation/pool.mat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotation-test-train-test-Train-mat"><span class="nav-number">5.</span> <span class="nav-text">./annotation/test/train_test/Train.mat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotation-test-train-test-TestG50-mat"><span class="nav-number">6.</span> <span class="nav-text">./annotation/test/train_test/TestG50.mat</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本思路"><span class="nav-number">1.</span> <span class="nav-text">基本思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码实现"><span class="nav-number">2.</span> <span class="nav-text">代码实现</span></a></li></ol>
     
     </div>
   </aside>
